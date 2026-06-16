@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRC · 动作 / 俯视角Loot 品类情报</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+:root {
+  --bg-base:#F4F5F7; --bg-nav:#0F172A; --card-bg:#FFFFFF;
+  --card-border:rgba(0,0,0,0.06); --card-hover-border:rgba(0,0,0,0.12);
+  --card-shadow:0 1px 3px rgba(0,0,0,0.04),0 1px 2px rgba(0,0,0,0.03);
+  --card-hover-shadow:0 4px 12px rgba(0,0,0,0.08);
+  --accent:#991B1B; --accent-light:#B91C1C; --accent-dark:#7F1D1D;
+  --accent-dim:rgba(153,27,27,0.06); --accent-glow:rgba(153,27,27,0.10);
+  --gold:#0F172A; --gold-dim:rgba(15,23,42,0.04);
+  --text-primary:#1E293B; --text-secondary:#334155; --text-muted:#64748B; --text-ghost:#94A3B8;
+  --scroll-thumb:#CBD5E1; --scroll-track:#F1F5F9; --divider:rgba(0,0,0,0.06);
+  --data-red:#DC2626; --data-green:#16A34A; --data-amber:#D97706;
+  --loot:#7C2D12;     /* Top-Down Loot 棕色系 */
+  --loot-dim:rgba(124,45,18,0.06);
+  --action:#1D4ED8;   /* Action 蓝色系 */
+  --action-dim:rgba(29,78,216,0.06);
+  --radius-sm:6px; --radius-md:12px; --radius-lg:16px; --radius-pill:9999px;
+  --sidebar-w:260px;
+}
+body { font-family:'Inter','Noto Sans SC',-apple-system,sans-serif; background-color:var(--bg-base)!important; color:var(--text-primary)!important; -webkit-font-smoothing:antialiased; line-height:1.5; overflow-x:hidden; }
+.glass-card { background:var(--card-bg); border:1px solid var(--card-border); border-radius:var(--radius-md); padding:24px; box-shadow:var(--card-shadow); transition:box-shadow .25s ease, border-color .25s ease; }
+.glass-card:hover { border-color:var(--card-hover-border); box-shadow:var(--card-hover-shadow); }
+.metric-card { background:var(--card-bg); border:1px solid var(--card-border); border-radius:var(--radius-md); padding:24px; box-shadow:var(--card-shadow); transition:box-shadow .25s, transform .25s; }
+.metric-card:hover { box-shadow:var(--card-hover-shadow); transform:translateY(-2px); }
+.callout-crimson { border-left:3px solid var(--accent); background:var(--accent-dim); border-radius:0 var(--radius-sm) var(--radius-sm) 0; padding:12px 16px; color:var(--text-muted); }
+.callout-action { border-left:3px solid var(--action); background:var(--action-dim); border-radius:0 var(--radius-sm) var(--radius-sm) 0; padding:12px 16px; color:var(--text-muted); }
+.callout-loot { border-left:3px solid var(--loot); background:var(--loot-dim); border-radius:0 var(--radius-sm) var(--radius-sm) 0; padding:12px 16px; color:var(--text-muted); }
+.pill { display:inline-flex; align-items:center; padding:2px 10px; border-radius:var(--radius-pill); font-size:11px; font-weight:500; letter-spacing:.02em; gap:4px; }
+.cat-tab { cursor:pointer; border:1px solid transparent; background:rgba(0,0,0,0.03); color:var(--text-muted); transition:all .2s; }
+.cat-tab:hover { background:rgba(0,0,0,0.06); color:var(--text-primary); }
+.cat-tab.active { background:var(--accent); color:#FFF; font-weight:600; border-color:var(--accent-dark); box-shadow:0 2px 8px rgba(153,27,27,0.25); }
+.section-title { font-size:12px; font-weight:600; letter-spacing:.04em; color:var(--text-primary); text-transform:uppercase; }
+.fade-in { animation:fadeIn .3s ease-in; }
+@keyframes fadeIn { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:translateY(0); } }
+.pulse-dot { animation:pulse 2s infinite; }
+@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:.3; } }
+::-webkit-scrollbar { width:6px; }
+::-webkit-scrollbar-thumb { background:var(--scroll-thumb); border-radius:3px; transition:background .3s; }
+::-webkit-scrollbar-thumb:hover { background:var(--gold); }
+::-webkit-scrollbar-track { background:var(--scroll-track); }
+.sidebar { position:fixed; top:0; left:0; width:var(--sidebar-w); height:100vh; z-index:100; display:flex; flex-direction:column; background:#FFFFFF; border-right:1px solid rgba(0,0,0,0.04); box-shadow:1px 0 4px rgba(0,0,0,0.02); }
+.sidebar-header { background:var(--bg-nav); padding:20px 20px 16px; flex-shrink:0; }
+.sidebar-body { flex:1; padding:16px 0; overflow-y:auto; }
+.sidebar-section-label { font-size:10px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--text-ghost); padding:8px 20px 6px; }
+.sidebar-nav-item { position:relative; display:flex; align-items:center; gap:10px; padding:11px 20px; font-size:13px; font-weight:400; color:#4B5563; cursor:pointer; transition:all .3s; text-decoration:none; border-left:3px solid transparent; margin:1px 0; background:transparent; border:none; border-left-style:solid; width:100%; text-align:left; font-family:inherit; }
+.sidebar-nav-item:hover { color:#1E293B; background:rgba(0,0,0,0.02); }
+.sidebar-nav-item.active { color:#0F172A; font-weight:600; background:rgba(153,27,27,0.04); border-left-color:var(--accent); }
+.sidebar-nav-item .nav-icon { width:18px; height:18px; display:flex; align-items:center; justify-content:center; font-size:14px; opacity:.6; flex-shrink:0; }
+.sidebar-nav-item.active .nav-icon { opacity:1; }
+.sidebar-footer { padding:12px 20px; border-top:1px solid rgba(0,0,0,0.04); flex-shrink:0; }
+.main-content { margin-left:var(--sidebar-w); width:calc(100% - var(--sidebar-w)); min-height:100vh; box-sizing:border-box; overflow-x:clip; overflow-y:auto; height:100vh; }
+.tl-scroll-wrap { width:100%; overflow-x:auto; overflow-y:visible; padding-bottom:8px; -webkit-overflow-scrolling:touch; }
+.tl-scroll-wrap::-webkit-scrollbar { height:5px; }
+.tl-scroll-wrap::-webkit-scrollbar-thumb { background:var(--scroll-thumb); border-radius:3px; }
+.tl-scroll-wrap::-webkit-scrollbar-track { background:var(--scroll-track); }
+.content-section { padding-top:0; display:none; }
+.content-section.active { display:block; }
+.metric-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+@media (min-width:1024px) { .metric-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+.track-tag { display:inline-flex; align-items:center; gap:4px; padding:2px 8px; font-size:10px; font-weight:600; border-radius:4px; letter-spacing:.04em; }
+.track-tag.action { background:var(--action-dim); color:var(--action); }
+.track-tag.loot { background:var(--loot-dim); color:var(--loot); }
+.tag-new { background:rgba(22,163,74,0.10); color:var(--data-green); }
+.tag-season { background:rgba(217,119,6,0.10); color:var(--data-amber); }
+.tag-ea { background:rgba(29,78,216,0.10); color:var(--action); }
+.tag-tba { background:rgba(153,27,27,0.10); color:var(--accent); }
+.tag-1v { background:rgba(124,45,18,0.10); color:var(--loot); }
+.tag-dlc { background:rgba(15,23,42,0.06); color:var(--text-primary); }
+.q-pill { font-family:'SF Mono',monospace; font-size:10px; padding:2px 6px; border-radius:3px; background:rgba(15,23,42,0.06); color:var(--text-secondary); font-weight:600; }
+.q-pill.Q3 { background:rgba(217,119,6,0.14); color:#92400E; }
+.q-pill.Q4 { background:rgba(220,38,38,0.10); color:#991B1B; }
+.q-pill.Q1 { background:rgba(22,163,74,0.10); color:#166534; }
+.q-pill.Q2 { background:rgba(29,78,216,0.10); color:#1D4ED8; }
+.q-pill.TBA { background:rgba(0,0,0,0.06); color:var(--text-muted); }
+.q-pill.H1 { background:rgba(22,163,74,0.08); color:#166534; }
+.q-pill.H2 { background:rgba(217,119,6,0.10); color:#92400E; }
+.dev-list { font-size:11px; color:var(--text-muted); }
+.game-row { display:grid; grid-template-columns: 130px 1fr 1fr 160px; gap:12px; align-items:center; padding:10px 12px; border-bottom:1px solid var(--divider); transition:background .12s; }
+.game-row:hover { background:rgba(29,78,216,0.03); }
+.game-row.loot:hover { background:rgba(124,45,18,0.03); }
+.game-row .gn { font-weight:600; color:var(--text-primary); }
+.game-row .gn .en { font-size:10px; color:var(--text-muted); font-weight:400; display:block; margin-top:1px; }
+.game-row .dev { font-size:11px; color:var(--text-muted); }
+.game-row .date { font-size:11px; font-family:'SF Mono','JetBrains Mono',monospace; color:var(--text-secondary); }
+.game-row .track { display:flex; }
+.quarter-section { margin-bottom:20px; }
+.quarter-section h4 { font-size:11px; font-weight:600; color:var(--text-muted); letter-spacing:.08em; text-transform:uppercase; margin-bottom:6px; padding-left:4px; border-left:2px solid var(--accent); padding:6px 10px; background:var(--accent-dim); border-radius:0 var(--radius-sm) var(--radius-sm) 0; display:flex; align-items:center; gap:8px; }
+.quarter-section h4.loot-h { border-left-color:var(--loot); background:var(--loot-dim); }
+.quarter-section h4 .count { font-size:10px; color:var(--text-muted); font-weight:400; }
+
+/* ── BANNER ── */
+.section-banner {
+  position:relative; width:100%; height:220px; border-radius:var(--radius-lg);
+  overflow:hidden; margin-bottom:28px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.18);
+}
+.section-banner img {
+  width:100%; height:100%; object-fit:cover; object-position:center 20%;
+  display:block; filter:brightness(0.75) saturate(1.1);
+}
+.section-banner .banner-overlay {
+  position:absolute; inset:0;
+  background:linear-gradient(90deg, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.28) 55%, rgba(0,0,0,0.05) 100%);
+  display:flex; align-items:flex-end; padding:24px 32px;
+}
+.section-banner .banner-text { color:#fff; }
+.section-banner .banner-title {
+  font-size:26px; font-weight:800; letter-spacing:.01em; line-height:1.1;
+  text-shadow:0 2px 8px rgba(0,0,0,0.6); margin-bottom:6px;
+}
+.section-banner .banner-sub { font-size:12px; font-weight:400; opacity:.72; letter-spacing:.03em; }
+.section-banner .banner-tag {
+  display:inline-block; padding:3px 10px; border-radius:4px;
+  font-size:10px; font-weight:700; letter-spacing:.06em; margin-bottom:8px;
+}
+</style>
+<script>
+tailwind.config = { theme: { extend: { colors: { accent:{ DEFAULT:'#991B1B', light:'#B91C1C', dark:'#7F1D1D' }, action:{ DEFAULT:'#1D4ED8' }, loot:{ DEFAULT:'#7C2D12' }, gold:{ DEFAULT:'#0F172A' } } } } }
+</script>
+</head>
+<body class="min-h-screen">
+
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <div class="flex items-center gap-2.5 mb-1">
+      <div class="w-2 h-2 rounded-full" style="background:#991B1B;"></div>
+      <h1 class="text-sm font-bold tracking-wide" style="color:#F8FAFC;" data-i18n="title">GRC动作 / 俯视角Loot 品类情报</h1>
+    </div>
+    <p class="text-[10px] tracking-widest ml-[18px]" style="color:#94A3B8;" data-i18n="subtitle">Action · Top-Down Loot</p>
+    <div class="flex items-center gap-1.5 text-[11px] mt-2 ml-[18px]" style="color:#94A3B8;">
+      <span class="pulse-dot w-1.5 h-1.5 rounded-full inline-block" style="background:var(--data-green);"></span>
+      <span id="sidebar-last-update">--</span>
+    </div>
+  </div>
+  <div class="sidebar-body">
+    <div class="sidebar-section-label" data-i18n="nav">导航</div>
+    <button class="sidebar-nav-item active" data-nav="overview"><span class="nav-icon">◈</span><span data-i18n="tab_overview">总览</span></button>
+    <button class="sidebar-nav-item" data-nav="action"><span class="nav-icon" style="color:#1D4ED8;">▶</span><span data-i18n="tab_action">动作游戏档期</span></button>
+    <button class="sidebar-nav-item" data-nav="loot"><span class="nav-icon" style="color:#7C2D12;">◆</span><span data-i18n="tab_loot">俯视角Loot档期</span></button>
+  </div>
+  <div class="sidebar-footer">
+    <div class="flex items-center gap-2">
+      <button id="lang-toggle" class="pill flex-1 justify-center" style="color:var(--text-muted);background:rgba(0,0,0,0.03);border:1px solid rgba(0,0,0,0.06);" title="Switch">EN</button>
+      <button id="refresh-btn" class="pill flex-1 justify-center" style="color:var(--text-muted);background:rgba(0,0,0,0.03);border:1px solid rgba(0,0,0,0.06);">↻ <span data-i18n="refresh">刷新</span></button>
+    </div>
+  </div>
+</aside>
+
+<div class="main-content">
+<div class="px-12 py-8 w-full max-w-[1400px] mx-auto">
+
+<!-- ══════ 总览 ══════ -->
+<section id="section-overview" class="content-section active fade-in" data-section="overview">
+  <div class="metric-grid grid gap-4 mb-8">
+    <div class="metric-card">
+      <div class="flex items-center gap-3 mb-3">
+        <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background:var(--action-dim);"><span style="color:var(--action);font-size:18px;">▶</span></div>
+        <span class="text-xs" style="color:var(--text-muted);" data-i18n="k_action">动作游戏档期条目</span>
+      </div>
+      <div class="text-3xl font-bold" style="color:#0F172A;" id="kpi-action">--</div>
+      <div class="text-[11px] mt-1.5" style="color:var(--text-muted);" id="kpi-action-sub">--</div>
+    </div>
+    <div class="metric-card">
+      <div class="flex items-center gap-3 mb-3">
+        <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background:var(--loot-dim);"><span style="color:var(--loot);font-size:18px;">◆</span></div>
+        <span class="text-xs" style="color:var(--text-muted);" data-i18n="k_loot">俯视角Loot档期条目</span>
+      </div>
+      <div class="text-3xl font-bold" style="color:#0F172A;" id="kpi-loot">--</div>
+      <div class="text-[11px] mt-1.5" style="color:var(--text-muted);" id="kpi-loot-sub">--</div>
+    </div>
+    </div>
+
+  <!-- ══════ 时间轴 (替代原柱状+环形) ══════ -->
+  <div class="glass-card mb-6" id="timeline-card">
+    <div class="flex items-center gap-2 mb-1 flex-wrap">
+      <h3 class="section-title" data-i18n="timeline_title">📅 档期时间轴</h3>
+      <span class="ml-auto text-[10px]" style="color:var(--text-ghost);">SOURCE: 内部档期表 · 71 条 · 2026—2028+</span>
+    </div>
+    <p class="text-[11px] mb-3" style="color:var(--text-muted);" data-i18n="timeline_hint">蓝=Action  棕=Loot · 悬停查看详情</p>
+    <div class="flex items-center gap-2 mb-4 flex-wrap">
+      <!-- 赛道过滤 -->
+      <div class="flex gap-1.5" id="tl-track-filter">
+        <button class="cat-tab active pill" data-tl="ALL" data-i18n="all">全部</button>
+        <button class="cat-tab pill" data-tl="action" style="color:var(--action);">● Action</button>
+        <button class="cat-tab pill" data-tl="loot" style="color:var(--loot);">◆ Loot</button>
+      </div>
+      <!-- 季度切换 -->
+      <div class="flex gap-1.5 ml-auto flex-wrap" id="tl-q-filter">
+        <button class="cat-tab pill" data-tlq="2026Q2">26 Q2</button>
+        <button class="cat-tab active pill" data-tlq="2026Q3">26 Q3</button>
+        <button class="cat-tab pill" data-tlq="2026Q4">26 Q4</button>
+        <button class="cat-tab pill" data-tlq="2027Q1">27 Q1</button>
+        <button class="cat-tab pill" data-tlq="2027Q2">27 Q2</button>
+        <button class="cat-tab pill" data-tlq="2027Q3">27 Q3</button>
+        <button class="cat-tab pill" data-tlq="2027Q4">27 Q4</button>
+        <button class="cat-tab pill" data-tlq="2028+">2028+</button>
+      </div>
+    </div>
+    <div id="timeline-mount" class="tl-scroll-wrap"></div>
+  </div>
+
+  <div class="grid lg:grid-cols-2 gap-4 mb-6">
+    <div class="glass-card">
+      <div class="flex items-center gap-2 mb-4">
+        <h3 class="section-title" data-i18n="h_action_top">动作赛道 · Q3/Q4 重磅</h3>
+      </div>
+      <div id="action-top-list" class="space-y-2 text-sm"></div>
+    </div>
+    <div class="glass-card">
+      <div class="flex items-center gap-2 mb-4">
+        <h3 class="section-title" data-i18n="h_loot_top">俯视角Loot · 头部动态</h3>
+      </div>
+      <div id="loot-top-list" class="space-y-2 text-sm"></div>
+    </div>
+  </div>
+
+  <div class="glass-card mb-6">
+    <div class="flex items-center gap-2 mb-4">
+      <h3 class="section-title" data-i18n="h_intel">行业情报 · 重点跟踪</h3>
+    </div>
+    <div class="grid md:grid-cols-2 gap-3 text-sm" id="intel-grid"></div>
+    <div class="mt-3 text-[10px]" style="color:var(--text-ghost);" data-i18n="intel_src">来源: 内部档期表 + 公开情报 (Sony State of Play / CDPR / 育碧 / Steam / TapTap / KONAMI)</div>
+  </div>
+</section>
+
+<!-- ══════ 动作档期 ══════ -->
+<section id="section-action" class="content-section fade-in" data-section="action">
+  <div class="flex items-center justify-between mb-5">
+    <div>
+      <h2 class="text-xl font-bold" style="color:var(--text-primary);" data-i18n="t_action">动作游戏档期 · 48 条</h2>
+      <p class="text-xs mt-1" style="color:var(--text-muted);" data-i18n="t_action_meta">按季度分组 · 2026/2027/2028/TBA 全覆盖</p>
+    </div>
+    <div class="flex gap-2">
+      <button class="cat-tab active pill" data-q="ALL" data-i18n="all">全部</button>
+      <button class="cat-tab pill" data-q="2026">2026</button>
+      <button class="cat-tab pill" data-q="2027">2027</button>
+      <button class="cat-tab pill" data-q="2028">2028</button>
+      <button class="cat-tab pill" data-q="TBA">TBA</button>
+    </div>
+  </div>
+  <div id="action-list" class="glass-card" style="padding:0;overflow:hidden;"></div>
+</section>
+
+<!-- ══════ 俯视角Loot档期 ══════ -->
+<section id="section-loot" class="content-section fade-in" data-section="loot">
+  <div class="flex items-center justify-between mb-5">
+    <div>
+      <h2 class="text-xl font-bold" style="color:var(--text-primary);" data-i18n="t_loot">俯视角Loot档期 · 23 条</h2>
+      <p class="text-xs mt-1" style="color:var(--text-muted);" data-i18n="t_loot_meta">赛季 / 资料片 / 1.0 / EA / TBA · 头部由 Blizzard 三赛季领跑</p>
+    </div>
+    <div class="flex gap-2 flex-wrap" id="loot-type-filter">
+      <button class="cat-tab active pill" data-t="ALL" data-i18n="all">全部</button>
+      <button class="cat-tab pill" data-t="Release">Release</button>
+      <button class="cat-tab pill" data-t="season">赛季</button>
+      <button class="cat-tab pill" data-t="EA">EA</button>
+      <button class="cat-tab pill" data-t="1.0">1.0 V</button>
+      <button class="cat-tab pill" data-t="DLC">Major DLC</button>
+      <button class="cat-tab pill" data-t="TBA">TBA</button>
+    </div>
+  </div>
+  <div id="loot-list" class="glass-card" style="padding:0;overflow:hidden;"></div>
+</section>
+
+<!-- ══════ 赛道对比 ══════ -->
+<section id="section-compare" class="content-section fade-in" data-section="compare" style="display:none!important;">
+  <div class="grid lg:grid-cols-3 gap-4 mb-6">
+    <div class="glass-card">
+      <div class="section-title mb-4" data-i18n="cmp_share">赛道体量对比</div>
+      <div style="position:relative;height:200px;"><canvas id="share-chart"></canvas></div>
+      <div class="mt-3 text-[11px]" style="color:var(--text-muted);" id="share-summary">--</div>
+    </div>
+    <div class="glass-card">
+      <div class="section-title mb-4" data-i18n="cmp_dev">头部开发商 (Top 8)</div>
+      <div id="dev-list" class="space-y-2 text-sm"></div>
+    </div>
+    <div class="glass-card">
+      <div class="section-title mb-4" data-i18n="cmp_window">档期窗口分布</div>
+      <div style="position:relative;height:200px;"><canvas id="window-chart"></canvas></div>
+    </div>
+  </div>
+
+  <div class="glass-card mb-6">
+    <div class="section-title mb-4" data-i18n="cmp_dual">双赛道逐条对比 · 2026 Q3/Q4</div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead>
+          <tr style="color:var(--text-muted);border-bottom:1px solid var(--card-border);">
+            <th class="text-left py-2 pr-4 text-[10px] tracking-wider" data-i18n="th_window">季度</th>
+            <th class="text-left py-2 px-3 text-[10px] tracking-wider" style="color:#1D4ED8;" data-i18n="th_action">动作 · 重点</th>
+            <th class="text-left py-2 px-3 text-[10px] tracking-wider" style="color:#7C2D12;" data-i18n="th_loot">俯视角Loot · 重点</th>
+            <th class="text-right py-2 pl-3 text-[10px] tracking-wider" data-i18n="th_risk">风险提示</th>
+          </tr>
+        </thead>
+        <tbody id="compare-table"><tr><td colspan="4" class="py-6 text-center" style="color:var(--text-muted);">LOADING...</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="glass-card">
+    <div class="section-title mb-4" data-i18n="cmp_risk">风险与机会窗口</div>
+    <div class="grid md:grid-cols-2 gap-3" id="risk-grid"></div>
+  </div>
+</section>
+
+</div>
+
+<!-- ══════ 时间轴 (独立tab) ══════ -->
+<section id="section-timeline" class="content-section fade-in" data-section="timeline" style="display:none!important;">
+  <div class="flex items-center justify-between mb-5 flex-wrap gap-2">
+    <div>
+      <h2 class="text-xl font-bold" style="color:var(--text-primary);" data-i18n="t_tl_h">档期时间轴 · 全周期</h2>
+      <p class="text-xs mt-1" style="color:var(--text-muted);" data-i18n="t_tl_meta">横向时间轴 · 蓝=Action 棕=Loot · 越密越卷</p>
+    </div>
+    <div class="flex gap-1.5" id="tl-track-filter-2">
+      <button class="cat-tab active pill" data-tl="ALL" data-i18n="all">全部</button>
+      <button class="cat-tab pill" data-tl="action" style="color:var(--action);">● Action</button>
+      <button class="cat-tab pill" data-tl="loot" style="color:var(--loot);">◆ Top-Down Loot</button>
+    </div>
+  </div>
+  <div class="glass-card mb-4">
+    <div class="flex items-center gap-2 mb-3 flex-wrap">
+      <div class="text-[11px]" style="color:var(--text-muted);" data-i18n="tl_zoom_h">缩放:</div>
+      <div class="flex gap-1.5">
+        <button class="cat-tab active pill" data-tl-zoom="all">全周期</button>
+        <button class="cat-tab pill" data-tl-zoom="2026">2026</button>
+        <button class="cat-tab pill" data-tl-zoom="2027">2027</button>
+        <button class="cat-tab pill" data-tl-zoom="2028">2028</button>
+      </div>
+    </div>
+    <div id="timeline-mount-2" class="tl-scroll-wrap"></div>
+    <div class="callout-crimson mt-3 text-[11px]" id="timeline-insight">
+      <strong>📊 时间轴洞察：</strong> <span id="timeline-insight-text">加载中…</span>
+    </div>
+  </div>
+  <div class="grid lg:grid-cols-3 gap-4 mb-4">
+    <div class="glass-card">
+      <div class="section-title mb-3" data-i18n="tl_hottest">最密集季度 Top 3</div>
+      <div id="tl-dense" class="space-y-2 text-sm"></div>
+    </div>
+    <div class="glass-card">
+      <div class="section-title mb-3" data-i18n="tl_empty">空窗季度机会</div>
+      <div id="tl-empty" class="space-y-2 text-sm"></div>
+    </div>
+    <div class="glass-card">
+      <div class="section-title mb-3" data-i18n="tl_tba">TBA 待公布 (11+)</div>
+      <div id="tl-tba" class="space-y-2 text-sm" style="max-height:280px;overflow-y:auto;"></div>
+    </div>
+  </div>
+</section>
+
+<footer class="px-12 py-8 text-center text-[11px] mt-8" style="color:var(--text-ghost);border-top:1px solid rgba(0,0,0,0.06);">
+  <span data-i18n="footer">GRC 动作 / 俯视角Loot 品类情报 · 数据每日自动采集 · 仅供内部分析参考 · 数据源: 内部档期表 + 公开情报</span>
+</footer>
+</div>
+
+<script>
+// ========== 内联数据（file:// 协议本地查看用）==========
+const GAMES = {"a":[{"year":"2026","window":"Q3","date_raw":"46238","cn":"轮回之兽","en":"Beast of Reincarnation","developer":"Game Greak","type":"","date":"2026-08-04","_m_frac":7.1,"_precision":"day"},{"year":"2026","window":"Q3","date_raw":"46261","cn":"共鸣：瘟疫传说","en":"Resonance: A Plague Tale Legacy","developer":"Asobo Studio","type":"","date":"2026-08-27","_m_frac":7.866666666666667,"_precision":"day"},{"year":"2026","window":"Q3","date_raw":"46268","cn":"黎明行者之血","en":"The Blood of Dawnwalker","developer":"Rebel Wolves","type":"","date":"2026-09-03","_m_frac":8.066666666666666,"_precision":"day"},{"year":"2026","window":"Q3","date_raw":"46280","cn":"漫威：金刚狼","en":"Marvel's Wolverine","developer":"Insomniac Games","type":"","date":"2026-09-15","_m_frac":8.466666666666667,"_precision":"day"},{"year":"2026","window":"Q3","date_raw":"46289","cn":"控制 共振","en":"Control Resonant","developer":"Remedy","type":"","date":"2026-09-24","_m_frac":8.766666666666667,"_precision":"day"},{"year":"2026","window":"Q3","date_raw":"46290","cn":"鬼武者 剑之道","en":"Onimusha: Way of the Sword","developer":"Capcom","type":"","date":"2026-09-25","_m_frac":8.8,"_precision":"day"},{"year":"2026","window":"Q4","date_raw":"46296","cn":"真三国无双2 猛将传 重制版","en":"DYNASTY WARRIORS 3: Complete Edition Remastered","developer":"Koei Tecmo","type":"","date":"2026-10-01","_m_frac":9.0,"_precision":"day"},{"year":"2026","window":"Q4","date_raw":"47400","cn":"龙之信条2 DLC 黑暗觉者","en":"Dragons Dogma 2 Dark Arisen","developer":"Capcom","type":"","date":"2026 Q4","_m_frac":10,"_precision":"window"},{"year":"2026","window":"Q4","date_raw":"47406","cn":"恶魔城：贝尔蒙特的诅咒","en":"Castlevania: Belmont's Curse","developer":"Evil Empire/Konami","type":"","date":"2026 Q4","_m_frac":10,"_precision":"window"},{"year":"2026","window":"Q4","date_raw":"46324","cn":"影之刃 零","en":"Phantom Blade Zero","developer":"灵游坊","type":"","date":"2026-10-29","_m_frac":9.933333333333334,"_precision":"day"},{"year":"2026","window":"Q4","date_raw":"TBA","cn":"堕落之主2","en":"Lords of the Fallen 2","developer":"CI Games","type":"","date":"TBA","_m_frac":10,"_precision":"window"},{"year":"2026","window":"Q4","date_raw":"TBA","cn":"释放阿凡达","en":"Unleash the Avatar","developer":"AEOS Games","type":"","date":"TBA","_m_frac":10,"_precision":"window"},{"year":"2026","window":"H2","date_raw":"TBA","cn":"Evilbane","en":"Evilbane","developer":"Netmarble","type":"","date":"TBA","_m_frac":9,"_precision":"window"},{"year":"2026","window":"年内 / Within the Year","date_raw":"TBA","cn":"SPINE","en":"SPINE","developer":"Nekki","type":"","date":"TBA","_m_frac":null,"_precision":"window"},{"year":"2026","window":"年内 / Within the Year","date_raw":"TBA","cn":"凯娜：精神之桥","en":"Kena Scars of Kosmora","developer":"Ember Lab","type":"","date":"TBA","_m_frac":null,"_precision":"window"},{"year":"2026","window":"年内 / Within the Year","date_raw":"TBA","cn":"黄昏血族","en":"The Duskbloods","developer":"From Software","type":"","date":"TBA","_m_frac":null,"_precision":"window"},{"year":"2026","window":"年内 / Within the Year","date_raw":"TBA","cn":"致命躯壳2","en":"Mortal Shell II","developer":"Cold Symmetry","type":"","date":"TBA","_m_frac":null,"_precision":"window"},{"year":"2026","window":"年内 / Within the Year","date_raw":"TBA","cn":"1666: Amsterdam","en":"1666: Amsterdam","developer":"Patrice Désilets","type":"","date":"TBA","_m_frac":null,"_precision":"window"},{"year":"2027","window":"Q1","date_raw":"TBA","cn":"湮灭之潮","en":"Tides of Annihilation","developer":"蛇夫座（Eclipse Glow Games）","type":"","date":"TBA","_m_frac":13,"_precision":"window"},{"year":"2027","window":"H1","date_raw":"46037","cn":"异于天堂","en":"Stranger Than Heaven","developer":"Ryu Ga Gotoku Studio","type":"","date":"2026-01-15","_m_frac":0.4666666666666667,"_precision":"day"},{"year":"2027","window":"H1","date_raw":"46065","cn":"古墓丽影：亚特兰蒂斯遗迹","en":"Tomb Raider: Legacy of Atlantis","developer":"Crystal Dynamics","type":"","date":"2026-02-12","_m_frac":1.3666666666666667,"_precision":"day"},{"year":"2027","window":"H1","date_raw":"46076","cn":"神鬼寓言4","en":"Fable","developer":"Playground Games","type":"","date":"2026-02-23","_m_frac":1.7333333333333334,"_precision":"day"},{"year":"2027","window":"H1","date_raw":"TBA","cn":"卧龙2：炎之翼","en":"Wo Long 2: Wings of Ember","developer":"Team Ninja","type":"","date":"TBA","_m_frac":15,"_precision":"window"},{"year":"2027","window":"H1","date_raw":"TBA","cn":"最终幻想7：启示录","en":"Final Fantasy VII: Revelation","developer":"Square Enix","type":"","date":"TBA","_m_frac":15,"_precision":"window"},{"year":"2027","window":"Q4","date_raw":"TBA","cn":"古剑4","en":"Sword of Legends 4","developer":"上海烛龙（AurogonShanghai ）","type":"","date":"TBA","_m_frac":22,"_precision":"window"},{"year":"2027","window":"Q4","date_raw":"TBA","cn":"猎天使魔女1 重制版","en":"Bayonetta Remake","developer":"PlatinumGames","type":"","date":"TBA","_m_frac":22,"_precision":"window"},{"year":"2027","window":"年内 / Within the Year","date_raw":"TBA","cn":"假面：秘密之地","en":"TAL: The Arcane Lands","developer":"MADNGINE","type":"","date":"TBA","_m_frac":null,"_precision":"window"},{"year":"2027","window":"年内 / Within the Year","date_raw":"TBA","cn":"夜行","en":"Yakoh Shinobi Ops","developer":"Acquire","type":"","date":"TBA","_m_frac":null,"_precision":"window"},{"year":"2027","window":"年内 / Within the Year","date_raw":"TBA","cn":"Kemuri","en":"Kemuri","developer":"Unseen","type":"","date":"TBA","_m_frac":null,"_precision":"window"},{"year":"2027","window":"年内 / Within the Year","date_raw":"TBA","cn":"剑星：血雨","en":"Stellar Blade: Blood Rain","developer":"Shift Up","type":"","date":"TBA","_m_frac":null,"_precision":"window"},{"year":"2027","window":"年内 / Within the Year","date_raw":"TBA","cn":"怪物猎人 荒野 Ascendance","en":"Monster Hunter Wilds: Ascendance","developer":"Capcom","type":"","date":"TBA","_m_frac":null,"_precision":"window"},{"year":"2027","window":"年内 / Within the Year","date_raw":"TBA","cn":"Senua","en":"Senua","developer":"Ninja Theory","type":"","date":"TBA","_m_frac":null,"_precision":"window"},{"year":"2027","window":"年内 / Within the Year","date_raw":"TBA","cn":"忍者神龟：最后的浪人","en":"Teenage Mutant Ninja Turtles","developer":"PlatinumGames","type":"","date":"TBA","_m_frac":null,"_precision":"window"},{"year":"2028","window":"Q1","date_raw":"TBA","cn":"猎天使魔女4","en":"Bayonetta 4","developer":"PlatinumGames","type":"","date":"TBA","_m_frac":25,"_precision":"window"},{"year":"2028","window":"Q1","date_raw":"TBA","cn":"吉时已到","en":"Lucky","developer":"上海烛龙（AurogonShanghai ）","type":"","date":"TBA","_m_frac":25,"_precision":"window"},{"year":"TBA","window":"TBA","date_raw":"TBA","cn":"战神 劳菲","en":"God of War Laufey","developer":"Santa Monica Studio","type":"","date":"TBA","_m_frac":null,"_precision":"tba"},{"year":"TBA","window":"TBA","date_raw":"TBA","cn":"黑神话 钟馗","en":"Black Myth (Wukong Sequel)","developer":"游戏科学（Game Science）","type":"","date":"TBA","_m_frac":null,"_precision":"tba"},{"year":"TBA","window":"TBA","date_raw":"TBA","cn":"上古卷轴6","en":"The Elder Scrolls VI","developer":"Bethesda","type":"","date":"TBA","_m_frac":null,"_precision":"tba"},{"year":"TBA","window":"TBA","date_raw":"TBA","cn":"星际：异端先知","en":"Intergalactic: The Heretic Prophet","developer":"Naughty Dog","type":"","date":"TBA","_m_frac":null,"_precision":"tba"},{"year":"TBA","window":"TBA","date_raw":"TBA","cn":"地平线：猎人集结","en":"Horizon Hunters Gathering","developer":"Guerrilla Games","type":"","date":"TBA","_m_frac":null,"_precision":"tba"},{"year":"TBA","window":"TBA","date_raw":"TBA","cn":"进击的巨人3","en":"Attack on Titan 3","developer":"Omega Force","type":"","date":"TBA","_m_frac":null,"_precision":"tba"},{"year":"TBA","window":"TBA","date_raw":"TBA","cn":"漫威：刀锋战士","en":"Marvel's Blade","developer":"Arkane","type":"","date":"TBA","_m_frac":null,"_precision":"tba"},{"year":"TBA","window":"TBA","date_raw":"TBA","cn":"战神三部曲 重制版","en":"God of War Trilogy Remastered","developer":"Santa Monica Studio","type":"","date":"TBA","_m_frac":null,"_precision":"tba"},{"year":"TBA","window":"TBA","date_raw":"TBA","cn":"王国之心4","en":"Kingdom Hearts 4","developer":"Square Enix","type":"","date":"TBA","_m_frac":null,"_precision":"tba"},{"year":"TBA","window":"TBA","date_raw":"TBA","cn":"昭和米国物语","en":"Showa American Story","developer":"铃空（NEKCOM Games）","type":"","date":"TBA","_m_frac":null,"_precision":"tba"},{"year":"TBA","window":"TBA","date_raw":"TBA","cn":"归唐","en":"Blood Message","developer":"网易（NetEase）","type":"","date":"TBA","_m_frac":null,"_precision":"tba"},{"year":"TBA","window":"TBA","date_raw":"TBA","cn":"楼兰：诅咒之沙","en":"LouLan","developer":"凉屋（ChillyRoom）","type":"","date":"TBA","_m_frac":null,"_precision":"tba"},{"year":"TBA","window":"TBA","date_raw":"TBA","cn":"长生：白夜无名","en":"","developer":"长生工作室（11 Games）","type":"","date":"TBA","_m_frac":null,"_precision":"tba"}],"l":[{"year":"2026","window":"Q3","date_raw":"2026/7（预估/Est.）","cn":"暗黑破坏神4 S14","en":"Diablo 4 S14","developer":"Blizzard","type":"赛季更新 / season updates","date":"2026/7（预估/Est.）","_m_frac":6.5,"_precision":"month"},{"year":"2026","window":"Q3","date_raw":"2026/7（预估/Est.）","cn":"暗黑破坏神3 S39","en":"Diablo 3 S39","developer":"Blizzard","type":"赛季更新 / season updates","date":"2026/7（预估/Est.）","_m_frac":6.5,"_precision":"month"},{"year":"2026","window":"Q3","date_raw":"2026/8（预估/Est.）","cn":"暗黑破坏神2 重制版 S15","en":"Diablo 2 Remake S15","developer":"Blizzard","type":"赛季更新 / season updates","date":"2026/8（预估/Est.）","_m_frac":7.5,"_precision":"month"},{"year":"2026","window":"Q3","date_raw":"2026/7（预估/Est.）","cn":"火炬之光 S13","en":"Torchlight S13","developer":"Runic Games","type":"赛季更新 / season updates","date":"2026/7（预估/Est.）","_m_frac":6.5,"_precision":"month"},{"year":"2026","window":"Q3","date_raw":"2026/9（预估/Est.）","cn":"最后纪元 S5","en":"Last Epoch S5","developer":"Eleventh Hour Games","type":"赛季更新 / season updates","date":"2026/9（预估/Est.）","_m_frac":8.5,"_precision":"month"},{"year":"2026","window":"Q3","date_raw":"TBA","cn":"余烬之镇","en":"Emberville","developer":"Cygnus Cross","type":"EA","date":"TBA","_m_frac":7.5,"_precision":"month"},{"year":"2026","window":"Q3","date_raw":"TBA","cn":"我的世界 地下城2","en":"Minecraft Dungeons 2","developer":"Mojang Studio","type":"Release","date":"TBA","_m_frac":7.5,"_precision":"month"},{"year":"2026","window":"Q4","date_raw":"2026/10（预估/Est.）","cn":"恶意不息","en":"No Rest For The Wicked","developer":"Moon Studios GmbH","type":"Release","date":"2026/10（预估/Est.）","_m_frac":9.5,"_precision":"month"},{"year":"2026","window":"Q4","date_raw":"TBA","cn":"烬刃交辉","en":"Ember and Blade","developer":"LINE Games Corporation","type":"Release","date":"TBA","_m_frac":10.5,"_precision":"month"},{"year":"2026","window":"Q4","date_raw":"2026/12(预估/Est.）","cn":"流放之路2 1.0版本","en":"Path of Exile 2 1.0","developer":"GGG (Grinding Gear Games)","type":"1.0 V","date":"2026/12(预估/Est.）","_m_frac":11.5,"_precision":"month"},{"year":"2026","window":"H2","date_raw":"TBA","cn":"The Dark West","en":"The Dark West","developer":"Black Hand","type":"EA","date":"TBA","_m_frac":10.5,"_precision":"month"},{"year":"2026","window":"年底","date_raw":"2026/11-12（预估/Est.）","cn":"泰坦之旅2","en":"Titan Quest 2","developer":"Grimlore Games","type":"Release","date":"2026/11-12（预估/Est.）","_m_frac":10.5,"_precision":"month"},{"year":"2026","window":"年内 / Within the Year","date_raw":"TBA","cn":"Darkhaven","en":"Darkhaven","developer":"Moonbeast Productions","type":"EA","date":"TBA","_m_frac":null,"_precision":"tba"},{"year":"2026","window":"年内 / Within the Year","date_raw":"TBA","cn":"Gods, Death & Reapers","en":"Gods, Death & Reapers","developer":"Wolcen Studio","type":"Release","date":"TBA","_m_frac":null,"_precision":"tba"},{"year":"2026","window":"年内 / Within the Year","date_raw":"TBA","cn":"地狱锻造","en":"Hellforged","developer":"Moonpyre","type":"Release","date":"TBA","_m_frac":null,"_precision":"tba"},{"year":"2026","window":"年内 / Within the Year","date_raw":"TBA","cn":"Shattered Realms","en":"Shattered Realms","developer":"Spellbound Studios","type":"Release","date":"TBA","_m_frac":null,"_precision":"tba"},{"year":"2027","window":"Q1","date_raw":"TBA","cn":"Wolcen 2","en":"Wolcen 2","developer":"Wolcen Studio","type":"EA","date":"TBA","_m_frac":13.5,"_precision":"month"},{"year":"2027","window":"年内 / Within the Year","date_raw":"TBA","cn":"最后纪元 资料片 Orobyss","en":"Last Epoch Orobyss","developer":"Eleventh Hour Games","type":"Major DLC","date":"TBA","_m_frac":null,"_precision":"tba"},{"year":"2027","window":"年内 / Within the Year","date_raw":"TBA","cn":"守护阿瓦隆","en":"Wardens of Avalon","developer":"Runes Studio","type":"Release","date":"TBA","_m_frac":null,"_precision":"tba"},{"year":"TBA","window":"TBA","date_raw":"TBA","cn":"恐怖黎明2","en":"Grim Dawn 2","developer":"Crate Entertainment","type":"TBA","date":"TBA","_m_frac":null,"_precision":"tba"},{"year":"TBA","window":"TBA","date_raw":"TBA","cn":"MASAKRE","en":"MASAKRE","developer":"Seelvent","type":"TBA","date":"TBA","_m_frac":null,"_precision":"tba"},{"year":"TBA","window":"TBA","date_raw":"TBA","cn":"神秘大作","en":"——","developer":"——","type":"TBA","date":"TBA","_m_frac":null,"_precision":"tba"},{"year":"TBA","window":"TBA","date_raw":"TBA","cn":"神秘大作","en":"——","developer":"——","type":"TBA","date":"TBA","_m_frac":null,"_precision":"tba"}],"m":{"action_count":48,"loot_count":23,"source":"D:/GRC/动作FT/动作&俯视角Loot游戏竞品档期表.xlsx","updated":"2026-06-15"}};
+
+// ========== 工具 ==========
+const $ = (s) => document.querySelector(s);
+const $$ = (s) => document.querySelectorAll(s);
+
+function getQuarter(w) {
+  const m = String(w||'').match(/Q[1-4]/);
+  return m ? m[0] : (w==='H1'?'H1': w==='H2'?'H2': w==='TBA'?'TBA': w==='年内 / Within the Year'?'YW': w==='年底'?'YE':'OT');
+}
+function getYear(y) {
+  if (!y || y==='TBA') return 'TBA';
+  const m = String(y).match(/20\d{2}/);
+  return m ? m[0] : 'OT';
+}
+function getTrack(row, kind) { return kind==='loot' ? 'loot' : 'action'; }
+function dateSortKey(d) {
+  if (!d) return '9999-99-99';
+  const s = String(d);
+  if (/^20\d{2}-\d{2}-\d{2}/.test(s)) return s.slice(0,10);
+  if (/^20\d{2}\/\d+/.test(s)) return s.replace(/\D/g,'').padEnd(8,'0');
+  return '9999-' + s.replace(/\D/g,'').padStart(6,'0');
+}
+function clean(s) { return (s==null?'':String(s)).replace(/\s+/g,' ').trim(); }
+function getTypeTag(t) {
+  const s = String(t||'');
+  if (s.includes('赛季')) return {cls:'tag-season', txt:'赛季'};
+  if (s.includes('1.0')) return {cls:'tag-1v', txt:'1.0'};
+  if (s.includes('EA') || s.includes('抢先体验') || s.includes('Early Access')) return {cls:'tag-ea', txt:'EA'};
+  if (s.includes('DLC')) return {cls:'tag-dlc', txt:'Major DLC'};
+  if (s.includes('TBA')) return {cls:'tag-tba', txt:'TBA'};
+  if (s.includes('Release') || s.includes('正式')) return {cls:'tag-new', txt:'Release'};
+  return {cls:'tag-dlc', txt:clean(s).split(' ')[0] || 'Release'};
+}
+
+// ========== 国际化 ==========
+const I18N = {
+  zh:{title:"GRC动作 / 俯视角Loot 品类情报",subtitle:"Action · Top-Down Loot",nav:"导航",
+    tab_overview:"总览",tab_action:"动作游戏档期",tab_loot:"俯视角Loot档期",tab_compare:"赛道对比",tab_timeline:"时间轴",
+    refresh:"刷新",all:"全部",
+    k_action:"动作游戏档期条目",k_loot:"俯视角Loot档期条目",k_peak:"年内高峰季度",k_tba:"TBA · 未公布档期",
+    chart_quarter:"2026 季度发行节奏",chart_type:"Loot 档期类型构成",
+    h_action_top:"动作赛道 · Q3/Q4 重磅",h_loot_top:"俯视角Loot · 头部动态",
+    h_intel:"行业情报 · 重点跟踪",intel_src:"来源: 内部档期表 + 公开情报",
+    t_action:"动作游戏档期",t_action_meta:"按季度分组 · 2026/2027/2028/TBA 全覆盖",
+    t_loot:"俯视角Loot档期",t_loot_meta:"赛季 / 资料片 / 1.0 / EA / TBA · 头部由 Blizzard 三赛季领跑",
+    cmp_share:"赛道体量对比",cmp_dev:"头部开发商 (Top 8)",cmp_window:"档期窗口分布",
+    cmp_dual:"双赛道逐条对比 · 2026 Q3/Q4",cmp_risk:"风险与机会窗口",
+    th_window:"季度",th_action:"动作 · 重点",th_loot:"俯视角Loot · 重点",th_risk:"风险提示",
+    timeline_title:"📅 档期时间轴 · 一目了然的发售先后",
+    timeline_hint:"横向时间轴 · 蓝=Action 棕=Loot · 圆点=落点 · 越密集越拥挤 · 鼠标悬停查看详情",
+    tl_legend_a:"Action 落点",tl_legend_l:"Loot 落点",tl_legend_dense:"密集区 = 同期撞车",
+    t_tl_h:"档期时间轴 · 全周期",t_tl_meta:"横向时间轴 · 蓝=Action 棕=Loot · 越密越卷",
+    tl_zoom_h:"缩放:",tl_hottest:"最密集季度 Top 3",tl_empty:"空窗季度机会",tl_tba:"TBA 待公布 (11+)",
+    footer:"GRC 动作 / 俯视角Loot 品类情报 · 数据每日自动采集 · 仅供内部分析参考 · 数据源: 内部档期表 + 公开情报"},
+  en:{title:"GRC Action / Top-Down Loot Intel",subtitle:"Action · Top-Down Loot",nav:"Navigation",
+    tab_overview:"Overview",tab_action:"Action Games",tab_loot:"Top-Down Loot",tab_compare:"Track Compare",tab_timeline:"Timeline",
+    refresh:"Refresh",all:"All",
+    k_action:"Action Game Titles",k_loot:"Top-Down Loot Titles",k_peak:"Peak Quarter",k_tba:"TBA · Unannounced",
+    chart_quarter:"2026 Quarterly Release Pace",chart_type:"Loot Release Type Mix",
+    h_action_top:"Action · Q3/Q4 Highlights",h_loot_top:"Top-Down Loot · Top Movements",
+    h_intel:"Industry Intel · Watch List",intel_src:"Source: internal schedule + public intel",
+    t_action:"Action Games Schedule",t_action_meta:"By quarter · 2026/2027/2028/TBA",
+    t_loot:"Top-Down Loot Schedule",t_loot_meta:"Season / DLC / 1.0 / EA / TBA · Led by Blizzard",
+    cmp_share:"Track Volume",cmp_dev:"Top Developers (Top 8)",cmp_window:"Release Window Distribution",
+    cmp_dual:"Dual-Track Side-by-Side · 2026 Q3/Q4",cmp_risk:"Risk & Opportunity Windows",
+    th_window:"Quarter",th_action:"Action · Highlight",th_loot:"Loot · Highlight",th_risk:"Risk",
+    timeline_title:"📅 Release Timeline · First-Sight Order",
+    timeline_hint:"Horizontal timeline · blue=Action brown=Loot · dots=drop points · denser=more crowded · hover for detail",
+    tl_legend_a:"Action drops",tl_legend_l:"Loot drops",tl_legend_dense:"Dense area = collision zone",
+    t_tl_h:"Release Timeline · Full Window",t_tl_meta:"Horizontal axis · blue=Action brown=Loot · denser = riskier",
+    tl_zoom_h:"Zoom:",tl_hottest:"Densest Quarters (Top 3)",tl_empty:"Empty Window Opportunities",tl_tba:"TBA Watchlist",
+    footer:"GRC Action / Top-Down Loot Intel · Daily auto-collected · Internal use only"}
+};
+let curLang = 'zh';
+function applyLang() {
+  const d = I18N[curLang];
+  $$('[data-i18n]').forEach(el => {
+    const k = el.getAttribute('data-i18n');
+    if (d[k] != null) el.textContent = d[k];
+  });
+  document.getElementById('lang-toggle').textContent = curLang==='zh' ? 'EN' : '中文';
+  renderAll();
+}
+function toggleLang() { curLang = curLang==='zh' ? 'en' : 'zh'; applyLang(); }
+
+// ========== 筛选状态 ==========
+let actionYearFilter = 'ALL';
+let lootTypeFilter = 'ALL';
+
+function filterAction(y) {
+  actionYearFilter = y;
+  $$('#section-action .cat-tab').forEach(b => b.classList.toggle('active', b.dataset.q === y));
+  renderAction();
+}
+function filterLoot(t) {
+  lootTypeFilter = t;
+  $$('#section-loot .cat-tab').forEach(b => b.classList.toggle('active', b.dataset.t === t));
+  renderLoot();
+}
+
+// ========== 渲染 ==========
+function setLastUpdate() {
+  document.getElementById('sidebar-last-update').textContent = '更新 2026-06-15';
+}
+
+function renderKPI() {
+  const a = GAMES.a, l = GAMES.l;
+  document.getElementById('kpi-action').textContent = a.length;
+  document.getElementById('kpi-action-sub').textContent = '含3A大作与重磅独立';
+  document.getElementById('kpi-loot').textContent = l.length;
+  document.getElementById('kpi-loot-sub').textContent = 'Blizzard 三赛季领跑';
+}
+
+function renderQuarterChart() { /* deprecated: replaced by timeline */ }
+function renderLootTypeChart() { /* deprecated: replaced by timeline */ }
+
+// ========== 时间轴 ==========
+let tlTrackFilter = 'ALL';
+let tlQuarter = '2026Q3';  // 当前选中季度
+let tlZoom = '2026';       // 兼容旧引用
+let tlZoomFrom = null, tlZoomTo = null;
+
+// 浮点月份 (0=2026-01, 0.5=2026-01-中, 8.47≈2026-09-15, 36=2029-01)
+function tlToFrac(r) {
+  if (r && typeof r._m_frac === 'number' && r._m_frac != null) return r._m_frac;
+  if (!r) return null;
+  if (r.year === 'TBA' || r.window === 'TBA') return null;
+  if (r.date && /^20\d{2}-\d{2}-\d{2}/.test(r.date)) {
+    const [y,m,d] = r.date.split('-').map(Number);
+    return (y - 2026) * 12 + (m - 1) + (d - 1) / 30;
+  }
+  if (r.date_raw && /^[0-9.]+$/.test(String(r.date_raw))) {
+    const serial = parseFloat(r.date_raw);
+    const base = new Date(Date.UTC(1899, 11, 30));
+    const dt = new Date(base.getTime() + serial * 86400000);
+    return (dt.getUTCFullYear() - 2026) * 12 + dt.getUTCMonth() + (dt.getUTCDate() - 1) / 30;
+  }
+  const wm = { Q1: 0.5, Q2: 3.5, Q3: 6.5, Q4: 9.5, H1: 2.5, H2: 8.5, 年底: 11, 年内: 6 };
+  const ym = String(r.year || '').match(/20\d{2}/);
+  if (ym && wm[r.window] != null) return (parseInt(ym[0]) - 2026) * 12 + wm[r.window];
+  return null;
+}
+
+function monthToLabel(m) {
+  if (m === null || m === undefined) return 'TBA';
+  const y = 2026 + Math.floor(m/12);
+  const mo = (m%12) + 1;
+  return y + '-' + String(mo).padStart(2,'0');
+}
+
+function renderTimeline(mountId, opts={}) {
+  const mount = document.getElementById(mountId);
+  if (!mount) return;
+
+  // 容器宽度：挂载点是 tl-scroll-wrap，其父容器 glass-card 有 padding:24px
+  // 优先用 mount 自身宽度，拿不到就向上找父容器
+  let containerW = mount.clientWidth;
+  if (!containerW || containerW < 100) {
+    const parent = mount.closest('.glass-card') || mount.parentElement;
+    if (parent) {
+      const parentRect = parent.getBoundingClientRect();
+      containerW = parentRect.width - 48; // 减去 24px padding * 2
+    }
+    if (!containerW || containerW < 100) containerW = 860;
+  }
+
+  // 季度 → 月范围 [minM, maxM)，单位：距 2026-01 的月数
+  function quarterRange(q) {
+    const qMap = {
+      '2026Q1':[0,3],'2026Q2':[3,6],'2026Q3':[6,9],'2026Q4':[9,12],
+      '2027Q1':[12,15],'2027Q2':[15,18],'2027Q3':[18,21],'2027Q4':[21,24],
+      '2028+':[24,36]
+    };
+    return qMap[q] || [0,3];
+  }
+  const [qMinM, qMaxM] = quarterRange(tlQuarter);
+  // 留 0.3 个月边距让节点不贴边
+  const minM = qMinM - 0.3;
+  const maxM = qMaxM + 0.3;
+  const span = maxM - minM;
+
+  // SVG 宽度 = 容器宽，不需要横滚
+  const W = Math.max(containerW, 520);
+  const padL = 80, padR = 40;
+  const innerW = W - padL - padR;
+  // 过滤：只显示落在当前季度窗口内的节点（含 TBA 单独处理）
+  let rows = [];
+  GAMES.a.forEach(r => rows.push({...r, _track:'action'}));
+  GAMES.l.forEach(r => rows.push({...r, _track:'loot'}));
+  if (tlTrackFilter !== 'ALL') rows = rows.filter(r => r._track === tlTrackFilter);
+  rows.forEach(r => { r._m = tlToFrac(r); });
+
+  // 当前季度窗口（已在上方计算：minM / maxM / span）
+  const xOf = (m) => padL + ((m - minM) / span) * innerW;
+  // 布局：Action轨道在上，Loot在下，TBA在底部，留足堆叠空间
+  const yA = 180, yL = 330, yTBA = 480;
+  const H = 560;
+
+  let svg = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" style="display:block;font-family:Inter,'Noto Sans SC',sans-serif;background:linear-gradient(180deg,rgba(248,250,252,0.8)0%,rgba(241,245,249,0.4)100%);border-radius:8px;">`;
+  // 通道底色带
+  svg += `<rect x="${padL}" y="${yA-36}" width="${innerW}" height="68" fill="rgba(37,99,235,0.04)" rx="4"/>`;
+  svg += `<rect x="${padL}" y="${yL-36}" width="${innerW}" height="68" fill="rgba(180,83,9,0.04)" rx="4"/>`;
+  // 轨道标签
+  svg += `<text x="${padL-8}" y="${yA+4}" font-size="10" fill="#2563EB" text-anchor="end" font-weight="600">Action</text>`;
+  svg += `<text x="${padL-8}" y="${yL+4}" font-size="10" fill="#B45309" text-anchor="end" font-weight="600">Loot</text>`;
+  svg += `<text x="${padL-8}" y="${yTBA+4}" font-size="10" fill="#94A3B8" text-anchor="end" font-weight="600">TBA</text>`;
+
+  // 季度标题行（居中显示当前季度名）
+  const [qYear, qNum] = (() => {
+    const m = tlQuarter.match(/(\d{4})Q(\d)/);
+    if (m) return [m[1], m[2]];
+    return ['2028',''];
+  })();
+  const qLabel = tlQuarter === '2028+' ? '2028+' : `${qYear} Q${qNum}`;
+  svg += `<text x="${W/2}" y="22" font-size="16" font-weight="800" fill="#991B1B" text-anchor="middle" letter-spacing=".05em">${qLabel}</text>`;
+
+  // 月分隔线（3 条月线 + 月份标注）
+  for (let m = Math.ceil(minM); m <= Math.floor(maxM); m++) {
+    if (m < qMinM || m > qMaxM) continue; // 只画季度内的线
+    const x = xOf(m);
+    const mo = (m % 12) + 1;
+    const yr = 2026 + Math.floor(m / 12);
+    svg += `<line x1="${x}" y1="36" x2="${x}" y2="${H-10}" stroke="rgba(0,0,0,0.09)" stroke-width="1"/>`;
+    svg += `<text x="${x}" y="42" font-size="11" font-weight="600" fill="#475569" text-anchor="middle">${yr}/${mo}</text>`;
+  }
+  // 季度密度背景（本季度整块浅色）
+  {
+    const x0 = xOf(qMinM), x1 = xOf(qMaxM);
+    const rowsInQ = rows.filter(r => r._m != null && r._m >= qMinM && r._m < qMaxM);
+    const opacity = 0.04 + Math.min(0.12, rowsInQ.length * 0.01);
+    svg += `<rect x="${x0}" y="48" width="${x1-x0}" height="${H-58}" fill="#991B1B" opacity="${opacity}" rx="3"/>`;
+  }
+  // TBA 固定通道线（在节点渲染之前画，后面节点条件覆盖）
+  // Action / Loot 主线
+  svg += `<line x1="${padL}" y1="${yA}" x2="${W-padR}" y2="${yA}" stroke="#2563EB" stroke-width="2" opacity="0.55"/>`;
+  svg += `<line x1="${padL}" y1="${yL}" x2="${W-padR}" y2="${yL}" stroke="#B45309" stroke-width="2" opacity="0.55"/>`;
+
+  // 节点: 精度分层 + 月内 spread + 碰撞堆叠
+  const placeTrack = (list, y, color) => {
+    if (!list.length) return '';
+    const items = list.map(r => ({r, m: r._m, prec: r._precision})).sort((a,b) => a.m - b.m);
+    // 按整数月分组, 组内 spread (避免同月堆)
+    const byMonth = {};
+    items.forEach(it => {
+      const k = Math.floor(it.m);
+      (byMonth[k] = byMonth[k] || []).push(it);
+    });
+    items.forEach(it => {
+      const grp = byMonth[Math.floor(it.m)];
+      const n = grp.length;
+      if (n > 1) {
+        // 月内 spread: day 精度的用原 frac, 其他均匀分布
+        const idx = grp.indexOf(it);
+        if (it.prec === 'day') {
+          // 日级: 几乎不动, 除非有重叠
+          if (idx > 0 && it.m - grp[idx-1].m < 0.06) {
+            it._cx = xOf(it.m) + 8; // 8px 右移
+          } else {
+            it._cx = xOf(it.m);
+          }
+        } else {
+          // month/window 精度: 月内均匀
+          const t = n === 1 ? 0.5 : idx / (n - 1);
+          it._cx = xOf(Math.floor(it.m) + 0.08 + t * 0.84);
+        }
+      } else {
+        it._cx = xOf(it.m);
+      }
+    });
+    // 碰撞堆叠
+    const placed = [];
+    const minLabelGap = 75;
+    items.forEach(it => {
+      const cx = it._cx;
+      const conflictTop = placed.filter(p => p.side === 'top');
+      const conflictBot = placed.filter(p => p.side === 'bottom');
+      const collideTop = conflictTop.some(p => Math.abs(p.cx - cx) < minLabelGap);
+      const collideBot = conflictBot.some(p => Math.abs(p.cx - cx) < minLabelGap);
+      let side;
+      if (!collideTop) side = 'top';
+      else if (!collideBot) side = 'bottom';
+      else {
+        const topCount = conflictTop.filter(p => Math.abs(p.cx - cx) < minLabelGap * 1.8).length;
+        const botCount = conflictBot.filter(p => Math.abs(p.cx - cx) < minLabelGap * 1.8).length;
+        side = topCount <= botCount ? 'top' : 'bottom';
+      }
+      const sameSide = placed.filter(p => p.side === side && Math.abs(p.cx - cx) < minLabelGap * 1.4);
+      let stack = sameSide.length;
+      if (stack >= 4) {
+        side = side === 'top' ? 'bottom' : 'top';
+        const sameSide2 = placed.filter(p => p.side === side && Math.abs(p.cx - cx) < minLabelGap * 1.4);
+        stack = sameSide2.length;
+      }
+      placed.push({cx, side, stack});
+    });
+    let s = '';
+    placed.forEach((p, i) => {
+      // top 侧: 标签在轨道线上方，stack 向上递进
+      // bottom 侧: 标签在轨道线下方，stack 向下递进
+      // 每层步进 28px（12px 字高 + 13px badge + 3px gap）
+      const step = 28;
+      let ly;
+      if (p.side === 'top') {
+        // 基准: 圆点上方 26px，每层再上移 step
+        ly = y - 26 - p.stack * step;
+      } else {
+        // 基准: 圆点下方 30px，每层再下移 step
+        ly = y + 30 + p.stack * step;
+      }
+      s += drawDotNode(p.cx, y, color, 1.0, items[i].r, ly, p.side, p.stack, items[i].r._precision);
+    });
+    return s;
+  };
+  // 只渲当前季度范围内有落点的节点
+  const actionList = rows.filter(r => r._track === 'action' && r._m != null && r._m >= qMinM && r._m < qMaxM);
+  const lootList   = rows.filter(r => r._track === 'loot'   && r._m != null && r._m >= qMinM && r._m < qMaxM);
+  svg += placeTrack(actionList, yA, '#2563EB');
+  svg += placeTrack(lootList,   yL, '#B45309');
+
+  // TBA 通道：只显示 window 匹配当前季度的 TBA（无具体日期）
+  const qWindowMap = {'2026Q2':'Q2','2026Q3':'Q3','2026Q4':'Q4','2027Q1':'Q1','2027Q2':'Q2','2027Q3':'Q3','2027Q4':'Q4'};
+  const curQWindow = qWindowMap[tlQuarter];
+  const tbaRows = rows.filter(r => r._m == null && (
+    tlQuarter === '2028+' ? (r.year && parseInt(r.year) >= 2028) :
+    (curQWindow && r.window === curQWindow && r.year === qYear)
+  ));
+  if (tbaRows.length > 0) {
+    svg += `<line x1="${padL}" y1="${yTBA-22}" x2="${W-padR}" y2="${yTBA-22}" stroke="rgba(0,0,0,0.10)" stroke-dasharray="4 3"/>`;
+    const cols = Math.min(tbaRows.length, 10);
+    tbaRows.forEach((r, i) => {
+      const cx = padL + 20 + i * ((innerW - 40) / Math.max(cols - 1, 1));
+      svg += drawDotNode(cx, yTBA, '#94A3B8', 0.6, r, yTBA - 14, 'top', 0, 'tba');
+    });
+  }
+
+  svg += `</svg>`;
+  mount.innerHTML = svg;
+  bindTimelineHover(mount);
+  if (mountId === 'timeline-mount-2') renderTimelineInsight();
+}
+
+function drawDotNode(cx, cy, color, opa, r, labelY, side, stack, precision) {
+  const rName = clean(r.cn) || clean(r.en) || '--';
+  const rEn = clean(r.en);
+  const rDev = clean(r.developer);
+  const rDate = clean(r.date) || 'TBA';
+  const rWin = clean(r.window);
+  const rType = clean(r.type);
+  const tip = `${rName}${rEn?' / '+rEn:''}\n${rDev} · ${rDate}\n窗口: ${rWin}${rType?' · '+rType:''}`;
+
+  // 标签最终 Y 坐标（已由 placeTrack 传入）
+  const ly = labelY != null ? labelY : (side === 'top' ? cy - 26 : cy + 38);
+
+  // 日期徽章：top 侧放标签下方 +13px，bottom 侧放标签下方 +13px（都追着标签走）
+  const badgeY = side === 'top' ? ly + 13 : ly + 13;
+  const badgeTxt = precision === 'day' && rDate && /^\d{4}-\d{2}-\d{2}/.test(rDate)
+    ? rDate.slice(5)
+    : precision === 'month' && rDate && /20\d{2}\/\d{1,2}/.test(rDate)
+    ? (rDate.match(/20\d{2}\/\d{1,2}/)||[''])[0]
+    : (precision === 'window')
+    ? (rWin||'').replace(' / Within the Year','年内').slice(0,6)
+    : precision === 'tba' ? 'TBA' : '';
+  const badgeColor = precision === 'day' ? '#64748B' : '#94A3B8';
+
+  let s = `<g class="tl-node" data-tip="${tip.replace(/"/g,'&quot;')}">`;
+  // 引线：从圆点到标签
+  const lineEnd = side === 'top' ? ly + 4 : ly - 4;
+  s += `<line x1="${cx}" y1="${cy}" x2="${cx}" y2="${lineEnd}" stroke="${color}" stroke-width="1" opacity="${0.4*opa}"/>`;
+  // 圆点（画在引线上面）
+  s += `<circle cx="${cx}" cy="${cy}" r="5.5" fill="${color}" opacity="${opa}" stroke="#FFF" stroke-width="2"/>`;
+  // 主标签
+  s += `<text x="${cx}" y="${ly}" font-size="12" fill="#0F172A" text-anchor="middle" font-weight="600" opacity="${opa}">${escapeXML(rName).slice(0,14)}</text>`;
+  // 日期徽章（紧跟标签）
+  if (badgeTxt) {
+    s += `<text x="${cx}" y="${badgeY}" font-size="9" fill="${badgeColor}" text-anchor="middle" font-weight="500">${escapeXML(badgeTxt)}</text>`;
+  }
+  s += `</g>`;
+  return s;
+}
+
+function escapeXML(s) { return String(s).replace(/[<>&'"]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;','\'':'&apos;','"':'&quot;'}[c])); }
+
+function bindTimelineHover(mount) {
+  const tip = document.createElement('div');
+  tip.style.cssText = 'position:fixed;background:#0F172A;color:#F8FAFC;padding:8px 12px;border-radius:6px;font-size:11px;line-height:1.5;pointer-events:none;z-index:9999;max-width:300px;white-space:pre-wrap;box-shadow:0 4px 16px rgba(0,0,0,0.2);opacity:0;transition:opacity .15s;';
+  document.body.appendChild(tip);
+  mount.addEventListener('mousemove', (e) => {
+    const node = e.target.closest('.tl-node');
+    if (node) {
+      tip.textContent = node.dataset.tip;
+      tip.style.left = (e.clientX + 14) + 'px';
+      tip.style.top = (e.clientY + 14) + 'px';
+      tip.style.opacity = '1';
+    } else {
+      tip.style.opacity = '0';
+    }
+  });
+  mount.addEventListener('mouseleave', () => { tip.style.opacity = '0'; });
+}
+
+function filterTimeline(t) {
+  tlTrackFilter = t;
+  $$('#tl-track-filter .cat-tab').forEach(b => b.classList.toggle('active', b.dataset.tl === t));
+  renderTimeline('timeline-mount');
+}
+function setTLQuarter(q) {
+  tlQuarter = q;
+  $$('#tl-q-filter .cat-tab').forEach(b => b.classList.toggle('active', b.dataset.tlq === q));
+  renderTimeline('timeline-mount');
+}
+function setTimelineZoom(z) { /* legacy no-op */ }
+
+function renderTimelineInsight() {
+  // 季度计数
+  const byQ = {};
+  const all = GAMES.a.concat(GAMES.l);
+  all.forEach(r => {
+    const wm = {'Q1':0,'Q2':3,'Q3':6,'Q4':9};
+    const ym = String(r.year||'').match(/20\d{2}/);
+    if (ym && wm[r.window] != null) {
+      const k = ym[0] + 'Q' + (wm[r.window]/3+1);
+      byQ[k] = (byQ[k] || 0) + 1;
+    }
+  });
+  const top = Object.entries(byQ).sort((a,b)=>b[1]-a[1]).slice(0,3);
+  const dense = $('#tl-dense');
+  if (dense) {
+    dense.innerHTML = top.map(([k,n], i) => `<div class="flex items-center gap-2 py-1.5 border-b" style="border-color:var(--divider);">
+      <span style="color:var(--accent);font-weight:700;width:18px;">${i+1}</span>
+      <span class="q-pill ${k.slice(-2)}">${k.slice(-2)}</span>
+      <span class="text-[11px]" style="color:var(--text-muted);">${k.slice(0,4)}</span>
+      <span class="ml-auto font-bold text-sm" style="color:var(--accent);">${n} 条</span>
+    </div>`).join('');
+  }
+  // 空窗季度 (已知年份 Q1-Q4 中没记录的)
+  const yearQs = [];
+  ['2026','2027','2028'].forEach(y => ['Q1','Q2','Q3','Q4'].forEach(q => yearQs.push(y+q)));
+  const empty = yearQs.filter(k => !byQ[k]);
+  if ($('#tl-empty')) {
+    $('#tl-empty').innerHTML = (empty.length ? empty : ['无明显空窗']).map(k => `<div class="flex items-center gap-2 py-1.5 border-b" style="border-color:var(--divider);">
+      <span class="q-pill ${k.slice(-2)}">${k.slice(-2)}</span>
+      <span class="text-[11px]" style="color:var(--text-muted);">${k.slice(0,4)}</span>
+      <span class="ml-auto text-[10px]" style="color:var(--data-green);">✓ 空窗机会</span>
+    </div>`).join('');
+  }
+  // TBA 列表
+  const tbaList = all.filter(r => r.year==='TBA' || getQuarter(r.window)==='TBA' || /TBA/i.test(r.date||''));
+  if ($('#tl-tba')) {
+    $('#tl-tba').innerHTML = tbaList.slice(0, 20).map(r => `<div class="flex items-center gap-2 py-1.5 border-b" style="border-color:var(--divider);">
+      <span class="w-1.5 h-1.5 rounded-full" style="background:#94A3B8;opacity:.6;flex-shrink:0;"></span>
+      <span class="font-medium text-xs" style="color:var(--text-primary);">${clean(r.cn)||clean(r.en)}</span>
+      <span class="ml-auto text-[10px]" style="color:var(--text-muted);">${clean(r.developer).slice(0,14)}</span>
+    </div>`).join('');
+  }
+  // 洞察文本
+  const txt = top[0] ? `${top[0][0]} 共 ${top[0][1]} 条新游撞车 ${top[0][0].endsWith('Q3')||top[0][0].endsWith('Q4')?'· 同档期红海' : ''}` : '';
+  if ($('#timeline-insight-text')) $('#timeline-insight-text').textContent = txt;
+}
+
+function renderTopList(containerId, list, opts={}) {
+  const el = document.getElementById(containerId);
+  if (!list.length) { el.innerHTML = '<div style="color:var(--text-muted);">--</div>'; return; }
+  el.innerHTML = list.map(r => {
+    const q = getQuarter(r.window);
+    const t = r.type ? getTypeTag(r.type) : null;
+    return `<div class="flex items-center gap-2 py-1.5 border-b" style="border-color:var(--divider);">
+      <span class="q-pill ${q}">${q}</span>
+      <span class="font-semibold text-sm" style="color:var(--text-primary);">${clean(r.cn)||clean(r.en)}</span>
+      <span class="text-[10px]" style="color:var(--text-muted);">${clean(r.en)||''}</span>
+      <span class="ml-auto text-[10px]" style="color:var(--text-muted);">${clean(r.developer)}</span>
+      ${t ? `<span class="pill ${t.cls}">${t.txt}</span>` : ''}
+      <span class="text-[10px] font-mono" style="color:var(--text-muted);">${clean(r.date)||'TBA'}</span>
+    </div>`;
+  }).join('');
+}
+
+function renderIntel() {
+  const intel = [
+    { ic:'●', color:'var(--action)', t:'红色沙漠 / Crimson Desert', s:'上线后Steam CCU峰值超23万,3A级ARPG关注度高位' },
+    { ic:'●', color:'var(--action)', t:'金刚狼 / Wolverine', s:'7/30 Insomniac 漫威3A动作,主机平台首发' },
+    { ic:'●', color:'var(--action)', s:'血源诅咒 / Bloodborne', s:'8/13 复刻/移植,FromSoftware 久违回归' },
+    { ic:'●', color:'var(--action)', t:'波斯王子:时之沙', s:'育碧Q3重制,经典IP回归动作赛道' },
+    { ic:'●', color:'var(--action)', t:'巫师4 / Witcher 4', s:'CDPR 落定Q4,演示级曝光后将定档' },
+    { ic:'●', color:'var(--loot)', t:'暗黑4 S14', s:'Blizzard 7月S14赛季,头部俯视角Loot更新' },
+    { ic:'●', color:'var(--loot)', t:'POE2国服「觉醒」', s:'国服档期TBA,需持续跟踪审批' },
+    { ic:'●', color:'var(--loot)', t:'最后纪元 1.0', s:'1.0正式版上线,Q4完成EA→正式' },
+    { ic:'●', color:'var(--data-amber)', t:'战双 / 鸣潮 海外', s:'Q2-Q3 持续海外版本更新' },
+    { ic:'●', color:'var(--text-muted)', t:'行业话题', s:'Switch 2 6月发售,中小厂布局赛季制Loot' }
+  ];
+  document.getElementById('intel-grid').innerHTML = intel.map(i =>
+    `<div class="callout-crimson text-xs flex gap-2" style="color:var(--text-muted);">
+      <span style="color:${i.color};font-weight:700;flex-shrink:0;">${i.ic}</span>
+      <div><span class="font-semibold" style="color:var(--text-primary);">${i.t||''}</span> · ${i.s}</div>
+    </div>`).join('');
+}
+
+function renderAction() {
+  const HIDDEN_CN = ['湮灭之潮','猎天使魔女4','吉时已到'];
+  const list = GAMES.a.filter(r => !HIDDEN_CN.includes(r.cn) && (actionYearFilter==='ALL' || getYear(r.year)===actionYearFilter))
+    .sort((a,b) => dateSortKey(a.date).localeCompare(dateSortKey(b.date)));
+  const groups = {};
+  list.forEach(r => { const k = getQuarter(r.window); (groups[k]=groups[k]||[]).push(r); });
+  const order = ['Q1','Q2','Q3','Q4','H1','H2','YW','YE','TBA'];
+  const html = order.filter(q => groups[q] && groups[q].length).map(q => {
+    return `<div class="quarter-section">
+      <h4>动作 · ${q} <span class="count">· ${groups[q].length} 条</span></h4>
+      <div>${groups[q].map(row => `
+        <div class="game-row">
+          <span class="date">${clean(row.date)||'TBA'}</span>
+          <div class="gn">${clean(row.cn)||'--'}<span class="en">${clean(row.en)}</span></div>
+          <span class="text-[11px]" style="color:var(--text-muted);">${clean(row.developer)}</span>
+          <span class="q-pill ${q}">${q}</span>
+        </div>`).join('')}</div>
+    </div>`;
+  }).join('');
+  document.getElementById('action-list').innerHTML = html || '<div class="p-6 text-center" style="color:var(--text-muted);">暂无数据</div>';
+}
+
+function renderLoot() {
+  let list = GAMES.l;
+  if (lootTypeFilter !== 'ALL') {
+    list = list.filter(r => {
+      const t = clean(r.type).toLowerCase();
+      if (lootTypeFilter==='season') return t.includes('赛季');
+      if (lootTypeFilter==='EA') return t.includes('ea') || t.includes('early');
+      if (lootTypeFilter==='1.0') return t.includes('1.0');
+      if (lootTypeFilter==='DLC') return t.includes('dlc');
+      if (lootTypeFilter==='TBA') return t.includes('tba');
+      if (lootTypeFilter==='Release') return t.includes('release') || (!t);
+      return true;
+    });
+  }
+  list = list.slice().sort((a,b) => dateSortKey(a.date).localeCompare(dateSortKey(b.date)));
+  const groups = {};
+  list.forEach(r => { const k = getQuarter(r.window); (groups[k]=groups[k]||[]).push(r); });
+  const order = ['Q1','Q2','Q3','Q4','H1','H2','YW','YE','TBA'];
+  const html = order.filter(q => groups[q] && groups[q].length).map(q => {
+    return `<div class="quarter-section">
+      <h4 class="loot-h">俯视角Loot · ${q} <span class="count">· ${groups[q].length} 条</span></h4>
+      <div>${groups[q].map(row => {
+        const t = getTypeTag(row.type);
+        return `<div class="game-row loot">
+          <span class="date">${clean(row.date)||'TBA'}</span>
+          <div class="gn">${clean(row.cn)||'--'}<span class="en">${clean(row.en)}</span></div>
+          <span class="text-[11px]" style="color:var(--text-muted);">${clean(row.developer)}</span>
+          <span class="pill ${t.cls}">${t.txt}</span>
+        </div>`;
+      }).join('')}</div>
+    </div>`;
+  }).join('');
+  document.getElementById('loot-list').innerHTML = html || '<div class="p-6 text-center" style="color:var(--text-muted);">暂无数据</div>';
+}
+
+function renderCompare() {
+  // share chart
+  const ctx = document.getElementById('share-chart').getContext('2d');
+  new Chart(ctx, {
+    type:'doughnut',
+    data:{ labels:['Action','Top-Down Loot'], datasets:[{ data:[GAMES.a.length, GAMES.l.length], backgroundColor:['#1D4ED8','#7C2D12'], borderWidth:2, borderColor:'#FFF' }] },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom', labels:{ font:{size:11}, color:'#64748B' } } }, cutout:'65%' }
+  });
+  document.getElementById('share-summary').innerHTML = `Action 共 <b>${GAMES.a.length}</b> 条 · Loot 共 <b>${GAMES.l.length}</b> 条 · 合计 <b>${GAMES.a.length+GAMES.l.length}</b> 条`;
+
+  // dev top
+  const all = GAMES.a.concat(GAMES.l);
+  const devCount = {};
+  all.forEach(r => { const d = clean(r.developer); if (d && d!=='——' && d!=='-') devCount[d]=(devCount[d]||0)+1; });
+  const topDev = Object.entries(devCount).sort((a,b)=>b[1]-a[1]).slice(0,8);
+  document.getElementById('dev-list').innerHTML = topDev.map(([d,c],i) =>
+    `<div class="flex items-center gap-2 text-sm py-1 border-b" style="border-color:var(--divider);">
+      <span class="text-[10px] font-mono" style="color:var(--text-ghost);">#${i+1}</span>
+      <span class="font-medium" style="color:var(--text-primary);">${d}</span>
+      <span class="ml-auto pill" style="background:rgba(15,23,42,0.04);color:var(--text-muted);">${c} 条</span>
+    </div>`).join('');
+
+  // window chart
+  const ctx2 = document.getElementById('window-chart').getContext('2d');
+  const qOrder = ['Q1','Q2','Q3','Q4','H1','H2','YW','YE','TBA'];
+  const aData = qOrder.map(q => GAMES.a.filter(r => getQuarter(r.window)===q).length);
+  const lData = qOrder.map(q => GAMES.l.filter(r => getQuarter(r.window)===q).length);
+  new Chart(ctx2, {
+    type:'bar',
+    data:{ labels:qOrder, datasets:[
+      { label:'Action', data:aData, backgroundColor:'#1D4ED8', borderRadius:2 },
+      { label:'Loot', data:lData, backgroundColor:'#7C2D12', borderRadius:2 }
+    ]},
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom', labels:{ font:{size:10}, color:'#64748B' } } }, scales:{ x:{ ticks:{ font:{size:9}, color:'#64748B' }, grid:{display:false} }, y:{ ticks:{ stepSize:1, font:{size:9}, color:'#64748B' }, grid:{ color:'rgba(0,0,0,0.05)' } } } }
+  });
+
+  // side-by-side table (Q3/Q4 2026)
+  const aQ34 = GAMES.a.filter(r => r.year==='2026' && (getQuarter(r.window)==='Q3' || getQuarter(r.window)==='Q4')).sort((a,b)=>dateSortKey(a.date).localeCompare(dateSortKey(b.date)));
+  const lQ34 = GAMES.l.filter(r => r.year==='2026' && (getQuarter(r.window)==='Q3' || getQuarter(r.window)==='Q4')).sort((a,b)=>dateSortKey(a.date).localeCompare(dateSortKey(b.date)));
+  const maxLen = Math.max(aQ34.length, lQ34.length, 1);
+  let rows = '';
+  for (let i=0; i<maxLen; i++) {
+    const a = aQ34[i], l = lQ34[i];
+    const qa = a ? getQuarter(a.window) : '';
+    const ql = l ? getQuarter(l.window) : '';
+    const conflict = (a && l) && Math.abs(dateSortKey(a.date).localeCompare(dateSortKey(l.date)))<2000 ? '<span class="pill" style="background:rgba(220,38,38,0.10);color:var(--data-red);">同期撞车</span>' : '';
+    rows += `<tr style="border-bottom:1px solid var(--divider);">
+      <td class="py-2 pr-4 text-[11px]">${qa||ql||'--'}</td>
+      <td class="py-2 px-3 text-[12px]">${a ? `<span class="font-semibold" style="color:var(--action);">${clean(a.cn)}</span> <span class="text-[10px]" style="color:var(--text-muted);">${clean(a.en)||''}</span><br><span class="text-[10px]" style="color:var(--text-muted);">${clean(a.developer)} · ${clean(a.date)}</span>` : '<span style="color:var(--text-ghost);">--</span>'}</td>
+      <td class="py-2 px-3 text-[12px]">${l ? `<span class="font-semibold" style="color:var(--loot);">${clean(l.cn)}</span> <span class="text-[10px]" style="color:var(--text-muted);">${clean(l.en)||''}</span><br><span class="text-[10px]" style="color:var(--text-muted);">${clean(l.developer)} · ${clean(l.date)}</span>` : '<span style="color:var(--text-ghost);">--</span>'}</td>
+      <td class="py-2 pl-3 text-right text-[10px]">${conflict}</td>
+    </tr>`;
+  }
+  document.getElementById('compare-table').innerHTML = rows || '<tr><td colspan="4" class="py-6 text-center" style="color:var(--text-muted);">暂无数据</td></tr>';
+
+  // risk grid
+  const risks = [
+    { type:'risk', t:'Q3 撞车密集', s:'7/30 金刚狼 · 8/13 血源 · 8月单月4款重磅, 营销预算需提前抢量' },
+    { type:'risk', t:'Loot Q3 4款', s:'S14/POE2末期/火炬之光S13, 头部同期更新争夺玩家时间' },
+    { type:'risk', t:'11款TBA待定', s:'含《黑色沙漠》续作与多款神秘大作, 需逐月确认' },
+    { type:'risk', t:'Switch 2 6月发售', s:'平台迁移窗口期, 部分作品可能延后或独占' },
+    { type:'opp', t:'Q2 4-5月空档', s:'发行窗口相对宽松, 适合做中型项目首发' },
+    { type:'opp', t:'Q4 11月下旬-12月', s:'避让10月底高峰, 圣诞节前小高峰机会' }
+  ];
+  document.getElementById('risk-grid').innerHTML = risks.map(r =>
+    `<div class="${r.type==='risk'?'callout-crimson':'callout-action'} text-xs">
+      <div class="font-semibold" style="color:${r.type==='risk'?'var(--accent)':'var(--action)'};">${r.type==='risk'?'⚠ 风险':'★ 机会'}</div>
+      <div class="font-medium mt-0.5" style="color:var(--text-primary);">${r.t}</div>
+      <div class="mt-1" style="color:var(--text-muted);">${r.s}</div>
+    </div>`).join('');
+}
+
+function renderAll() {
+  setLastUpdate();
+  renderKPI();
+  // top lists
+  const aTop = GAMES.a.filter(r => getQuarter(r.window)==='Q3' || getQuarter(r.window)==='Q4').slice(0,8);
+  const lTop = GAMES.l.slice().sort((a,b)=>dateSortKey(a.date).localeCompare(dateSortKey(b.date))).slice(0,8);
+  renderTopList('action-top-list', aTop);
+  renderTopList('loot-top-list', lTop);
+  renderIntel();
+  renderAction();
+  renderLoot();
+  renderTimeline('timeline-mount');
+}
+
+// ========== 导航 ==========
+function navTo(section) {
+  $$('.content-section').forEach(el => {
+    if (el.id === 'section-compare' || el.id === 'section-timeline') return;
+    el.classList.remove('active');
+  });
+  const target = document.getElementById('section-' + section);
+  if (target) {
+    target.classList.add('active');
+    const main = document.querySelector('.main-content');
+    if (main) main.scrollTop = 0;
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }
+  $$('.sidebar-nav-item').forEach(el => el.classList.remove('active'));
+  const nav = document.querySelector(`.sidebar-nav-item[data-nav="${section}"]`);
+  if (nav) nav.classList.add('active');
+  requestAnimationFrame(() => { Object.values(Chart.instances||{}).forEach(c => c.resize && c.resize()); });
+}
+
+// 事件委托：sidebar 所有 [data-nav] 按钮 + 语言/刷新 + 所有 cat-tab
+document.addEventListener('click', function(e) {
+  console.log('CLICK', e.target.tagName, e.target.className);
+  const navBtn = e.target.closest('.sidebar-nav-item[data-nav]');
+  console.log('navBtn', navBtn);
+  if (navBtn) { console.log('NAVIGATING TO', navBtn.dataset.nav); navTo(navBtn.dataset.nav); return; }
+
+  const lg = e.target.closest('#lang-toggle');
+  if (lg) { console.log('TOGGLE LANG'); toggleLang(); return; }
+
+  const rf = e.target.closest('#refresh-btn');
+  if (rf) { console.log('REFRESH'); refreshData(); return; }
+
+  // 时间轴赛道
+  const tlBtn = e.target.closest('[data-tl]');
+  if (tlBtn && !tlBtn.closest('.sidebar-nav-item')) { console.log('FILTER TL', tlBtn.dataset.tl); filterTimeline(tlBtn.dataset.tl); return; }
+
+  // 时间轴季度
+  const tlqBtn = e.target.closest('[data-tlq]');
+  if (tlqBtn) { console.log('SET Q', tlqBtn.dataset.tlq); setTLQuarter(tlqBtn.dataset.tlq); return; }
+
+  // 动作档期年份
+  const qBtn = e.target.closest('[data-q]');
+  if (qBtn) { console.log('FILTER ACTION', qBtn.dataset.q); filterAction(qBtn.dataset.q); return; }
+
+  // Loot类型
+  const tBtn = e.target.closest('[data-t]');
+  if (tBtn) { console.log('FILTER LOOT', tBtn.dataset.t); filterLoot(tBtn.dataset.t); return; }
+
+  console.log('NO HANDLER matched, target:', e.target.tagName, e.target.dataset);
+});
+
+function refreshData() { renderAll(); }
+
+// 初始化
+applyLang();
+
+// 首次布局后重渲 timeline（初始调用时 DOM 可能未完成布局）
+let _tlInitDone = false;
+requestAnimationFrame(() => {
+  requestAnimationFrame(() => {
+    renderTimeline('timeline-mount');
+    _tlInitDone = true;
+  });
+});
+
+// 窗口尺寸变化时重新适配 timeline
+window.addEventListener('resize', () => {
+  if (_tlInitDone) renderTimeline('timeline-mount');
+});
+</script>
+</body>
+</html>

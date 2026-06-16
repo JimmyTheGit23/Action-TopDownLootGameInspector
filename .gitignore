@@ -1,0 +1,5 @@
+_shots/
+*.log
+*.pid
+.DS_Store
+node_modules/
