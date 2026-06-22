@@ -222,14 +222,6 @@ tailwind.config = { theme: { extend: { colors: { accent:{ DEFAULT:'#991B1B', lig
       <div id="loot-top-list" class="space-y-2 text-sm"></div>
     </div>
   </div>
-
-  <div class="glass-card mb-6">
-    <div class="flex items-center gap-2 mb-4">
-      <h3 class="section-title" data-i18n="h_intel">行业情报 · 重点跟踪</h3>
-    </div>
-    <div class="grid md:grid-cols-2 gap-3 text-sm" id="intel-grid"></div>
-    <div class="mt-3 text-[10px]" style="color:var(--text-ghost);" data-i18n="intel_src">来源: 内部档期表 + 公开情报 (Sony State of Play / CDPR / 育碧 / Steam / TapTap / KONAMI)</div>
-  </div>
 </section>
 
 <!-- ══════ 动作档期 ══════ -->
@@ -407,7 +399,6 @@ const I18N = {
     k_action:"动作游戏档期条目",k_loot:"俯视角Loot档期条目",k_peak:"年内高峰季度",k_tba:"TBA · 未公布档期",
     chart_quarter:"2026 季度发行节奏",chart_type:"Loot 档期类型构成",
     h_action_top:"动作赛道 · Q3/Q4 重磅",h_loot_top:"俯视角Loot · 头部动态",
-    h_intel:"行业情报 · 重点跟踪",intel_src:"来源: 内部档期表 + 公开情报",
     t_action:"动作游戏档期",t_action_meta:"按季度分组 · 2026/2027/2028/TBA 全覆盖",
     t_loot:"俯视角Loot档期",t_loot_meta:"赛季 / 资料片 / 1.0 / EA / TBA · 头部由 Blizzard 三赛季领跑",
     cmp_share:"赛道体量对比",cmp_dev:"头部开发商 (Top 8)",cmp_window:"档期窗口分布",
@@ -425,7 +416,6 @@ const I18N = {
     k_action:"Action Game Titles",k_loot:"Top-Down Loot Titles",k_peak:"Peak Quarter",k_tba:"TBA · Unannounced",
     chart_quarter:"2026 Quarterly Release Pace",chart_type:"Loot Release Type Mix",
     h_action_top:"Action · Q3/Q4 Highlights",h_loot_top:"Top-Down Loot · Top Movements",
-    h_intel:"Industry Intel · Watch List",intel_src:"Source: internal schedule + public intel",
     t_action:"Action Games Schedule",t_action_meta:"By quarter · 2026/2027/2028/TBA",
     t_loot:"Top-Down Loot Schedule",t_loot_meta:"Season / DLC / 1.0 / EA / TBA · Led by Blizzard",
     cmp_share:"Track Volume",cmp_dev:"Top Developers (Top 8)",cmp_window:"Release Window Distribution",
@@ -841,26 +831,6 @@ function renderTopList(containerId, list, opts={}) {
   }).join('');
 }
 
-function renderIntel() {
-  const intel = [
-    { ic:'●', color:'var(--action)', t:'红色沙漠 / Crimson Desert', s:'上线后Steam CCU峰值超23万,3A级ARPG关注度高位' },
-    { ic:'●', color:'var(--action)', t:'金刚狼 / Wolverine', s:'7/30 Insomniac 漫威3A动作,主机平台首发' },
-    { ic:'●', color:'var(--action)', t:'血源诅咒 / Bloodborne', s:'8/13 复刻/移植,FromSoftware 久违回归' },
-    { ic:'●', color:'var(--action)', t:'波斯王子:时之沙', s:'育碧Q3重制,经典IP回归动作赛道' },
-    { ic:'●', color:'var(--action)', t:'巫师4 / Witcher 4', s:'CDPR 落定Q4,演示级曝光后将定档' },
-    { ic:'●', color:'var(--loot)', t:'暗黑4 S14', s:'Blizzard 7月S14赛季,头部俯视角Loot更新' },
-    { ic:'●', color:'var(--loot)', t:'POE2国服「觉醒」', s:'国服档期TBA,需持续跟踪审批' },
-    { ic:'●', color:'var(--loot)', t:'最后纪元 1.0', s:'1.0正式版上线,Q4完成EA→正式' },
-    { ic:'●', color:'var(--data-amber)', t:'战双 / 鸣潮 海外', s:'Q2-Q3 持续海外版本更新' },
-    { ic:'●', color:'var(--text-muted)', t:'行业话题', s:'Switch 2 6月发售,中小厂布局赛季制Loot' }
-  ];
-  document.getElementById('intel-grid').innerHTML = intel.map(i =>
-    `<div class="callout-crimson text-xs flex gap-2" style="color:var(--text-muted);">
-      <span style="color:${i.color};font-weight:700;flex-shrink:0;">${i.ic}</span>
-      <div><span class="font-semibold" style="color:var(--text-primary);">${i.t||''}</span> · ${i.s}</div>
-    </div>`).join('');
-}
-
 function renderAction() {
   const HIDDEN_CN = ['湮灭之潮','猎天使魔女4','吉时已到'];
   const list = GAMES.a.filter(r => !HIDDEN_CN.includes(r.cn) && (actionYearFilter==='ALL' || getYear(r.year)===actionYearFilter))
@@ -998,7 +968,6 @@ function renderAll() {
   const lTop = GAMES.l.slice().sort((a,b)=>dateSortKey(a.date).localeCompare(dateSortKey(b.date))).slice(0,8);
   renderTopList('action-top-list', aTop);
   renderTopList('loot-top-list', lTop);
-  renderIntel();
   renderAction();
   renderLoot();
   renderTimeline('timeline-mount');
