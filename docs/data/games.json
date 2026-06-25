@@ -158,7 +158,7 @@
     },
     {
       "year": "2026",
-      "window": "年内",
+      "window": "年内 Within the Year",
       "date_raw": "TBA",
       "cn": "SPINE",
       "en": "SPINE",
@@ -170,7 +170,7 @@
     },
     {
       "year": "2026",
-      "window": "年内",
+      "window": "年内 Within the Year",
       "date_raw": "TBA",
       "cn": "凯娜：精神之桥",
       "en": "Kena Scars of Kosmora",
@@ -182,7 +182,7 @@
     },
     {
       "year": "2026",
-      "window": "年内",
+      "window": "年内 Within the Year",
       "date_raw": "TBA",
       "cn": "黄昏血族",
       "en": "The Duskbloods",
@@ -194,7 +194,7 @@
     },
     {
       "year": "2026",
-      "window": "年内",
+      "window": "年内 Within the Year",
       "date_raw": "TBA",
       "cn": "致命躯壳2",
       "en": "Mortal Shell II",
@@ -206,7 +206,7 @@
     },
     {
       "year": "2026",
-      "window": "年内",
+      "window": "年内 Within the Year",
       "date_raw": "TBA",
       "cn": "1666: Amsterdam",
       "en": "1666: Amsterdam",
@@ -314,7 +314,7 @@
     },
     {
       "year": "2027",
-      "window": "年内",
+      "window": "年内 Within the Year",
       "date_raw": "TBA",
       "cn": "假面：秘密之地",
       "en": "TAL: The Arcane Lands",
@@ -326,7 +326,7 @@
     },
     {
       "year": "2027",
-      "window": "年内",
+      "window": "年内 Within the Year",
       "date_raw": "TBA",
       "cn": "夜行",
       "en": "Yakoh Shinobi Ops",
@@ -338,7 +338,7 @@
     },
     {
       "year": "2027",
-      "window": "年内",
+      "window": "年内 Within the Year",
       "date_raw": "TBA",
       "cn": "Kemuri",
       "en": "Kemuri",
@@ -350,7 +350,7 @@
     },
     {
       "year": "2027",
-      "window": "年内",
+      "window": "年内 Within the Year",
       "date_raw": "TBA",
       "cn": "剑星：血雨",
       "en": "Stellar Blade: Blood Rain",
@@ -362,7 +362,7 @@
     },
     {
       "year": "2027",
-      "window": "年内",
+      "window": "年内 Within the Year",
       "date_raw": "TBA",
       "cn": "怪物猎人 荒野 Ascendance",
       "en": "Monster Hunter Wilds: Ascendance",
@@ -374,7 +374,7 @@
     },
     {
       "year": "2027",
-      "window": "年内",
+      "window": "年内 Within the Year",
       "date_raw": "TBA",
       "cn": "Senua",
       "en": "Senua",
@@ -386,7 +386,7 @@
     },
     {
       "year": "2027",
-      "window": "年内",
+      "window": "年内 Within the Year",
       "date_raw": "TBA",
       "cn": "忍者神龟：最后的浪人",
       "en": "Teenage Mutant Ninja Turtles",
@@ -585,7 +585,7 @@
       "cn": "暗黑破坏神4 S14",
       "en": "Diablo 4 S14",
       "developer": "Blizzard",
-      "type": "赛季更新\nseason updates",
+      "type": "赛季更新 season updates",
       "date": "2026/7（预估/Est.）",
       "_m_frac": 6.5,
       "_precision": "month"
@@ -597,7 +597,7 @@
       "cn": "暗黑破坏神3 S39",
       "en": "Diablo 3 S39",
       "developer": "Blizzard",
-      "type": "赛季更新\nseason updates",
+      "type": "赛季更新 season updates",
       "date": "2026/7（预估/Est.）",
       "_m_frac": 6.5,
       "_precision": "month"
@@ -609,7 +609,7 @@
       "cn": "暗黑破坏神2 重制版 S15",
       "en": "Diablo 2 Remake S15",
       "developer": "Blizzard",
-      "type": "赛季更新\nseason updates",
+      "type": "赛季更新 season updates",
       "date": "2026/8（预估/Est.）",
       "_m_frac": 7.5,
       "_precision": "month"
@@ -621,7 +621,7 @@
       "cn": "火炬之光 S13",
       "en": "Torchlight S13",
       "developer": "Runic Games",
-      "type": "赛季更新\nseason updates",
+      "type": "赛季更新 season updates",
       "date": "2026/7（预估/Est.）",
       "_m_frac": 6.5,
       "_precision": "month"
@@ -633,7 +633,7 @@
       "cn": "最后纪元 S5",
       "en": "Last Epoch S5",
       "developer": "Eleventh Hour Games",
-      "type": "赛季更新\nseason updates",
+      "type": "赛季更新 season updates",
       "date": "2026/9（预估/Est.）",
       "_m_frac": 8.5,
       "_precision": "month"
@@ -724,7 +724,7 @@
     },
     {
       "year": "2026",
-      "window": "年内",
+      "window": "年内 Within the Year",
       "date_raw": "TBA",
       "cn": "Darkhaven",
       "en": "Darkhaven",
@@ -736,7 +736,7 @@
     },
     {
       "year": "2026",
-      "window": "年内",
+      "window": "年内 Within the Year",
       "date_raw": "TBA",
       "cn": "Gods, Death & Reapers",
       "en": "Gods, Death & Reapers",
@@ -748,7 +748,7 @@
     },
     {
       "year": "2026",
-      "window": "年内",
+      "window": "年内 Within the Year",
       "date_raw": "TBA",
       "cn": "地狱锻造",
       "en": "Hellforged",
@@ -760,7 +760,7 @@
     },
     {
       "year": "2026",
-      "window": "年内",
+      "window": "年内 Within the Year",
       "date_raw": "TBA",
       "cn": "Shattered Realms",
       "en": "Shattered Realms",
@@ -784,7 +784,7 @@
     },
     {
       "year": "2027",
-      "window": "年内",
+      "window": "年内 Within the Year",
       "date_raw": "TBA",
       "cn": "最后纪元 资料片 Orobyss",
       "en": "Last Epoch Orobyss",
@@ -796,7 +796,7 @@
     },
     {
       "year": "2027",
-      "window": "年内",
+      "window": "年内 Within the Year",
       "date_raw": "TBA",
       "cn": "守护阿瓦隆",
       "en": "Wardens of Avalon",
@@ -859,6 +859,6 @@
     "action_count": 48,
     "loot_count": 23,
     "source": "动作&俯视角Loot游戏竞品档期表（Action & Top-Down Loot Games Competitor Release Schedule）.xlsx",
-    "updated": "2026-06-23"
+    "updated": "2026-06-25"
   }
 }
