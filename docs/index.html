@@ -541,10 +541,12 @@ function renderTimeline(mountId, opts={}) {
   const padL = 80, padR = 40;
   const innerW = W - padL - padR;
   // 过滤：只显示落在当前季度窗口内的节点（含 TBA 单独处理）
+  const TL_HIDDEN = ['古剑4','吉时已到','猎天使魔女1 重制版','猎天使魔女4','湮灭之潮'];
   let rows = [];
   GAMES.a.forEach(r => rows.push({...r, _track:'action'}));
   GAMES.l.forEach(r => rows.push({...r, _track:'loot'}));
   if (tlTrackFilter !== 'ALL') rows = rows.filter(r => r._track === tlTrackFilter);
+  rows = rows.filter(r => !TL_HIDDEN.includes(r.cn));
   rows.forEach(r => { r._m = tlToFrac(r); });
 
   // 当前季度窗口（已在上方计算：minM / maxM / span）
@@ -832,7 +834,7 @@ function renderTopList(containerId, list, opts={}) {
 }
 
 function renderAction() {
-  const HIDDEN_CN = ['湮灭之潮','猎天使魔女4','吉时已到'];
+  const HIDDEN_CN = ['古剑4','吉时已到','猎天使魔女1 重制版','猎天使魔女4','湮灭之潮'];
   const list = GAMES.a.filter(r => !HIDDEN_CN.includes(r.cn) && (actionYearFilter==='ALL' || getYear(r.year)===actionYearFilter))
     .sort((a,b) => dateSortKey(a.date).localeCompare(dateSortKey(b.date)));
   const groups = {};
