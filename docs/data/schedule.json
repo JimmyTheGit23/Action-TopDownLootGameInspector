@@ -588,58 +588,63 @@
   "sheet2": [
     {
       "发售年份\nRelease Year": "2026",
-      "档期\nRelease Window": "Q3",
-      "具体发售时间\nRelease Date": "2026/7（预估/Est.）",
+      "档期\nRelease Window": "Q2",
+      "具体发售时间\nRelease Date": "2026-06-30",
       "游戏中文名\nChinese Name": "暗黑破坏神4 S14",
       "游戏英文名\nEnglish Name": "Diablo 4 S14",
       "开发商\nDeveloper": "Blizzard",
       "": "赛季更新\nseason updates ",
       "_row": 2,
-      "_date_iso": null
+      "_date_iso": "2026-06-30",
+      "_m_frac": 5.96666667
     },
     {
       "发售年份\nRelease Year": "2026",
-      "档期\nRelease Window": "Q3",
-      "具体发售时间\nRelease Date": "2026/7（预估/Est.）",
+      "档期\nRelease Window": "Q2",
+      "具体发售时间\nRelease Date": "2026-06-26",
       "游戏中文名\nChinese Name": "暗黑破坏神3 S39",
       "游戏英文名\nEnglish Name": "Diablo 3 S39",
       "开发商\nDeveloper": "Blizzard",
       "": "赛季更新\nseason updates ",
       "_row": 3,
-      "_date_iso": null
+      "_date_iso": "2026-06-26",
+      "_m_frac": 5.83333333
     },
     {
       "发售年份\nRelease Year": "2026",
       "档期\nRelease Window": "Q3",
-      "具体发售时间\nRelease Date": "2026/8（预估/Est.）",
+      "具体发售时间\nRelease Date": "2026/8-9（预估/Est.）",
       "游戏中文名\nChinese Name": "暗黑破坏神2 重制版 S15",
       "游戏英文名\nEnglish Name": "Diablo 2 Remake S15",
       "开发商\nDeveloper": "Blizzard",
       "": "赛季更新\nseason updates ",
       "_row": 4,
-      "_date_iso": null
+      "_date_iso": null,
+      "_m_frac": 7.5
     },
     {
       "发售年份\nRelease Year": "2026",
       "档期\nRelease Window": "Q3",
-      "具体发售时间\nRelease Date": "2026/7（预估/Est.）",
+      "具体发售时间\nRelease Date": "2026-07-17",
       "游戏中文名\nChinese Name": "火炬之光 S13",
       "游戏英文名\nEnglish Name": "Torchlight S13",
-      "开发商\nDeveloper": "Runic Games",
+      "开发商\nDeveloper": "XD Games",
       "": "赛季更新\nseason updates ",
       "_row": 5,
-      "_date_iso": null
+      "_date_iso": "2026-07-17",
+      "_m_frac": 6.53333333
     },
     {
       "发售年份\nRelease Year": "2026",
       "档期\nRelease Window": "Q3",
-      "具体发售时间\nRelease Date": "2026/9（预估/Est.）",
+      "具体发售时间\nRelease Date": "2026/8（预估/Est.）",
       "游戏中文名\nChinese Name": "最后纪元 S5",
       "游戏英文名\nEnglish Name": "Last Epoch S5",
       "开发商\nDeveloper": "Eleventh Hour Games",
       "": "赛季更新\nseason updates ",
       "_row": 6,
-      "_date_iso": null
+      "_date_iso": null,
+      "_m_frac": 7.5
     },
     {
       "发售年份\nRelease Year": "2026",
@@ -666,13 +671,14 @@
     {
       "发售年份\nRelease Year": "2026",
       "档期\nRelease Window": "Q4",
-      "具体发售时间\nRelease Date": "2026/10（预估/Est.）",
+      "具体发售时间\nRelease Date": "2026-10-27",
       "游戏中文名\nChinese Name": "恶意不息",
       "游戏英文名\nEnglish Name": "No Rest For The Wicked",
       "开发商\nDeveloper": "Moon Studios GmbH",
       "": "Release",
       "_row": 9,
-      "_date_iso": null
+      "_date_iso": "2026-10-27",
+      "_m_frac": 9.86666667
     },
     {
       "发售年份\nRelease Year": "2026",
@@ -815,28 +821,6 @@
       "开发商\nDeveloper": "Seelvent",
       "": "TBA",
       "_row": 22,
-      "_date_iso": null
-    },
-    {
-      "发售年份\nRelease Year": "TBA",
-      "档期\nRelease Window": "TBA",
-      "具体发售时间\nRelease Date": "TBA",
-      "游戏中文名\nChinese Name": "神秘大作",
-      "游戏英文名\nEnglish Name": "——",
-      "开发商\nDeveloper": "——",
-      "": "TBA",
-      "_row": 23,
-      "_date_iso": null
-    },
-    {
-      "发售年份\nRelease Year": "TBA",
-      "档期\nRelease Window": "TBA",
-      "具体发售时间\nRelease Date": "TBA",
-      "游戏中文名\nChinese Name": "神秘大作",
-      "游戏英文名\nEnglish Name": "——",
-      "开发商\nDeveloper": "——",
-      "": "TBA",
-      "_row": 24,
       "_date_iso": null
     }
   ]

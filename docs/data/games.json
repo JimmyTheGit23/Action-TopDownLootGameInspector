@@ -111,7 +111,7 @@
     {
       "year": "2026",
       "window": "Q4",
-      "date_raw": "2029-10-09",
+      "date_raw": "2026-10-09",
       "cn": "龙之信条2 DLC 黑暗觉者",
       "en": "Dragons Dogma 2 Dark Arisen",
       "developer": "Capcom",
@@ -123,7 +123,7 @@
     {
       "year": "2026",
       "window": "Q4",
-      "date_raw": "2029-10-15",
+      "date_raw": "2026-10-15",
       "cn": "恶魔城：贝尔蒙特的诅咒",
       "en": "Castlevania: Belmont's Curse",
       "developer": "Evil Empire/Konami",
@@ -267,7 +267,7 @@
     {
       "year": "2027",
       "window": "H1",
-      "date_raw": "2026-01-15",
+      "date_raw": "2027-01-15",
       "cn": "异于天堂",
       "en": "Stranger Than Heaven",
       "developer": "Ryu Ga Gotoku Studio",
@@ -279,7 +279,7 @@
     {
       "year": "2027",
       "window": "H1",
-      "date_raw": "2026-02-12",
+      "date_raw": "2027-02-12",
       "cn": "古墓丽影：亚特兰蒂斯遗迹",
       "en": "Tomb Raider: Legacy of Atlantis",
       "developer": "Crystal Dynamics",
@@ -291,7 +291,7 @@
     {
       "year": "2027",
       "window": "H1",
-      "date_raw": "2026-02-23",
+      "date_raw": "2027-02-23",
       "cn": "神鬼寓言4",
       "en": "Fable",
       "developer": "Playground Games",
@@ -616,62 +616,62 @@
   "l": [
     {
       "year": "2026",
-      "window": "Q3",
-      "date_raw": "2026/7（预估/Est.）",
+      "window": "Q2",
+      "date_raw": "2026-06-30",
       "cn": "暗黑破坏神4 S14",
       "en": "Diablo 4 S14",
       "developer": "Blizzard",
       "type": "赛季更新 season updates",
-      "date": "2026/7（预估/Est.）",
-      "_m_frac": 6.5,
-      "_precision": "month"
+      "date": "2026-06-30",
+      "_m_frac": 5.96666667,
+      "_precision": "day"
     },
     {
       "year": "2026",
-      "window": "Q3",
-      "date_raw": "2026/7（预估/Est.）",
+      "window": "Q2",
+      "date_raw": "2026-06-26",
       "cn": "暗黑破坏神3 S39",
       "en": "Diablo 3 S39",
       "developer": "Blizzard",
       "type": "赛季更新 season updates",
-      "date": "2026/7（预估/Est.）",
-      "_m_frac": 6.5,
-      "_precision": "month"
+      "date": "2026-06-26",
+      "_m_frac": 5.83333333,
+      "_precision": "day"
     },
     {
       "year": "2026",
       "window": "Q3",
-      "date_raw": "2026/8（预估/Est.）",
+      "date_raw": "2026/8-9（预估/Est.）",
       "cn": "暗黑破坏神2 重制版 S15",
       "en": "Diablo 2 Remake S15",
       "developer": "Blizzard",
       "type": "赛季更新 season updates",
-      "date": "2026/8（预估/Est.）",
+      "date": "2026/8-9（预估/Est.）",
       "_m_frac": 7.5,
       "_precision": "month"
     },
     {
       "year": "2026",
       "window": "Q3",
-      "date_raw": "2026/7（预估/Est.）",
+      "date_raw": "2026-07-17",
       "cn": "火炬之光 S13",
       "en": "Torchlight S13",
-      "developer": "Runic Games",
+      "developer": "XD Games",
       "type": "赛季更新 season updates",
-      "date": "2026/7（预估/Est.）",
-      "_m_frac": 6.5,
-      "_precision": "month"
+      "date": "2026-07-17",
+      "_m_frac": 6.53333333,
+      "_precision": "day"
     },
     {
       "year": "2026",
       "window": "Q3",
-      "date_raw": "2026/9（预估/Est.）",
+      "date_raw": "2026/8（预估/Est.）",
       "cn": "最后纪元 S5",
       "en": "Last Epoch S5",
       "developer": "Eleventh Hour Games",
       "type": "赛季更新 season updates",
-      "date": "2026/9（预估/Est.）",
-      "_m_frac": 8.5,
+      "date": "2026/8（预估/Est.）",
+      "_m_frac": 7.5,
       "_precision": "month"
     },
     {
@@ -701,14 +701,14 @@
     {
       "year": "2026",
       "window": "Q4",
-      "date_raw": "2026/10（预估/Est.）",
+      "date_raw": "2026-10-27",
       "cn": "恶意不息",
       "en": "No Rest For The Wicked",
       "developer": "Moon Studios GmbH",
       "type": "Release",
-      "date": "2026/10（预估/Est.）",
-      "_m_frac": 9.5,
-      "_precision": "month"
+      "date": "2026-10-27",
+      "_m_frac": 9.86666667,
+      "_precision": "day"
     },
     {
       "year": "2026",
@@ -865,36 +865,12 @@
       "date": "TBA",
       "_m_frac": null,
       "_precision": "tba"
-    },
-    {
-      "year": "TBA",
-      "window": "TBA",
-      "date_raw": "TBA",
-      "cn": "神秘大作",
-      "en": "——",
-      "developer": "——",
-      "type": "TBA",
-      "date": "TBA",
-      "_m_frac": null,
-      "_precision": "tba"
-    },
-    {
-      "year": "TBA",
-      "window": "TBA",
-      "date_raw": "TBA",
-      "cn": "神秘大作",
-      "en": "——",
-      "developer": "——",
-      "type": "TBA",
-      "date": "TBA",
-      "_m_frac": null,
-      "_precision": "tba"
     }
   ],
   "m": {
     "action_count": 51,
     "loot_count": 23,
     "source": "【GRC】动作&俯视角Loot游戏竞品档期表Action & Top-Down Loot Games Competitor Release Schedule.xlsx",
-    "updated": "2026-07-16"
+    "updated": "2026-07-17"
   }
 }

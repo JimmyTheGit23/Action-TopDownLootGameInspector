@@ -177,6 +177,35 @@ body { font-family:'Inter','Noto Sans SC',-apple-system,sans-serif; background-c
 .game-name-clickable:hover{color:var(--accent)!important;}
 .tl-node{cursor:pointer;}
 .tl-node:hover circle{stroke:var(--accent)!important;stroke-width:3!important;}
+/* ── 日历时间轴 (overview) ── */
+.cal-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:3px;}
+.cal-cell{border:1px solid rgba(15,23,42,.08);border-radius:5px;padding:5px 6px;background:rgba(255,255,255,.55);min-height:84px;display:flex;flex-direction:column;gap:3px;transition:border-color .15s,background .15s;}
+.cal-cell:hover{border-color:rgba(29,78,216,.35);background:rgba(255,255,255,.85);}
+.cal-cell-empty{background:rgba(15,23,42,.02);border-style:dashed;opacity:.4;min-height:84px;}
+.cal-cell-header{font-size:10px;font-weight:700;color:var(--text-primary);padding-bottom:3px;margin-bottom:2px;border-bottom:1px solid rgba(15,23,42,.06);display:flex;justify-content:space-between;align-items:center;}
+.cal-cell-header .cal-cell-range{color:var(--text-muted);font-weight:500;}
+.cal-cell-header .cal-cell-count{font-size:9px;color:var(--text-ghost);background:rgba(29,78,216,.08);padding:1px 5px;border-radius:8px;}
+.cal-cell-hint{font-size:10px;color:var(--text-ghost);text-align:center;padding:6px 0;font-style:italic;}
+.cal-game{display:flex;align-items:center;gap:4px;font-size:10.5px;padding:2px 5px;background:rgba(29,78,216,.08);border:1px solid rgba(29,78,216,.18);border-radius:3px;cursor:pointer;color:#0F172A;transition:all .12s;line-height:1.3;}
+.cal-game:hover{background:var(--action);color:#FFF;border-color:var(--action);}
+.cal-game:hover .cal-day{color:#FFF;}
+.cal-game-loot{display:flex;align-items:center;gap:4px;font-size:10.5px;padding:2px 5px;background:rgba(22,163,74,.08);border:1px solid rgba(22,163,74,.2);border-radius:3px;cursor:pointer;color:#0F172A;transition:all .12s;line-height:1.3;}
+.cal-game-loot:hover{background:#16A34A;color:#FFF;border-color:#16A34A;}
+.cal-game-loot:hover .cal-day-loot{color:#FFF;}
+.cal-day{font-weight:700;color:var(--action);flex-shrink:0;font-variant-numeric:tabular-nums;}
+.cal-day-loot{font-weight:700;color:#16A34A;flex-shrink:0;font-variant-numeric:tabular-nums;}
+.cal-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;}
+.cal-tba-section{margin-top:14px;padding:10px 12px;background:rgba(15,23,42,.02);border-radius:5px;border:1px dashed rgba(15,23,42,.1);}
+.cal-tba-title{font-size:11px;font-weight:600;color:var(--text-primary);margin-bottom:8px;}
+.cal-tba-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:6px;}
+.cal-tba-item{display:flex;align-items:center;gap:6px;font-size:11px;padding:4px 8px;background:rgba(255,255,255,.6);border-radius:4px;cursor:pointer;border:1px solid rgba(15,23,42,.05);transition:all .12s;}
+.cal-tba-item:hover{background:rgba(29,78,216,.08);border-color:rgba(29,78,216,.2);}
+.cal-tba-pill{font-size:9px;font-weight:700;padding:1px 6px;background:rgba(100,116,139,.12);color:#475569;border-radius:8px;flex-shrink:0;}
+.cal-tba-name{font-weight:600;color:var(--text-primary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.cal-tba-en{font-size:10px;color:var(--text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.cal-tba-item-loot:hover{background:rgba(22,163,74,.08);border-color:rgba(22,163,74,.2);}
+.cal-legend{display:flex;gap:16px;align-items:center;font-size:10px;color:var(--text-muted);margin-top:10px;padding-top:8px;border-top:1px solid rgba(15,23,42,.05);}
+.cal-legend-dot{width:8px;height:8px;border-radius:3px;display:inline-block;margin-right:4px;}
 </style>
 <script>
 tailwind.config = { theme: { extend: { colors: { accent:{ DEFAULT:'#991B1B', light:'#B91C1C', dark:'#7F1D1D' }, action:{ DEFAULT:'#1D4ED8' }, loot:{ DEFAULT:'#7C2D12' }, gold:{ DEFAULT:'#0F172A' } } } } }
@@ -234,33 +263,30 @@ tailwind.config = { theme: { extend: { colors: { accent:{ DEFAULT:'#991B1B', lig
     </div>
     </div>
 
-  <!-- ══════ 时间轴 (替代原柱状+环形) ══════ -->
-  <div class="glass-card mb-6" id="timeline-card">
-    <div class="flex items-center gap-2 mb-1 flex-wrap">
-      <h3 class="section-title" data-i18n="timeline_title">📅 档期时间轴</h3>
-      <span class="ml-auto text-[10px]" style="color:var(--text-ghost);">SOURCE: 内部档期表 · 71 条 · 2026—2028+</span>
-    </div>
-    <p class="text-[11px] mb-3" style="color:var(--text-muted);" data-i18n="timeline_hint">蓝=Action  棕=Loot · 悬停查看详情</p>
+  <!-- ══════ 年度时间轴 (仅动作赛道) ══════ -->
+  <div class="glass-card mb-6" id="yearly-timeline-card">
     <div class="flex items-center gap-2 mb-4 flex-wrap">
-      <!-- 赛道过滤 -->
-      <div class="flex gap-1.5" id="tl-track-filter">
-        <button class="cat-tab active pill" data-tl="ALL" data-i18n="all">全部</button>
-        <button class="cat-tab pill" data-tl="action" style="color:var(--action);">● Action</button>
-        <button class="cat-tab pill" data-tl="loot" style="color:var(--loot);">◆ Loot</button>
+      <h3 class="section-title">📅 年度档期</h3>
+      <div class="flex gap-1.5 ml-auto" id="yt-year-filter">
+        <button class="cat-tab active pill" data-yty="2026">2026</button>
+        <button class="cat-tab pill" data-yty="2027">2027</button>
+        <button class="cat-tab pill" data-yty="2028">2028</button>
+        <button class="cat-tab pill" data-yty="TBA">TBA</button>
       </div>
-      <!-- 季度切换 -->
-      <div class="flex gap-1.5 ml-auto flex-wrap" id="tl-q-filter">
-        <button class="cat-tab pill" data-tlq="2026Q2">26 Q2</button>
-        <button class="cat-tab active pill" data-tlq="2026Q3">26 Q3</button>
-        <button class="cat-tab pill" data-tlq="2026Q4">26 Q4</button>
-        <button class="cat-tab pill" data-tlq="2027Q1">27 Q1</button>
-        <button class="cat-tab pill" data-tlq="2027Q2">27 Q2</button>
-        <button class="cat-tab pill" data-tlq="2027Q3">27 Q3</button>
-        <button class="cat-tab pill" data-tlq="2027Q4">27 Q4</button>
-        <button class="cat-tab pill" data-tlq="2028+">2028+</button>
+      <div class="flex gap-1.5 ml-2" id="yt-track-filter">
+        <button class="cat-tab active pill" data-ytt="ALL" style="font-size:10px;">全部</button>
+        <button class="cat-tab pill" data-ytt="action" style="font-size:10px;color:#1D4ED8;">动作</button>
+        <button class="cat-tab pill" data-ytt="loot" style="font-size:10px;color:#16A34A;">Loot</button>
       </div>
+      <span class="text-[10px]" style="color:var(--text-ghost);" id="yt-game-count">--</span>
     </div>
-    <div id="timeline-mount" class="tl-scroll-wrap"></div>
+    <div id="yearly-timeline-mount"></div>
+    <div class="cal-legend">
+      <span><span class="cal-legend-dot" style="background:rgba(29,78,216,.6);border:1px solid rgba(29,78,216,.8);"></span>动作</span>
+      <span><span class="cal-legend-dot" style="background:rgba(22,163,74,.6);border:1px solid rgba(22,163,74,.8);"></span>Loot</span>
+      <span><span class="cal-legend-dot" style="background:rgba(100,116,139,.3);border:1px dashed #94A3B8;"></span>窗口期 / TBA</span>
+      <span class="ml-auto" style="color:var(--text-ghost);">每格 = 半月 · 悬停查看 · 点击打开详情</span>
+    </div>
   </div>
 
   <div class="grid lg:grid-cols-2 gap-4 mb-6">
@@ -303,6 +329,12 @@ tailwind.config = { theme: { extend: { colors: { accent:{ DEFAULT:'#991B1B', lig
     <div>
       <h2 class="text-xl font-bold" style="color:var(--text-primary);" data-i18n="t_loot">俯视角Loot档期 · 23 条</h2>
       <p class="text-xs mt-1" style="color:var(--text-muted);" data-i18n="t_loot_meta">赛季 / 资料片 / 1.0 / EA / TBA · 头部由 Blizzard 三赛季领跑</p>
+    </div>
+    <div class="flex gap-2" id="loot-year-filter">
+      <button class="cat-tab active pill" data-ly="ALL">全部</button>
+      <button class="cat-tab pill" data-ly="2026">2026</button>
+      <button class="cat-tab pill" data-ly="2027">2027</button>
+      <button class="cat-tab pill" data-ly="TBA">TBA</button>
     </div>
     <div class="flex gap-2 flex-wrap" id="loot-type-filter">
       <button class="cat-tab active pill" data-t="ALL" data-i18n="all">全部</button>
@@ -428,7 +460,7 @@ tailwind.config = { theme: { extend: { colors: { accent:{ DEFAULT:'#991B1B', lig
 
 <script>
 // ========== 内联数据（file:// 协议本地查看用）==========
-const GAMES = {"a": [{"year": "2026", "window": "Q3", "date_raw": "2026-07-23", "cn": "龙之剑:觉醒", "en": "Dragonsword", "developer": "Hound13 Inc.", "type": "", "date": "2026-07-23", "_m_frac": 6.73333333, "_precision": "day"}, {"year": "2026", "window": "Q3", "date_raw": "2026-07-30", "cn": "寒影猎人", "en": "", "developer": "", "type": "", "date": "2026-07-30", "_m_frac": 6.96666667, "_precision": "day"}, {"year": "2026", "window": "Q3", "date_raw": "2026-08-04", "cn": "轮回之兽", "en": "Beast of Reincarnation", "developer": "Game Greak", "type": "", "date": "2026-08-04", "_m_frac": 7.1, "_precision": "day"}, {"year": "2026", "window": "Q3", "date_raw": "2026-08-27", "cn": "共鸣：瘟疫传说", "en": "Resonance: A Plague Tale Legacy", "developer": "Asobo Studio", "type": "", "date": "2026-08-27", "_m_frac": 7.86666667, "_precision": "day"}, {"year": "2026", "window": "Q3", "date_raw": "2026-09-03", "cn": "黎明行者之血", "en": "The Blood of Dawnwalker", "developer": "Rebel Wolves", "type": "", "date": "2026-09-03", "_m_frac": 8.06666667, "_precision": "day"}, {"year": "2026", "window": "Q3", "date_raw": "2026-09-15", "cn": "漫威：金刚狼", "en": "Marvel's Wolverine", "developer": "Insomniac Games", "type": "", "date": "2026-09-15", "_m_frac": 8.46666667, "_precision": "day"}, {"year": "2026", "window": "Q3", "date_raw": "2026-09-24", "cn": "控制 共振", "en": "Control Resonant", "developer": "Remedy", "type": "", "date": "2026-09-24", "_m_frac": 8.76666667, "_precision": "day"}, {"year": "2026", "window": "Q3", "date_raw": "2026-09-25", "cn": "鬼武者 剑之道", "en": "Onimusha: Way of the Sword", "developer": "Capcom", "type": "", "date": "2026-09-25", "_m_frac": 8.8, "_precision": "day"}, {"year": "2026", "window": "Q4", "date_raw": "2026-10-01", "cn": "真三国无双2 猛将传 重制版", "en": "DYNASTY WARRIORS 3: Complete Edition Remastered", "developer": "Koei Tecmo", "type": "", "date": "2026-10-01", "_m_frac": 9.0, "_precision": "day"}, {"year": "2026", "window": "Q4", "date_raw": "2029-10-09", "cn": "龙之信条2 DLC 黑暗觉者", "en": "Dragons Dogma 2 Dark Arisen", "developer": "Capcom", "type": "", "date": "2026-10-09", "_m_frac": 9.26666667, "_precision": "day"}, {"year": "2026", "window": "Q4", "date_raw": "2029-10-15", "cn": "恶魔城：贝尔蒙特的诅咒", "en": "Castlevania: Belmont's Curse", "developer": "Evil Empire/Konami", "type": "", "date": "2026-10-15", "_m_frac": 9.46666667, "_precision": "day"}, {"year": "2026", "window": "Q4", "date_raw": "2026-10-29", "cn": "影之刃 零", "en": "Phantom Blade Zero", "developer": "灵游坊", "type": "", "date": "2026-10-29", "_m_frac": 9.93333333, "_precision": "day"}, {"year": "2026", "window": "Q4", "date_raw": "TBA", "cn": "堕落之主2", "en": "Lords of the Fallen 2", "developer": "CI Games", "type": "", "date": "2026 Q4", "_m_frac": 9.5, "_precision": "window"}, {"year": "2026", "window": "Q4", "date_raw": "TBA", "cn": "释放阿凡达", "en": "Unleash the Avatar", "developer": "AEOS Games", "type": "", "date": "2026 Q4", "_m_frac": 9.5, "_precision": "window"}, {"year": "2026", "window": "H2", "date_raw": "TBA", "cn": "Evilbane", "en": "Evilbane", "developer": "Netmarble", "type": "", "date": "2026 H2", "_m_frac": 8.5, "_precision": "window"}, {"year": "2026", "window": "年内 Within the Year", "date_raw": "TBA", "cn": "SPINE", "en": "SPINE", "developer": "Nekki", "type": "", "date": "2026 年内", "_m_frac": 9.5, "_precision": "window"}, {"year": "2026", "window": "年内 Within the Year", "date_raw": "TBA", "cn": "凯娜：精神之桥", "en": "Kena Scars of Kosmora", "developer": "Ember Lab", "type": "", "date": "2026 年内", "_m_frac": 9.5, "_precision": "window"}, {"year": "2026", "window": "年内 Within the Year", "date_raw": "TBA", "cn": "黄昏血族", "en": "The Duskbloods", "developer": "From Software", "type": "", "date": "2026 年内", "_m_frac": 9.5, "_precision": "window"}, {"year": "2026", "window": "年内 Within the Year", "date_raw": "TBA", "cn": "塞尔达传说:时之笛 重制版", "en": "The Legend of Zelda: Ocarina of Time", "developer": "Nintendo", "type": "", "date": "2026 年内", "_m_frac": 9.5, "_precision": "window"}, {"year": "2026", "window": "年内 Within the Year", "date_raw": "TBA", "cn": "致命躯壳2", "en": "Mortal Shell II", "developer": "Cold Symmetry", "type": "", "date": "2026 年内", "_m_frac": 9.5, "_precision": "window"}, {"year": "2026", "window": "年内 Within the Year", "date_raw": "TBA", "cn": "1666: Amsterdam", "en": "1666: Amsterdam", "developer": "Patrice Désilets", "type": "", "date": "2026 年内", "_m_frac": 9.5, "_precision": "window"}, {"year": "2027", "window": "Q1", "date_raw": "TBA", "cn": "湮灭之潮", "en": "Tides of Annihilation", "developer": "蛇夫座（Eclipse Glow Games）", "type": "", "date": "2027 Q1", "_m_frac": 12.5, "_precision": "window"}, {"year": "2027", "window": "H1", "date_raw": "2026-01-15", "cn": "异于天堂", "en": "Stranger Than Heaven", "developer": "Ryu Ga Gotoku Studio", "type": "", "date": "2027-01-15", "_m_frac": 12.46666667, "_precision": "day"}, {"year": "2027", "window": "H1", "date_raw": "2026-02-12", "cn": "古墓丽影：亚特兰蒂斯遗迹", "en": "Tomb Raider: Legacy of Atlantis", "developer": "Crystal Dynamics", "type": "", "date": "2027-02-12", "_m_frac": 13.36666667, "_precision": "day"}, {"year": "2027", "window": "H1", "date_raw": "2026-02-23", "cn": "神鬼寓言4", "en": "Fable", "developer": "Playground Games", "type": "", "date": "2027-02-23", "_m_frac": 13.73333333, "_precision": "day"}, {"year": "2027", "window": "H1", "date_raw": "TBA", "cn": "卧龙2：炎之翼", "en": "Wo Long 2: Wings of Ember", "developer": "Team Ninja", "type": "", "date": "2027 H1", "_m_frac": 14.5, "_precision": "window"}, {"year": "2027", "window": "H1", "date_raw": "TBA", "cn": "最终幻想7：启示录", "en": "Final Fantasy VII: Revelation", "developer": "Square Enix", "type": "", "date": "2027 H1", "_m_frac": 14.5, "_precision": "window"}, {"year": "2027", "window": "Q4", "date_raw": "TBA", "cn": "古剑4", "en": "Sword of Legends 4", "developer": "上海烛龙（AurogonShanghai ）", "type": "", "date": "2027 Q4", "_m_frac": 21.5, "_precision": "window"}, {"year": "2027", "window": "Q4", "date_raw": "TBA", "cn": "猎天使魔女1 重制版", "en": "Bayonetta Remake", "developer": "PlatinumGames", "type": "", "date": "2027 Q4", "_m_frac": 21.5, "_precision": "window"}, {"year": "2027", "window": "年内 Within the Year", "date_raw": "TBA", "cn": "假面：秘密之地", "en": "TAL: The Arcane Lands", "developer": "MADNGINE", "type": "", "date": "2027 年内", "_m_frac": 21.5, "_precision": "window"}, {"year": "2027", "window": "年内 Within the Year", "date_raw": "TBA", "cn": "夜行", "en": "Yakoh Shinobi Ops", "developer": "Acquire", "type": "", "date": "2027 年内", "_m_frac": 21.5, "_precision": "window"}, {"year": "2027", "window": "年内 Within the Year", "date_raw": "TBA", "cn": "Kemuri", "en": "Kemuri", "developer": "Unseen", "type": "", "date": "2027 年内", "_m_frac": 21.5, "_precision": "window"}, {"year": "2027", "window": "年内 Within the Year", "date_raw": "TBA", "cn": "剑星：血雨", "en": "Stellar Blade: Blood Rain", "developer": "Shift Up", "type": "", "date": "2027 年内", "_m_frac": 21.5, "_precision": "window"}, {"year": "2027", "window": "年内 Within the Year", "date_raw": "TBA", "cn": "怪物猎人 荒野 Ascendance", "en": "Monster Hunter Wilds: Ascendance", "developer": "Capcom", "type": "", "date": "2027 年内", "_m_frac": 21.5, "_precision": "window"}, {"year": "2027", "window": "年内 Within the Year", "date_raw": "TBA", "cn": "Senua", "en": "Senua", "developer": "Ninja Theory", "type": "", "date": "2027 年内", "_m_frac": 21.5, "_precision": "window"}, {"year": "2027", "window": "年内 Within the Year", "date_raw": "TBA", "cn": "忍者神龟：最后的浪人", "en": "Teenage Mutant Ninja Turtles", "developer": "PlatinumGames", "type": "", "date": "2027 年内", "_m_frac": 21.5, "_precision": "window"}, {"year": "2028", "window": "Q1", "date_raw": "TBA", "cn": "猎天使魔女4", "en": "Bayonetta 4", "developer": "PlatinumGames", "type": "", "date": "2028 Q1", "_m_frac": 24.5, "_precision": "window"}, {"year": "2028", "window": "Q1", "date_raw": "TBA", "cn": "吉时已到", "en": "Lucky", "developer": "上海烛龙（AurogonShanghai ）", "type": "", "date": "2028 Q1", "_m_frac": 24.5, "_precision": "window"}, {"year": "TBA", "window": "TBA", "date_raw": "TBA", "cn": "战神 劳菲", "en": "God of War Laufey", "developer": "Santa Monica Studio", "type": "", "date": "TBA", "_m_frac": null, "_precision": "tba"}, {"year": "TBA", "window": "TBA", "date_raw": "TBA", "cn": "黑神话 钟馗", "en": "Black Myth (Wukong Sequel)", "developer": "游戏科学（Game Science）", "type": "", "date": "TBA", "_m_frac": null, "_precision": "tba"}, {"year": "TBA", "window": "TBA", "date_raw": "TBA", "cn": "上古卷轴6", "en": "The Elder Scrolls VI", "developer": "Bethesda", "type": "", "date": "TBA", "_m_frac": null, "_precision": "tba"}, {"year": "TBA", "window": "TBA", "date_raw": "TBA", "cn": "星际：异端先知", "en": "Intergalactic: The Heretic Prophet", "developer": "Naughty Dog", "type": "", "date": "TBA", "_m_frac": null, "_precision": "tba"}, {"year": "TBA", "window": "TBA", "date_raw": "TBA", "cn": "地平线：猎人集结", "en": "Horizon Hunters Gathering", "developer": "Guerrilla Games", "type": "", "date": "TBA", "_m_frac": null, "_precision": "tba"}, {"year": "TBA", "window": "TBA", "date_raw": "TBA", "cn": "进击的巨人3", "en": "Attack on Titan 3", "developer": "Omega Force", "type": "", "date": "TBA", "_m_frac": null, "_precision": "tba"}, {"year": "TBA", "window": "TBA", "date_raw": "TBA", "cn": "漫威：刀锋战士", "en": "Marvel's Blade", "developer": "Arkane", "type": "", "date": "TBA", "_m_frac": null, "_precision": "tba"}, {"year": "TBA", "window": "TBA", "date_raw": "TBA", "cn": "战神三部曲 重制版", "en": "God of War Trilogy Remastered", "developer": "Santa Monica Studio", "type": "", "date": "TBA", "_m_frac": null, "_precision": "tba"}, {"year": "TBA", "window": "TBA", "date_raw": "TBA", "cn": "王国之心4", "en": "Kingdom Hearts 4", "developer": "Square Enix", "type": "", "date": "TBA", "_m_frac": null, "_precision": "tba"}, {"year": "TBA", "window": "TBA", "date_raw": "TBA", "cn": "昭和米国物语", "en": "Showa American Story", "developer": "铃空（NEKCOM Games）", "type": "", "date": "TBA", "_m_frac": null, "_precision": "tba"}, {"year": "TBA", "window": "TBA", "date_raw": "TBA", "cn": "归唐", "en": "Blood Message", "developer": "网易（NetEase）", "type": "", "date": "TBA", "_m_frac": null, "_precision": "tba"}, {"year": "TBA", "window": "TBA", "date_raw": "TBA", "cn": "楼兰：诅咒之沙", "en": "LouLan", "developer": "凉屋（ChillyRoom）", "type": "", "date": "TBA", "_m_frac": null, "_precision": "tba"}, {"year": "TBA", "window": "TBA", "date_raw": "TBA", "cn": "长生：白夜无名", "en": "", "developer": "长生工作室（11 Games）", "type": "", "date": "TBA", "_m_frac": null, "_precision": "tba"}], "l": [{"year": "2026", "window": "Q3", "date_raw": "2026/7（预估/Est.）", "cn": "暗黑破坏神4 S14", "en": "Diablo 4 S14", "developer": "Blizzard", "type": "赛季更新 season updates", "date": "2026/7（预估/Est.）", "_m_frac": 6.5, "_precision": "month"}, {"year": "2026", "window": "Q3", "date_raw": "2026/7（预估/Est.）", "cn": "暗黑破坏神3 S39", "en": "Diablo 3 S39", "developer": "Blizzard", "type": "赛季更新 season updates", "date": "2026/7（预估/Est.）", "_m_frac": 6.5, "_precision": "month"}, {"year": "2026", "window": "Q3", "date_raw": "2026/8（预估/Est.）", "cn": "暗黑破坏神2 重制版 S15", "en": "Diablo 2 Remake S15", "developer": "Blizzard", "type": "赛季更新 season updates", "date": "2026/8（预估/Est.）", "_m_frac": 7.5, "_precision": "month"}, {"year": "2026", "window": "Q3", "date_raw": "2026/7（预估/Est.）", "cn": "火炬之光 S13", "en": "Torchlight S13", "developer": "Runic Games", "type": "赛季更新 season updates", "date": "2026/7（预估/Est.）", "_m_frac": 6.5, "_precision": "month"}, {"year": "2026", "window": "Q3", "date_raw": "2026/9（预估/Est.）", "cn": "最后纪元 S5", "en": "Last Epoch S5", "developer": "Eleventh Hour Games", "type": "赛季更新 season updates", "date": "2026/9（预估/Est.）", "_m_frac": 8.5, "_precision": "month"}, {"year": "2026", "window": "Q3", "date_raw": "TBA", "cn": "余烬之镇", "en": "Emberville", "developer": "Cygnus Cross", "type": "EA", "date": "2026 Q3", "_m_frac": 6.5, "_precision": "window"}, {"year": "2026", "window": "Q3", "date_raw": "TBA", "cn": "我的世界 地下城2", "en": "Minecraft Dungeons 2", "developer": "Mojang Studio", "type": "Release", "date": "2026 Q3", "_m_frac": 6.5, "_precision": "window"}, {"year": "2026", "window": "Q4", "date_raw": "2026/10（预估/Est.）", "cn": "恶意不息", "en": "No Rest For The Wicked", "developer": "Moon Studios GmbH", "type": "Release", "date": "2026/10（预估/Est.）", "_m_frac": 9.5, "_precision": "month"}, {"year": "2026", "window": "Q4", "date_raw": "TBA", "cn": "烬刃交辉", "en": "Ember and Blade", "developer": "LINE Games Corporation", "type": "Release", "date": "2026 Q4", "_m_frac": 9.5, "_precision": "window"}, {"year": "2026", "window": "Q4", "date_raw": "2026/12(预估/Est.）", "cn": "流放之路2 1.0版本", "en": "Path of Exile 2 1.0", "developer": "GGG (Grinding Gear Games)", "type": "1.0 V", "date": "2026/12(预估/Est.）", "_m_frac": 11.5, "_precision": "month"}, {"year": "2026", "window": "H2", "date_raw": "TBA", "cn": "The Dark West", "en": "The Dark West", "developer": "Black Hand", "type": "EA", "date": "2026 H2", "_m_frac": 8.5, "_precision": "window"}, {"year": "2026", "window": "年底", "date_raw": "2026/11-12（预估/Est.）", "cn": "泰坦之旅2", "en": "Titan Quest 2", "developer": "Grimlore Games", "type": "Release", "date": "2026/11-12（预估/Est.）", "_m_frac": 10.5, "_precision": "month"}, {"year": "2026", "window": "年内 Within the Year", "date_raw": "TBA", "cn": "Darkhaven", "en": "Darkhaven", "developer": "Moonbeast Productions", "type": "EA", "date": "2026 年内", "_m_frac": 9.5, "_precision": "window"}, {"year": "2026", "window": "年内 Within the Year", "date_raw": "TBA", "cn": "Gods, Death & Reapers", "en": "Gods, Death & Reapers", "developer": "Wolcen Studio", "type": "Release", "date": "2026 年内", "_m_frac": 9.5, "_precision": "window"}, {"year": "2026", "window": "年内 Within the Year", "date_raw": "TBA", "cn": "地狱锻造", "en": "Hellforged", "developer": "Moonpyre", "type": "Release", "date": "2026 年内", "_m_frac": 9.5, "_precision": "window"}, {"year": "2026", "window": "年内 Within the Year", "date_raw": "TBA", "cn": "Shattered Realms", "en": "Shattered Realms", "developer": "Spellbound Studios", "type": "Release", "date": "2026 年内", "_m_frac": 9.5, "_precision": "window"}, {"year": "2027", "window": "Q1", "date_raw": "TBA", "cn": "Wolcen 2", "en": "Wolcen 2", "developer": "Wolcen Studio", "type": "EA", "date": "2027 Q1", "_m_frac": 12.5, "_precision": "window"}, {"year": "2027", "window": "年内 Within the Year", "date_raw": "TBA", "cn": "最后纪元 资料片 Orobyss", "en": "Last Epoch Orobyss", "developer": "Eleventh Hour Games", "type": "Major DLC", "date": "2027 年内", "_m_frac": 21.5, "_precision": "window"}, {"year": "2027", "window": "年内 Within the Year", "date_raw": "TBA", "cn": "守护阿瓦隆", "en": "Wardens of Avalon", "developer": "Runes Studio", "type": "Release", "date": "2027 年内", "_m_frac": 21.5, "_precision": "window"}, {"year": "TBA", "window": "TBA", "date_raw": "TBA", "cn": "恐怖黎明2", "en": "Grim Dawn 2", "developer": "Crate Entertainment", "type": "TBA", "date": "TBA", "_m_frac": null, "_precision": "tba"}, {"year": "TBA", "window": "TBA", "date_raw": "TBA", "cn": "MASAKRE", "en": "MASAKRE", "developer": "Seelvent", "type": "TBA", "date": "TBA", "_m_frac": null, "_precision": "tba"}, {"year": "TBA", "window": "TBA", "date_raw": "TBA", "cn": "神秘大作", "en": "——", "developer": "——", "type": "TBA", "date": "TBA", "_m_frac": null, "_precision": "tba"}, {"year": "TBA", "window": "TBA", "date_raw": "TBA", "cn": "神秘大作", "en": "——", "developer": "——", "type": "TBA", "date": "TBA", "_m_frac": null, "_precision": "tba"}], "m": {"action_count": 51, "loot_count": 23, "source": "【GRC】动作&俯视角Loot游戏竞品档期表Action & Top-Down Loot Games Competitor Release Schedule.xlsx", "updated": "2026-07-16"}};
+const GAMES = {"a":[{"year":"2026","window":"Q3","date_raw":"2026-07-23","cn":"龙之剑:觉醒","en":"Dragonsword","developer":"Hound13 Inc.","type":"","date":"2026-07-23","_m_frac":6.73333333,"_precision":"day"},{"year":"2026","window":"Q3","date_raw":"2026-07-30","cn":"寒影猎人","en":"","developer":"","type":"","date":"2026-07-30","_m_frac":6.96666667,"_precision":"day"},{"year":"2026","window":"Q3","date_raw":"2026-08-04","cn":"轮回之兽","en":"Beast of Reincarnation","developer":"Game Greak","type":"","date":"2026-08-04","_m_frac":7.1,"_precision":"day"},{"year":"2026","window":"Q3","date_raw":"2026-08-27","cn":"共鸣：瘟疫传说","en":"Resonance: A Plague Tale Legacy","developer":"Asobo Studio","type":"","date":"2026-08-27","_m_frac":7.86666667,"_precision":"day"},{"year":"2026","window":"Q3","date_raw":"2026-09-03","cn":"黎明行者之血","en":"The Blood of Dawnwalker","developer":"Rebel Wolves","type":"","date":"2026-09-03","_m_frac":8.06666667,"_precision":"day"},{"year":"2026","window":"Q3","date_raw":"2026-09-15","cn":"漫威：金刚狼","en":"Marvel's Wolverine","developer":"Insomniac Games","type":"","date":"2026-09-15","_m_frac":8.46666667,"_precision":"day"},{"year":"2026","window":"Q3","date_raw":"2026-09-24","cn":"控制 共振","en":"Control Resonant","developer":"Remedy","type":"","date":"2026-09-24","_m_frac":8.76666667,"_precision":"day"},{"year":"2026","window":"Q3","date_raw":"2026-09-25","cn":"鬼武者 剑之道","en":"Onimusha: Way of the Sword","developer":"Capcom","type":"","date":"2026-09-25","_m_frac":8.8,"_precision":"day"},{"year":"2026","window":"Q4","date_raw":"2026-10-01","cn":"真三国无双2 猛将传 重制版","en":"DYNASTY WARRIORS 3: Complete Edition Remastered","developer":"Koei Tecmo","type":"","date":"2026-10-01","_m_frac":9.0,"_precision":"day"},{"year":"2026","window":"Q4","date_raw":"2026-10-09","cn":"龙之信条2 DLC 黑暗觉者","en":"Dragons Dogma 2 Dark Arisen","developer":"Capcom","type":"","date":"2026-10-09","_m_frac":9.26666667,"_precision":"day"},{"year":"2026","window":"Q4","date_raw":"2026-10-15","cn":"恶魔城：贝尔蒙特的诅咒","en":"Castlevania: Belmont's Curse","developer":"Evil Empire/Konami","type":"","date":"2026-10-15","_m_frac":9.46666667,"_precision":"day"},{"year":"2026","window":"Q4","date_raw":"2026-10-29","cn":"影之刃 零","en":"Phantom Blade Zero","developer":"灵游坊","type":"","date":"2026-10-29","_m_frac":9.93333333,"_precision":"day"},{"year":"2026","window":"Q4","date_raw":"TBA","cn":"堕落之主2","en":"Lords of the Fallen 2","developer":"CI Games","type":"","date":"2026 Q4","_m_frac":9.5,"_precision":"window"},{"year":"2026","window":"Q4","date_raw":"TBA","cn":"释放阿凡达","en":"Unleash the Avatar","developer":"AEOS Games","type":"","date":"2026 Q4","_m_frac":9.5,"_precision":"window"},{"year":"2026","window":"H2","date_raw":"TBA","cn":"Evilbane","en":"Evilbane","developer":"Netmarble","type":"","date":"2026 H2","_m_frac":8.5,"_precision":"window"},{"year":"2026","window":"年内 Within the Year","date_raw":"TBA","cn":"SPINE","en":"SPINE","developer":"Nekki","type":"","date":"2026 年内","_m_frac":9.5,"_precision":"window"},{"year":"2026","window":"年内 Within the Year","date_raw":"TBA","cn":"凯娜：精神之桥","en":"Kena Scars of Kosmora","developer":"Ember Lab","type":"","date":"2026 年内","_m_frac":9.5,"_precision":"window"},{"year":"2026","window":"年内 Within the Year","date_raw":"TBA","cn":"黄昏血族","en":"The Duskbloods","developer":"From Software","type":"","date":"2026 年内","_m_frac":9.5,"_precision":"window"},{"year":"2026","window":"年内 Within the Year","date_raw":"TBA","cn":"塞尔达传说:时之笛 重制版","en":"The Legend of Zelda: Ocarina of Time","developer":"Nintendo","type":"","date":"2026 年内","_m_frac":9.5,"_precision":"window"},{"year":"2026","window":"年内 Within the Year","date_raw":"TBA","cn":"致命躯壳2","en":"Mortal Shell II","developer":"Cold Symmetry","type":"","date":"2026 年内","_m_frac":9.5,"_precision":"window"},{"year":"2026","window":"年内 Within the Year","date_raw":"TBA","cn":"1666: Amsterdam","en":"1666: Amsterdam","developer":"Patrice Désilets","type":"","date":"2026 年内","_m_frac":9.5,"_precision":"window"},{"year":"2027","window":"Q1","date_raw":"TBA","cn":"湮灭之潮","en":"Tides of Annihilation","developer":"蛇夫座（Eclipse Glow Games）","type":"","date":"2027 Q1","_m_frac":12.5,"_precision":"window"},{"year":"2027","window":"H1","date_raw":"2027-01-15","cn":"异于天堂","en":"Stranger Than Heaven","developer":"Ryu Ga Gotoku Studio","type":"","date":"2027-01-15","_m_frac":12.46666667,"_precision":"day"},{"year":"2027","window":"H1","date_raw":"2027-02-12","cn":"古墓丽影：亚特兰蒂斯遗迹","en":"Tomb Raider: Legacy of Atlantis","developer":"Crystal Dynamics","type":"","date":"2027-02-12","_m_frac":13.36666667,"_precision":"day"},{"year":"2027","window":"H1","date_raw":"2027-02-23","cn":"神鬼寓言4","en":"Fable","developer":"Playground Games","type":"","date":"2027-02-23","_m_frac":13.73333333,"_precision":"day"},{"year":"2027","window":"H1","date_raw":"TBA","cn":"卧龙2：炎之翼","en":"Wo Long 2: Wings of Ember","developer":"Team Ninja","type":"","date":"2027 H1","_m_frac":14.5,"_precision":"window"},{"year":"2027","window":"H1","date_raw":"TBA","cn":"最终幻想7：启示录","en":"Final Fantasy VII: Revelation","developer":"Square Enix","type":"","date":"2027 H1","_m_frac":14.5,"_precision":"window"},{"year":"2027","window":"Q4","date_raw":"TBA","cn":"古剑4","en":"Sword of Legends 4","developer":"上海烛龙（AurogonShanghai ）","type":"","date":"2027 Q4","_m_frac":21.5,"_precision":"window"},{"year":"2027","window":"Q4","date_raw":"TBA","cn":"猎天使魔女1 重制版","en":"Bayonetta Remake","developer":"PlatinumGames","type":"","date":"2027 Q4","_m_frac":21.5,"_precision":"window"},{"year":"2027","window":"年内 Within the Year","date_raw":"TBA","cn":"假面：秘密之地","en":"TAL: The Arcane Lands","developer":"MADNGINE","type":"","date":"2027 年内","_m_frac":21.5,"_precision":"window"},{"year":"2027","window":"年内 Within the Year","date_raw":"TBA","cn":"夜行","en":"Yakoh Shinobi Ops","developer":"Acquire","type":"","date":"2027 年内","_m_frac":21.5,"_precision":"window"},{"year":"2027","window":"年内 Within the Year","date_raw":"TBA","cn":"Kemuri","en":"Kemuri","developer":"Unseen","type":"","date":"2027 年内","_m_frac":21.5,"_precision":"window"},{"year":"2027","window":"年内 Within the Year","date_raw":"TBA","cn":"剑星：血雨","en":"Stellar Blade: Blood Rain","developer":"Shift Up","type":"","date":"2027 年内","_m_frac":21.5,"_precision":"window"},{"year":"2027","window":"年内 Within the Year","date_raw":"TBA","cn":"怪物猎人 荒野 Ascendance","en":"Monster Hunter Wilds: Ascendance","developer":"Capcom","type":"","date":"2027 年内","_m_frac":21.5,"_precision":"window"},{"year":"2027","window":"年内 Within the Year","date_raw":"TBA","cn":"Senua","en":"Senua","developer":"Ninja Theory","type":"","date":"2027 年内","_m_frac":21.5,"_precision":"window"},{"year":"2027","window":"年内 Within the Year","date_raw":"TBA","cn":"忍者神龟：最后的浪人","en":"Teenage Mutant Ninja Turtles","developer":"PlatinumGames","type":"","date":"2027 年内","_m_frac":21.5,"_precision":"window"},{"year":"2028","window":"Q1","date_raw":"TBA","cn":"猎天使魔女4","en":"Bayonetta 4","developer":"PlatinumGames","type":"","date":"2028 Q1","_m_frac":24.5,"_precision":"window"},{"year":"2028","window":"Q1","date_raw":"TBA","cn":"吉时已到","en":"Lucky","developer":"上海烛龙（AurogonShanghai ）","type":"","date":"2028 Q1","_m_frac":24.5,"_precision":"window"},{"year":"TBA","window":"TBA","date_raw":"TBA","cn":"战神 劳菲","en":"God of War Laufey","developer":"Santa Monica Studio","type":"","date":"TBA","_m_frac":null,"_precision":"tba"},{"year":"TBA","window":"TBA","date_raw":"TBA","cn":"黑神话 钟馗","en":"Black Myth (Wukong Sequel)","developer":"游戏科学（Game Science）","type":"","date":"TBA","_m_frac":null,"_precision":"tba"},{"year":"TBA","window":"TBA","date_raw":"TBA","cn":"上古卷轴6","en":"The Elder Scrolls VI","developer":"Bethesda","type":"","date":"TBA","_m_frac":null,"_precision":"tba"},{"year":"TBA","window":"TBA","date_raw":"TBA","cn":"星际：异端先知","en":"Intergalactic: The Heretic Prophet","developer":"Naughty Dog","type":"","date":"TBA","_m_frac":null,"_precision":"tba"},{"year":"TBA","window":"TBA","date_raw":"TBA","cn":"地平线：猎人集结","en":"Horizon Hunters Gathering","developer":"Guerrilla Games","type":"","date":"TBA","_m_frac":null,"_precision":"tba"},{"year":"TBA","window":"TBA","date_raw":"TBA","cn":"进击的巨人3","en":"Attack on Titan 3","developer":"Omega Force","type":"","date":"TBA","_m_frac":null,"_precision":"tba"},{"year":"TBA","window":"TBA","date_raw":"TBA","cn":"漫威：刀锋战士","en":"Marvel's Blade","developer":"Arkane","type":"","date":"TBA","_m_frac":null,"_precision":"tba"},{"year":"TBA","window":"TBA","date_raw":"TBA","cn":"战神三部曲 重制版","en":"God of War Trilogy Remastered","developer":"Santa Monica Studio","type":"","date":"TBA","_m_frac":null,"_precision":"tba"},{"year":"TBA","window":"TBA","date_raw":"TBA","cn":"王国之心4","en":"Kingdom Hearts 4","developer":"Square Enix","type":"","date":"TBA","_m_frac":null,"_precision":"tba"},{"year":"TBA","window":"TBA","date_raw":"TBA","cn":"昭和米国物语","en":"Showa American Story","developer":"铃空（NEKCOM Games）","type":"","date":"TBA","_m_frac":null,"_precision":"tba"},{"year":"TBA","window":"TBA","date_raw":"TBA","cn":"归唐","en":"Blood Message","developer":"网易（NetEase）","type":"","date":"TBA","_m_frac":null,"_precision":"tba"},{"year":"TBA","window":"TBA","date_raw":"TBA","cn":"楼兰：诅咒之沙","en":"LouLan","developer":"凉屋（ChillyRoom）","type":"","date":"TBA","_m_frac":null,"_precision":"tba"},{"year":"TBA","window":"TBA","date_raw":"TBA","cn":"长生：白夜无名","en":"","developer":"长生工作室（11 Games）","type":"","date":"TBA","_m_frac":null,"_precision":"tba"}],"l":[{"year":"2026","window":"Q2","date_raw":"2026-06-30","cn":"暗黑破坏神4 S14","en":"Diablo 4 S14","developer":"Blizzard","type":"赛季更新 season updates","date":"2026-06-30","_m_frac":5.96666667,"_precision":"day"},{"year":"2026","window":"Q2","date_raw":"2026-06-26","cn":"暗黑破坏神3 S39","en":"Diablo 3 S39","developer":"Blizzard","type":"赛季更新 season updates","date":"2026-06-26","_m_frac":5.83333333,"_precision":"day"},{"year":"2026","window":"Q3","date_raw":"2026/8-9（预估/Est.）","cn":"暗黑破坏神2 重制版 S15","en":"Diablo 2 Remake S15","developer":"Blizzard","type":"赛季更新 season updates","date":"2026/8-9（预估/Est.）","_m_frac":7.5,"_precision":"month"},{"year":"2026","window":"Q3","date_raw":"2026-07-17","cn":"火炬之光 S13","en":"Torchlight S13","developer":"XD Games","type":"赛季更新 season updates","date":"2026-07-17","_m_frac":6.53333333,"_precision":"day"},{"year":"2026","window":"Q3","date_raw":"2026/8（预估/Est.）","cn":"最后纪元 S5","en":"Last Epoch S5","developer":"Eleventh Hour Games","type":"赛季更新 season updates","date":"2026/8（预估/Est.）","_m_frac":7.5,"_precision":"month"},{"year":"2026","window":"Q3","date_raw":"TBA","cn":"余烬之镇","en":"Emberville","developer":"Cygnus Cross","type":"EA","date":"2026 Q3","_m_frac":6.5,"_precision":"window"},{"year":"2026","window":"Q3","date_raw":"TBA","cn":"我的世界 地下城2","en":"Minecraft Dungeons 2","developer":"Mojang Studio","type":"Release","date":"2026 Q3","_m_frac":6.5,"_precision":"window"},{"year":"2026","window":"Q4","date_raw":"2026-10-27","cn":"恶意不息","en":"No Rest For The Wicked","developer":"Moon Studios GmbH","type":"Release","date":"2026-10-27","_m_frac":9.86666667,"_precision":"day"},{"year":"2026","window":"Q4","date_raw":"TBA","cn":"烬刃交辉","en":"Ember and Blade","developer":"LINE Games Corporation","type":"Release","date":"2026 Q4","_m_frac":9.5,"_precision":"window"},{"year":"2026","window":"Q4","date_raw":"2026/12(预估/Est.）","cn":"流放之路2 1.0版本","en":"Path of Exile 2 1.0","developer":"GGG (Grinding Gear Games)","type":"1.0 V","date":"2026/12(预估/Est.）","_m_frac":11.5,"_precision":"month"},{"year":"2026","window":"H2","date_raw":"TBA","cn":"The Dark West","en":"The Dark West","developer":"Black Hand","type":"EA","date":"2026 H2","_m_frac":8.5,"_precision":"window"},{"year":"2026","window":"年底","date_raw":"2026/11-12（预估/Est.）","cn":"泰坦之旅2","en":"Titan Quest 2","developer":"Grimlore Games","type":"Release","date":"2026/11-12（预估/Est.）","_m_frac":10.5,"_precision":"month"},{"year":"2026","window":"年内 Within the Year","date_raw":"TBA","cn":"Darkhaven","en":"Darkhaven","developer":"Moonbeast Productions","type":"EA","date":"2026 年内","_m_frac":9.5,"_precision":"window"},{"year":"2026","window":"年内 Within the Year","date_raw":"TBA","cn":"Gods, Death & Reapers","en":"Gods, Death & Reapers","developer":"Wolcen Studio","type":"Release","date":"2026 年内","_m_frac":9.5,"_precision":"window"},{"year":"2026","window":"年内 Within the Year","date_raw":"TBA","cn":"地狱锻造","en":"Hellforged","developer":"Moonpyre","type":"Release","date":"2026 年内","_m_frac":9.5,"_precision":"window"},{"year":"2026","window":"年内 Within the Year","date_raw":"TBA","cn":"Shattered Realms","en":"Shattered Realms","developer":"Spellbound Studios","type":"Release","date":"2026 年内","_m_frac":9.5,"_precision":"window"},{"year":"2027","window":"Q1","date_raw":"TBA","cn":"Wolcen 2","en":"Wolcen 2","developer":"Wolcen Studio","type":"EA","date":"2027 Q1","_m_frac":12.5,"_precision":"window"},{"year":"2027","window":"年内 Within the Year","date_raw":"TBA","cn":"最后纪元 资料片 Orobyss","en":"Last Epoch Orobyss","developer":"Eleventh Hour Games","type":"Major DLC","date":"2027 年内","_m_frac":21.5,"_precision":"window"},{"year":"2027","window":"年内 Within the Year","date_raw":"TBA","cn":"守护阿瓦隆","en":"Wardens of Avalon","developer":"Runes Studio","type":"Release","date":"2027 年内","_m_frac":21.5,"_precision":"window"},{"year":"TBA","window":"TBA","date_raw":"TBA","cn":"恐怖黎明2","en":"Grim Dawn 2","developer":"Crate Entertainment","type":"TBA","date":"TBA","_m_frac":null,"_precision":"tba"},{"year":"TBA","window":"TBA","date_raw":"TBA","cn":"MASAKRE","en":"MASAKRE","developer":"Seelvent","type":"TBA","date":"TBA","_m_frac":null,"_precision":"tba"}],"m":{"action_count":51,"loot_count":23,"source":"【GRC】动作&俯视角Loot游戏竞品档期表Action & Top-Down Loot Games Competitor Release Schedule.xlsx","updated":"2026-07-17"}};
 
 // ========== Steam 数据 & 游戏索引 ==========
 const STEAM_APPS={"轮回之兽":2001760,"共鸣：瘟疫传说":2713000,"黎明行者之血":3751260,"控制 共振":3669870,"鬼武者 剑之道":2638890,"真三国无双2 猛将传 重制版":3841510,"恶魔城：贝尔蒙特的诅咒":4231820,"影之刃 零":4115450,"堕落之主2":4767480,"释放阿凡达":4054220,"Evilbane":3718160,"SPINE":1731290,"凯娜：精神之桥":3485810,"致命躯壳2":2584270,"1666: Amsterdam":3949550,"湮灭之潮":3292470,"异于天堂":4260840,"古墓丽影：亚特兰蒂斯遗迹":3558670,"神鬼寓言4":2769570,"卧龙2：炎之翼":4507990,"最终幻想7：启示录":4354570,"剑星":3489700,"流放之路2":2694490,"暗黑破坏神4":2344520,"最后纪元":899770,"恶意不息":2585250,"怪物猎人 荒野":2246340,"昭和米国物语":1687540,"夜行":3513120,"楼兰：诅咒之沙":3833280,"余烬之镇":2295170,"我的世界 地下城2":1912410,"烬刃交辉":3470500,"The Dark West":3574750,"泰坦之旅2":1154030,"Darkhaven":3571870,"Gods, Death & Reapers":3086590,"地狱锻造":4554250,"Shattered Realms":3717490,"守护阿瓦隆":2409660,"MASAKRE":4261650,"怪物猎人 荒野 Ascendance":4829700,"地平线：猎人集结":4244910};
@@ -528,6 +560,9 @@ function toggleLang() { curLang = curLang==='zh' ? 'en' : 'zh'; applyLang(); }
 
 // ========== 筛选状态 ==========
 let actionYearFilter = 'ALL';
+let ytYearFilter = '2026';
+let ytTrackFilter = 'ALL';
+let lootYearFilter = 'ALL';
 let lootTypeFilter = 'ALL';
 
 function filterAction(y) {
@@ -537,8 +572,19 @@ function filterAction(y) {
 }
 function filterLoot(t) {
   lootTypeFilter = t;
-  $$('#section-loot .cat-tab').forEach(b => b.classList.toggle('active', b.dataset.t === t));
+  $$('#loot-type-filter .cat-tab').forEach(b => b.classList.toggle('active', b.dataset.t === t));
   renderLoot();
+}
+function filterLootYear(y) {
+  lootYearFilter = y;
+  $$('#loot-year-filter .cat-tab').forEach(b => b.classList.toggle('active', b.dataset.ly === y));
+  renderLoot();
+}
+function filterYTYear(y) {
+  ytYearFilter = y;
+  $$('#yt-year-filter .cat-tab').forEach(b => b.classList.toggle('active', b.dataset.yty === y));
+  $$('#yt-track-filter .cat-tab').forEach(b => b.classList.toggle('active', b.dataset.ytt === ytTrackFilter));
+  renderYearlyTimeline();
 }
 
 // ========== 渲染 ==========
@@ -1002,10 +1048,39 @@ function renderLoot() {
       return true;
     });
   }
-  list = list.slice().sort((a,b) => dateSortKey(a.date).localeCompare(dateSortKey(b.date)));
+  list = list.filter(r => lootYearFilter==='ALL' || getYear(r.year)===lootYearFilter);
+  list = list.slice().sort((a,b) => {
+    if (lootYearFilter === 'ALL') {
+      const pa = windowSortOrder(a), pb = windowSortOrder(b);
+      if (pa !== pb) return pa - pb;
+    }
+    return dateSortKey(a.date).localeCompare(dateSortKey(b.date));
+  });
   const groups = {};
-  list.forEach(r => { const k = getQuarter(r.window); (groups[k]=groups[k]||[]).push(r); });
-  const order = ['Q1','Q2','Q3','Q4','H1','H2','YW','YE','TBA'];
+  if (lootYearFilter === 'ALL') {
+    list.forEach(r => { const k = r.year || 'TBA'; (groups[k]=groups[k]||[]).push(r); });
+    const yearOrder = ['2026','2027','2028','TBA'];
+    const html = yearOrder.filter(y => groups[y] && groups[y].length).map(y => {
+      return `<div class="quarter-section">
+        <h4 class="loot-h">俯视角Loot · ${y} 年 <span class="count">· ${groups[y].length} 条</span></h4>
+        <div>${groups[y].map(row => {
+          const q = getQuarter(row.window);
+          const t = getTypeTag(row.type);
+          return `<div class="game-row loot" onclick="showGameModal('${clean(row.cn)}')" data-game-cn="${clean(row.cn)}" style="cursor:pointer;">
+            <span class="date">${clean(row.date)||'TBA'}</span>
+            <div class="gn">${clean(row.cn)||'--'}<span class="en">${clean(row.en)}</span></div>
+            <span class="text-[11px]" style="color:var(--text-muted);">${clean(row.developer)}</span>
+            <span class="pill ${t.cls}">${t.txt}</span>
+          </div>`;
+        }).join('')}</div>
+      </div>`;
+    }).join('');
+    document.getElementById('loot-list').innerHTML = html || '<div class="p-6 text-center" style="color:var(--text-muted);">暂无数据</div>';
+    return;
+  }
+  // 按具体年份：分组排序
+  list.forEach(r => { const k = windowGroupLabel(r); (groups[k]=groups[k]||[]).push(r); });
+  const order = ['具体日期','Q1','Q2','H1','Q3','Q4','H2','年内'];
   const html = order.filter(q => groups[q] && groups[q].length).map(q => {
     return `<div class="quarter-section">
       <h4 class="loot-h">俯视角Loot · ${q} <span class="count">· ${groups[q].length} 条</span></h4>
@@ -1095,6 +1170,146 @@ function renderCompare() {
     </div>`).join('');
 }
 
+// ========== 年度时间轴（总览页，仅动作赛道，日历网格 2周/格）==========
+function renderYearlyTimeline() {
+  const mount = document.getElementById('yearly-timeline-mount');
+  if (!mount) return;
+
+  const HIDDEN = ['古剑4','吉时已到','猎天使魔女1 重制版','猎天使魔女4','湮灭之潮'];
+  const year = ytYearFilter;
+  const track = ytTrackFilter;
+
+  // 合并两个赛道
+  let rawList = [];
+  if (track === 'ALL' || track === 'action') GAMES.a.forEach(r => rawList.push({...r, _track:'action'}));
+  if (track === 'ALL' || track === 'loot')   GAMES.l.forEach(r => rawList.push({...r, _track:'loot'}));
+  rawList = rawList.filter(r => !HIDDEN.includes(r.cn));
+
+  const list = rawList.filter(r => r.year === year);
+  const aCount = list.filter(r => r._track === 'action').length;
+  const lCount = list.filter(r => r._track === 'loot').length;
+  const countLabel = track === 'ALL' ? ('动作 '+aCount+' · Loot '+lCount) : (track==='action'?'动作 '+aCount : 'Loot '+lCount);
+  document.getElementById('yt-game-count').textContent = '共 ' + list.length + ' 款 · ' + year + ' 年 (' + countLabel + ')';
+
+  if (year === 'TBA') {
+    if (!list.length) {
+      mount.innerHTML = '<div class="cal-cell-hint" style="padding:32px 0;">无 TBA 游戏</div>';
+      return;
+    }
+    let html = '<div class="cal-tba-grid" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px;">';
+    list.forEach(g => {
+      const lootCls = g._track === 'loot' ? ' cal-tba-item-loot' : '';
+      html += '<div class="cal-tba-item'+lootCls+'" onclick="showGameModal(\''+escapeXML(g.cn)+'\')">'
+        + '<span class="cal-tba-pill">'+escapeXML(g.window || 'TBA')+'</span>'
+        + '<span class="cal-tba-name">'+escapeXML(g.cn)+'</span>'
+        + (g.en ? '<span class="cal-tba-en">/ '+escapeXML(g.en)+'</span>' : '')
+        + '</div>';
+    });
+    html += '</div>';
+    mount.innerHTML = html;
+    return;
+  }
+
+  // 把每款游戏分配到半月格（每月 2 格：1–15 日 / 16–月底）
+  // 12 个月 × 2 = 24 格，按 column-major 排列（列=月，行=上半月/下半月）
+  const TOTAL_CELLS = 24;
+  const cells = Array.from({length: TOTAL_CELLS}, () => []);
+  const tbaGames = [];
+
+  const yearNum = parseInt(year);
+
+  // 每月天数
+  function daysInMonth(m) { // m: 1-12
+    const d = new Date(yearNum, m, 0);
+    return d.getDate();
+  }
+
+  list.forEach(g => {
+    const d = g.date;
+    if (!d || d === 'TBA' || g._precision === 'tba') {
+      tbaGames.push(g);
+      return;
+    }
+    const m = String(d).match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (!m) { tbaGames.push(g); return; }
+    const dt = new Date(parseInt(m[1]), parseInt(m[2])-1, parseInt(m[3]));
+    if (dt.getFullYear() !== yearNum) return;
+    const month = parseInt(m[2]); // 1–12
+    const day = parseInt(m[3]);
+    const half = day <= 15 ? 0 : 1;
+    const cellIdx = (month - 1) * 2 + half;
+    if (cellIdx >= 0 && cellIdx < TOTAL_CELLS) {
+      cells[cellIdx].push(g);
+    } else {
+      tbaGames.push(g);
+    }
+  });
+
+  // 同 cell 内按日期排序
+  cells.forEach(arr => arr.sort((a, b) => String(a.date).localeCompare(String(b.date))));
+
+  // 计算每格的日期范围文字
+  function cellRange(idx) {
+    const month = Math.floor(idx / 2) + 1; // 1–12
+    const half = idx % 2; // 0 = 上半, 1 = 下半
+    if (half === 0) {
+      return month + '月1–15日';
+    } else {
+      const lastDay = daysInMonth(month);
+      return month + '月16–' + lastDay + '日';
+    }
+  }
+
+  // Grid: 12 列 × 2 行，按 column-major 排列（每列 = 一个月，行 0 = 上半月，行 1 = 下半月）
+  let html = '<div class="cal-grid">';
+  for (let half = 0; half < 2; half++) {
+    for (let col = 0; col < 12; col++) {
+      const idx = col * 2 + half;
+      const games = cells[idx];
+      html += '<div class="cal-cell">';
+      html += '<div class="cal-cell-header">'
+        + '<span class="cal-cell-range">'+cellRange(idx)+'</span>'
+        + (games.length ? '<span class="cal-cell-count">'+games.length+' 款</span>' : '')
+        + '</div>';
+      if (games.length === 0) {
+        html += '<div class="cal-cell-hint">—</div>';
+      } else {
+        games.forEach(g => {
+          const dm = String(g.date || '').match(/^\d{4}-(\d{2})-(\d{2})/);
+          const dayStr = dm ? parseInt(dm[2], 10) : '';
+          const isLoot = g._track === 'loot';
+          const cls = isLoot ? 'cal-game-loot' : 'cal-game';
+          const dayCls = isLoot ? 'cal-day-loot' : 'cal-day';
+          html += '<div class="'+cls+'" onclick="showGameModal(\''+escapeXML(g.cn)+'\')" title="'+escapeXML(g.cn+(g.en?' · '+g.en:'')+(g.developer?' · '+g.developer:''))+'">'
+            + (dayStr ? '<span class="'+dayCls+'">'+dayStr+'日</span>' : '')
+            + '<span class="cal-name">'+escapeXML(g.cn)+'</span>'
+            + '</div>';
+        });
+      }
+      html += '</div>';
+    }
+  }
+  html += '</div>';
+
+  // 窗口期 / TBA 区
+  if (tbaGames.length) {
+    html += '<div class="cal-tba-section">';
+    html += '<div class="cal-tba-title">📌 窗口期 / TBA（'+tbaGames.length+' 款）</div>';
+    html += '<div class="cal-tba-grid">';
+    tbaGames.forEach(g => {
+      const lootCls = g._track === 'loot' ? ' cal-tba-item-loot' : '';
+      html += '<div class="cal-tba-item'+lootCls+'" onclick="showGameModal(\''+escapeXML(g.cn)+'\')">'
+        + '<span class="cal-tba-pill">'+escapeXML(g.window || '--')+'</span>'
+        + '<span class="cal-tba-name">'+escapeXML(g.cn)+'</span>'
+        + (g.en ? '<span class="cal-tba-en">/ '+escapeXML(g.en)+'</span>' : '')
+        + '</div>';
+    });
+    html += '</div></div>';
+  }
+
+  mount.innerHTML = html;
+}
+
 function renderAll() {
   setLastUpdate();
   renderKPI();
@@ -1105,7 +1320,7 @@ function renderAll() {
   renderTopList('loot-top-list', lTop);
   renderAction();
   renderLoot();
-  renderTimeline('timeline-mount');
+  renderYearlyTimeline();
 }
 
 // ========== MODAL ==========
@@ -1285,9 +1500,21 @@ document.addEventListener('click', function(e) {
   const qBtn = e.target.closest('[data-q]');
   if (qBtn) { console.log('FILTER ACTION', qBtn.dataset.q); filterAction(qBtn.dataset.q); return; }
 
+  // 年度时间轴年份切换
+  const ytyBtn = e.target.closest('[data-yty]');
+  if (ytyBtn) { ytYearFilter = ytyBtn.dataset.yty; filterYTYear(ytyBtn.dataset.yty); return; }
+
+  // 年度时间轴赛道切换
+  const yttBtn = e.target.closest('[data-ytt]');
+  if (yttBtn) { ytTrackFilter = yttBtn.dataset.ytt; filterYTYear(ytYearFilter); return; }
+
   // Loot类型
   const tBtn = e.target.closest('[data-t]');
-  if (tBtn) { console.log('FILTER LOOT', tBtn.dataset.t); filterLoot(tBtn.dataset.t); return; }
+  if (tBtn) { console.log('FILTER LOOT TYPE', tBtn.dataset.t); filterLoot(tBtn.dataset.t); return; }
+
+  // Loot年份
+  const lyBtn = e.target.closest('[data-ly]');
+  if (lyBtn) { console.log('FILTER LOOT YEAR', lyBtn.dataset.ly); filterLootYear(lyBtn.dataset.ly); return; }
 
   // 游戏行点击 → Modal
   const gameRow = e.target.closest('.game-row');
@@ -1309,18 +1536,18 @@ function refreshData() { renderAll(); }
 // 初始化
 applyLang();
 
-// 首次布局后重渲 timeline（初始调用时 DOM 可能未完成布局）
-let _tlInitDone = false;
+// 首次布局后重渲 yearly timeline（初始调用时 DOM 可能未完成布局）
+let _ytInitDone = false;
 requestAnimationFrame(() => {
   requestAnimationFrame(() => {
-    renderTimeline('timeline-mount');
-    _tlInitDone = true;
+    renderYearlyTimeline();
+    _ytInitDone = true;
   });
 });
 
 // 窗口尺寸变化时重新适配 timeline
 window.addEventListener('resize', () => {
-  if (_tlInitDone) renderTimeline('timeline-mount');
+  if (_ytInitDone) renderYearlyTimeline();
 });
 </script>
 </body>
