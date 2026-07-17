@@ -3,6 +3,30 @@
     {
       "year": "2026",
       "window": "Q3",
+      "date_raw": "2026-07-23",
+      "cn": "龙之剑:觉醒",
+      "en": "Dragonsword",
+      "developer": "Hound13 Inc.",
+      "type": "",
+      "date": "2026-07-23",
+      "_m_frac": 6.73333333,
+      "_precision": "day"
+    },
+    {
+      "year": "2026",
+      "window": "Q3",
+      "date_raw": "2026-07-30",
+      "cn": "寒影猎人",
+      "en": "",
+      "developer": "",
+      "type": "",
+      "date": "2026-07-30",
+      "_m_frac": 6.96666667,
+      "_precision": "day"
+    },
+    {
+      "year": "2026",
+      "window": "Q3",
       "date_raw": "2026-08-04",
       "cn": "轮回之兽",
       "en": "Beast of Reincarnation",
@@ -164,9 +188,9 @@
       "en": "SPINE",
       "developer": "Nekki",
       "type": "",
-      "date": "TBA",
-      "_m_frac": null,
-      "_precision": "tba"
+      "date": "2026 年内",
+      "_m_frac": 9.5,
+      "_precision": "window"
     },
     {
       "year": "2026",
@@ -176,9 +200,9 @@
       "en": "Kena Scars of Kosmora",
       "developer": "Ember Lab",
       "type": "",
-      "date": "TBA",
-      "_m_frac": null,
-      "_precision": "tba"
+      "date": "2026 年内",
+      "_m_frac": 9.5,
+      "_precision": "window"
     },
     {
       "year": "2026",
@@ -188,9 +212,21 @@
       "en": "The Duskbloods",
       "developer": "From Software",
       "type": "",
-      "date": "TBA",
-      "_m_frac": null,
-      "_precision": "tba"
+      "date": "2026 年内",
+      "_m_frac": 9.5,
+      "_precision": "window"
+    },
+    {
+      "year": "2026",
+      "window": "年内 Within the Year",
+      "date_raw": "TBA",
+      "cn": "塞尔达传说:时之笛 重制版",
+      "en": "The Legend of Zelda: Ocarina of Time",
+      "developer": "Nintendo",
+      "type": "",
+      "date": "2026 年内",
+      "_m_frac": 9.5,
+      "_precision": "window"
     },
     {
       "year": "2026",
@@ -200,9 +236,9 @@
       "en": "Mortal Shell II",
       "developer": "Cold Symmetry",
       "type": "",
-      "date": "TBA",
-      "_m_frac": null,
-      "_precision": "tba"
+      "date": "2026 年内",
+      "_m_frac": 9.5,
+      "_precision": "window"
     },
     {
       "year": "2026",
@@ -212,9 +248,9 @@
       "en": "1666: Amsterdam",
       "developer": "Patrice Désilets",
       "type": "",
-      "date": "TBA",
-      "_m_frac": null,
-      "_precision": "tba"
+      "date": "2026 年内",
+      "_m_frac": 9.5,
+      "_precision": "window"
     },
     {
       "year": "2027",
@@ -320,9 +356,9 @@
       "en": "TAL: The Arcane Lands",
       "developer": "MADNGINE",
       "type": "",
-      "date": "TBA",
-      "_m_frac": null,
-      "_precision": "tba"
+      "date": "2027 年内",
+      "_m_frac": 21.5,
+      "_precision": "window"
     },
     {
       "year": "2027",
@@ -332,9 +368,9 @@
       "en": "Yakoh Shinobi Ops",
       "developer": "Acquire",
       "type": "",
-      "date": "TBA",
-      "_m_frac": null,
-      "_precision": "tba"
+      "date": "2027 年内",
+      "_m_frac": 21.5,
+      "_precision": "window"
     },
     {
       "year": "2027",
@@ -344,9 +380,9 @@
       "en": "Kemuri",
       "developer": "Unseen",
       "type": "",
-      "date": "TBA",
-      "_m_frac": null,
-      "_precision": "tba"
+      "date": "2027 年内",
+      "_m_frac": 21.5,
+      "_precision": "window"
     },
     {
       "year": "2027",
@@ -356,9 +392,9 @@
       "en": "Stellar Blade: Blood Rain",
       "developer": "Shift Up",
       "type": "",
-      "date": "TBA",
-      "_m_frac": null,
-      "_precision": "tba"
+      "date": "2027 年内",
+      "_m_frac": 21.5,
+      "_precision": "window"
     },
     {
       "year": "2027",
@@ -368,9 +404,9 @@
       "en": "Monster Hunter Wilds: Ascendance",
       "developer": "Capcom",
       "type": "",
-      "date": "TBA",
-      "_m_frac": null,
-      "_precision": "tba"
+      "date": "2027 年内",
+      "_m_frac": 21.5,
+      "_precision": "window"
     },
     {
       "year": "2027",
@@ -380,9 +416,9 @@
       "en": "Senua",
       "developer": "Ninja Theory",
       "type": "",
-      "date": "TBA",
-      "_m_frac": null,
-      "_precision": "tba"
+      "date": "2027 年内",
+      "_m_frac": 21.5,
+      "_precision": "window"
     },
     {
       "year": "2027",
@@ -392,9 +428,9 @@
       "en": "Teenage Mutant Ninja Turtles",
       "developer": "PlatinumGames",
       "type": "",
-      "date": "TBA",
-      "_m_frac": null,
-      "_precision": "tba"
+      "date": "2027 年内",
+      "_m_frac": 21.5,
+      "_precision": "window"
     },
     {
       "year": "2028",
@@ -730,9 +766,9 @@
       "en": "Darkhaven",
       "developer": "Moonbeast Productions",
       "type": "EA",
-      "date": "TBA",
-      "_m_frac": null,
-      "_precision": "tba"
+      "date": "2026 年内",
+      "_m_frac": 9.5,
+      "_precision": "window"
     },
     {
       "year": "2026",
@@ -742,9 +778,9 @@
       "en": "Gods, Death & Reapers",
       "developer": "Wolcen Studio",
       "type": "Release",
-      "date": "TBA",
-      "_m_frac": null,
-      "_precision": "tba"
+      "date": "2026 年内",
+      "_m_frac": 9.5,
+      "_precision": "window"
     },
     {
       "year": "2026",
@@ -754,9 +790,9 @@
       "en": "Hellforged",
       "developer": "Moonpyre",
       "type": "Release",
-      "date": "TBA",
-      "_m_frac": null,
-      "_precision": "tba"
+      "date": "2026 年内",
+      "_m_frac": 9.5,
+      "_precision": "window"
     },
     {
       "year": "2026",
@@ -766,9 +802,9 @@
       "en": "Shattered Realms",
       "developer": "Spellbound Studios",
       "type": "Release",
-      "date": "TBA",
-      "_m_frac": null,
-      "_precision": "tba"
+      "date": "2026 年内",
+      "_m_frac": 9.5,
+      "_precision": "window"
     },
     {
       "year": "2027",
@@ -790,9 +826,9 @@
       "en": "Last Epoch Orobyss",
       "developer": "Eleventh Hour Games",
       "type": "Major DLC",
-      "date": "TBA",
-      "_m_frac": null,
-      "_precision": "tba"
+      "date": "2027 年内",
+      "_m_frac": 21.5,
+      "_precision": "window"
     },
     {
       "year": "2027",
@@ -802,9 +838,9 @@
       "en": "Wardens of Avalon",
       "developer": "Runes Studio",
       "type": "Release",
-      "date": "TBA",
-      "_m_frac": null,
-      "_precision": "tba"
+      "date": "2027 年内",
+      "_m_frac": 21.5,
+      "_precision": "window"
     },
     {
       "year": "TBA",
@@ -856,9 +892,9 @@
     }
   ],
   "m": {
-    "action_count": 48,
+    "action_count": 51,
     "loot_count": 23,
-    "source": "动作&俯视角Loot游戏竞品档期表（Action & Top-Down Loot Games Competitor Release Schedule）.xlsx",
-    "updated": "2026-06-25"
+    "source": "【GRC】动作&俯视角Loot游戏竞品档期表Action & Top-Down Loot Games Competitor Release Schedule.xlsx",
+    "updated": "2026-07-16"
   }
 }
