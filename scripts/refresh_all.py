@@ -18,9 +18,14 @@ import build_inline  # noqa: E402
 import fetch_news  # noqa: E402
 import fetch_steam_dates  # noqa: E402
 
+# WorkBuddy 沙箱自带 PortableGit 的凭据助手（helper-selector）无法交互，push 会静默失败；
+# UGit 自带的 git 持有可用的 GitHub 凭据，push 优先用它。
+_UGIT_GIT = Path(r"C:\Users\alucardzhou\AppData\Local\UGit\app-5.51.0\resources\app\git\cmd\git.exe")
+
 
 def git(*args):
-    return subprocess.run(["git", *args], cwd=ROOT, capture_output=True, text=True)
+    exe = str(_UGIT_GIT) if (args and args[0] == "push" and _UGIT_GIT.exists()) else "git"
+    return subprocess.run([exe, *args], cwd=ROOT, capture_output=True, text=True)
 
 
 def main():

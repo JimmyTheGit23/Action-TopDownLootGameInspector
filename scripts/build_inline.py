@@ -8,14 +8,14 @@
 """
 import re
 import sys
-from datetime import datetime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import DATA, INDEX, load_json, save_json, js_min, js_spaced  # noqa: E402
 
-GAMES_INLINE_HEADER = "// 游戏数据 · 自动生成 {ts}\n"
-NEWS_INLINE_HEADER = "// 游戏新闻数据 · 自动生成 {ts}\n"
+# 头部不带时间戳：避免数据未变时产生无意义 diff，--commit 只在真有变更时提交
+GAMES_INLINE_HEADER = "// 游戏数据 · 自动生成（scripts/build_inline.py）\n"
+NEWS_INLINE_HEADER = "// 游戏新闻数据 · 自动生成（scripts/build_inline.py）\n"
 
 
 def replace_once(html, pattern, repl):
@@ -29,7 +29,6 @@ def run():
     games = load_json(DATA / "games.json")
     news = load_json(DATA / "news.json")
     apps = load_json(DATA / "steam_apps.json")
-    ts = datetime.now().strftime("%Y-%m-%d %H:%M")
 
     games_js = "const GAMES = " + js_min(games) + ";"
     apps_js = "const STEAM_APPS=" + js_min(apps) + ";"
@@ -37,9 +36,9 @@ def run():
 
     save_json(DATA / "games.min.json", games, pretty=False)
     with open(DATA / "games_inline.js", "w", encoding="utf-8") as f:
-        f.write(GAMES_INLINE_HEADER.format(ts=ts) + games_js + "\n")
+        f.write(GAMES_INLINE_HEADER + games_js + "\n")
     with open(DATA / "news_inline.js", "w", encoding="utf-8") as f:
-        f.write(NEWS_INLINE_HEADER.format(ts=ts) + news_js + "\n")
+        f.write(NEWS_INLINE_HEADER + news_js + "\n")
 
     html = INDEX.read_text(encoding="utf-8")
     html = replace_once(html, r"^const GAMES = .*;$", lambda m: games_js)
