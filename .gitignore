@@ -3,3 +3,4 @@ _shots/
 *.pid
 .DS_Store
 node_modules/
+scripts/out/
