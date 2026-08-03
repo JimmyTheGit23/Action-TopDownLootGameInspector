@@ -1196,14 +1196,14 @@
     },
     {
       "year": "2026",
-      "window": "Q3",
-      "date_raw": "2026-07-07",
+      "window": "Q2",
+      "date_raw": "2026.04.23",
       "cn": "异环",
       "en": "Neverness to Everness",
       "developer": "完美世界",
       "type": "版本更新 version updates",
-      "date": "2026-07-07",
-      "_m_frac": 6.2,
+      "date": "2026-04-23",
+      "_m_frac": 3.73333333,
       "_precision": "day",
       "desc": "完美世界开发的都市奇幻开放世界MMORPG。以现代都市为舞台，融合超自然异象调查、异能战斗与都市社交生活，采用虚幻引擎打造次世代画面，是完美世界布局二次元+都市赛道的重要产品。",
       "platform": "跨平台"
