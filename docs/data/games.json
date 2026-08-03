@@ -718,9 +718,9 @@
       "cn": "Project Awakening",
       "en": "Project Awakening",
       "developer": "Cygames",
-      "year": "2026",
+      "year": "TBA",
       "window": "TBA",
-      "date_raw": "2026（预估）",
+      "date_raw": "TBA",
       "date": "TBA",
       "_m_frac": null,
       "_precision": "tba",
@@ -741,6 +741,48 @@
       "type": "Release",
       "platform": "端游",
       "desc": "KRAFTON旗下蒙特利尔工作室开发（由《孤岛惊魂》系列总监Patrik Méthé领衔）的开放世界动作RPG，基于韩国奇幻小说《饮泪之鸟》IP。设定在原作1500年前的神话时代，玩家扮演Rekon族英雄王，手持双星铸利刃在千人级实时战场中厮杀。UE5引擎打造，Mass Technology支持大规模战争，纯单人体验。"
+    },
+    {
+      "cn": "愚者不灭",
+      "en": "Stupid Never Dies",
+      "developer": "GPTRACK50 Inc.",
+      "year": "2026",
+      "window": "Q4",
+      "date_raw": "2026-10-22",
+      "date": "2026-10-22",
+      "_m_frac": 9.7,
+      "_precision": "day",
+      "type": "Release",
+      "platform": "端游",
+      "desc": "GPTRACK50 Inc.开发的动作游戏，以荒诞幽默风格呈现高难度硬核动作体验。2026年10月22日上线。"
+    },
+    {
+      "cn": "猿公剑",
+      "en": "Sword Sage",
+      "developer": "Sword Panda Limited",
+      "year": "TBA",
+      "window": "TBA",
+      "date_raw": "TBA",
+      "date": "TBA",
+      "_m_frac": null,
+      "_precision": "tba",
+      "type": "Release",
+      "platform": "端游",
+      "desc": "Sword Panda Limited开发的动作游戏，以猿公剑法为核心的武侠题材硬核动作体验，具体玩法与上线时间尚未公布。"
+    },
+    {
+      "cn": "锦衣卫",
+      "en": "A Whisper of Fall: Jinyiwei",
+      "developer": "苍墨工作室",
+      "year": "TBA",
+      "window": "TBA",
+      "date_raw": "TBA",
+      "date": "TBA",
+      "_m_frac": null,
+      "_precision": "tba",
+      "type": "Release",
+      "platform": "端游",
+      "desc": "苍墨工作室开发的明朝锦衣卫题材动作游戏，以肃杀秋意为美学基调，融合潜行暗杀与刀剑格斗，呈现大明王朝暗影中的权谋与杀戮。"
     }
   ],
   "l": [
@@ -1599,6 +1641,34 @@
       "type": "Release",
       "platform": "端游",
       "desc": "XLGAMES开发、Kakao Games发行的《上古世纪》系列新作，设定在原作50年后。并非传统MMORPG，而是探索驱动的在线动作RPG，融合连招战斗、生活技能、房屋建造与共享世界社交。虚幻5引擎打造，2026年Q4登陆PC/PS5/Xbox。"
+    },
+    {
+      "cn": "Horizon Steel Frontier",
+      "en": "Horizon Steel Frontier",
+      "developer": "NCSoft",
+      "year": "2027",
+      "window": "H1",
+      "date_raw": "2027 H1",
+      "date": "2027 H1",
+      "_m_frac": 14.5,
+      "_precision": "window",
+      "type": "Release",
+      "platform": "端游",
+      "desc": "NCSoft开发的全新MMORPG新作，以钢铁与边境为主题的科幻开放世界。延续NCSoft在MMO领域的深厚积累，预计2027年上半年上线。"
+    },
+    {
+      "cn": "代号：微光",
+      "en": "Codename: Glimmer",
+      "developer": "灵犀互娱",
+      "year": "TBA",
+      "window": "TBA",
+      "date_raw": "TBA（招募测试中）",
+      "date": "TBA",
+      "_m_frac": null,
+      "_precision": "tba",
+      "type": "Release",
+      "platform": "手游",
+      "desc": "灵犀互娱开发的神秘新作，目前处于招募测试阶段，具体玩法与上线时间尚未公布。"
     }
   ]
 }
