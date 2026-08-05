@@ -1,0 +1,1130 @@
+{
+  "轮回之兽": {
+    "appid": 2001760,
+    "review": {
+      "positive": 1252,
+      "negative": 969,
+      "total": 2221,
+      "desc": "Mixed",
+      "score": 5
+    },
+    "price_cn": {
+      "final": "¥ 248.00",
+      "initial": "",
+      "discount": 0
+    },
+    "price_us": {
+      "final": "$59.99",
+      "initial": "",
+      "discount": 0
+    },
+    "ccu": 6052,
+    "fetched_at": "2026-08-05 08:50 UTC"
+  },
+  "共鸣：瘟疫传说": {
+    "appid": 2713000,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": {
+      "final": "¥ 199.00",
+      "initial": "",
+      "discount": 0
+    },
+    "price_us": {
+      "final": "$49.99",
+      "initial": "",
+      "discount": 0
+    },
+    "ccu": null,
+    "fetched_at": "2026-08-05 08:50 UTC"
+  },
+  "黎明行者之血": {
+    "appid": 3751260,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": {
+      "final": "¥ 298.00",
+      "initial": "",
+      "discount": 0
+    },
+    "price_us": {
+      "final": "$69.99",
+      "initial": "",
+      "discount": 0
+    },
+    "ccu": null,
+    "fetched_at": "2026-08-05 08:51 UTC"
+  },
+  "控制 共振": {
+    "appid": 3669870,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": {
+      "final": "¥ 268.00",
+      "initial": "",
+      "discount": 0
+    },
+    "price_us": {
+      "final": "$59.99",
+      "initial": "",
+      "discount": 0
+    },
+    "ccu": null,
+    "fetched_at": "2026-08-05 08:51 UTC"
+  },
+  "鬼武者 剑之道": {
+    "appid": 2638890,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": {
+      "final": "¥ 298.00",
+      "initial": "",
+      "discount": 0
+    },
+    "price_us": {
+      "final": "$69.99",
+      "initial": "",
+      "discount": 0
+    },
+    "ccu": null,
+    "fetched_at": "2026-08-05 08:51 UTC"
+  },
+  "真三国无双2 猛将传 重制版": {
+    "appid": 3841510,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": {
+      "final": "¥ 198.00",
+      "initial": "",
+      "discount": 0
+    },
+    "price_us": {
+      "final": "$39.99",
+      "initial": "",
+      "discount": 0
+    },
+    "ccu": null,
+    "fetched_at": "2026-08-05 08:51 UTC"
+  },
+  "恶魔城：贝尔蒙特的诅咒": {
+    "appid": 4231820,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": {
+      "final": "¥ 128.00",
+      "initial": "",
+      "discount": 0
+    },
+    "price_us": {
+      "final": "$29.99",
+      "initial": "",
+      "discount": 0
+    },
+    "ccu": null,
+    "fetched_at": "2026-08-05 08:51 UTC"
+  },
+  "影之刃 零": {
+    "appid": 4115450,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": null,
+    "price_us": null,
+    "ccu": null,
+    "fetched_at": "2026-08-05 08:52 UTC"
+  },
+  "堕落之主2": {
+    "appid": 4767480,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": null,
+    "price_us": null,
+    "ccu": null,
+    "fetched_at": "2026-08-05 08:52 UTC"
+  },
+  "释放阿凡达": {
+    "appid": 4054220,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": null,
+    "price_us": null,
+    "ccu": null,
+    "fetched_at": "2026-08-05 08:52 UTC"
+  },
+  "Evilbane": {
+    "appid": 3718160,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": null,
+    "price_us": null,
+    "ccu": null,
+    "fetched_at": "2026-08-05 08:52 UTC"
+  },
+  "SPINE": {
+    "appid": 1731290,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": null,
+    "price_us": null,
+    "ccu": null,
+    "fetched_at": "2026-08-05 08:53 UTC"
+  },
+  "凯娜：精神之桥": {
+    "appid": 3485810,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": null,
+    "price_us": null,
+    "ccu": null,
+    "fetched_at": "2026-08-05 08:53 UTC"
+  },
+  "致命躯壳2": {
+    "appid": 2584270,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": {
+      "final": "¥ 198.00",
+      "initial": "",
+      "discount": 0
+    },
+    "price_us": {
+      "final": "$49.99",
+      "initial": "",
+      "discount": 0
+    },
+    "ccu": null,
+    "fetched_at": "2026-08-05 08:53 UTC"
+  },
+  "1666: Amsterdam": {
+    "appid": 3949550,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": null,
+    "price_us": null,
+    "ccu": null,
+    "fetched_at": "2026-08-05 08:53 UTC"
+  },
+  "湮灭之潮": {
+    "appid": 3292470,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": null,
+    "price_us": null,
+    "ccu": null,
+    "fetched_at": "2026-08-05 08:54 UTC"
+  },
+  "异于天堂": {
+    "appid": 4260840,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": {
+      "final": "¥ 298.00",
+      "initial": "",
+      "discount": 0
+    },
+    "price_us": {
+      "final": "$69.99",
+      "initial": "",
+      "discount": 0
+    },
+    "ccu": null,
+    "fetched_at": "2026-08-05 08:54 UTC"
+  },
+  "古墓丽影：亚特兰蒂斯遗迹": {
+    "appid": 3558670,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": {
+      "final": "¥ 268.00",
+      "initial": "",
+      "discount": 0
+    },
+    "price_us": {
+      "final": "$59.99",
+      "initial": "",
+      "discount": 0
+    },
+    "ccu": null,
+    "fetched_at": "2026-08-05 08:54 UTC"
+  },
+  "神鬼寓言4": {
+    "appid": 2769570,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": {
+      "final": "¥ 298.00",
+      "initial": "",
+      "discount": 0
+    },
+    "price_us": {
+      "final": "$69.99",
+      "initial": "",
+      "discount": 0
+    },
+    "ccu": null,
+    "fetched_at": "2026-08-05 08:54 UTC"
+  },
+  "卧龙2：炎之翼": {
+    "appid": 4507990,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": null,
+    "price_us": null,
+    "ccu": null,
+    "fetched_at": "2026-08-05 08:55 UTC"
+  },
+  "最终幻想7：启示录": {
+    "appid": 4354570,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": null,
+    "price_us": null,
+    "ccu": null,
+    "fetched_at": "2026-08-05 08:55 UTC"
+  },
+  "剑星": {
+    "appid": 3489700,
+    "review": {
+      "positive": 86676,
+      "negative": 5707,
+      "total": 92383,
+      "desc": "Very Positive",
+      "score": 8
+    },
+    "price_cn": {
+      "final": "¥ 268.00",
+      "initial": "",
+      "discount": 0
+    },
+    "price_us": {
+      "final": "$59.99",
+      "initial": "",
+      "discount": 0
+    },
+    "ccu": 2571,
+    "fetched_at": "2026-08-05 08:55 UTC"
+  },
+  "流放之路2": {
+    "appid": 2694490,
+    "review": {
+      "positive": 167155,
+      "negative": 56829,
+      "total": 223984,
+      "desc": "Mostly Positive",
+      "score": 6
+    },
+    "price_cn": null,
+    "price_us": {
+      "final": "$29.99",
+      "initial": "",
+      "discount": 0
+    },
+    "ccu": 16035,
+    "fetched_at": "2026-08-05 08:55 UTC"
+  },
+  "暗黑破坏神4": {
+    "appid": 2344520,
+    "review": {
+      "positive": 48576,
+      "negative": 25960,
+      "total": 74536,
+      "desc": "Mixed",
+      "score": 5
+    },
+    "price_cn": {
+      "final": "¥ 348.00",
+      "initial": "",
+      "discount": 0
+    },
+    "price_us": {
+      "final": "$49.99",
+      "initial": "",
+      "discount": 0
+    },
+    "ccu": 5671,
+    "fetched_at": "2026-08-05 08:55 UTC"
+  },
+  "最后纪元": {
+    "appid": 899770,
+    "review": {
+      "positive": 90549,
+      "negative": 27765,
+      "total": 118314,
+      "desc": "Mostly Positive",
+      "score": 6
+    },
+    "price_cn": {
+      "final": "¥ 128.00",
+      "initial": "",
+      "discount": 0
+    },
+    "price_us": {
+      "final": "$34.99",
+      "initial": "",
+      "discount": 0
+    },
+    "ccu": 558,
+    "fetched_at": "2026-08-05 08:55 UTC"
+  },
+  "恶意不息": {
+    "appid": 2585250,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": null,
+    "price_us": null,
+    "ccu": null,
+    "fetched_at": "2026-08-05 08:56 UTC"
+  },
+  "怪物猎人 荒野": {
+    "appid": 2246340,
+    "review": {
+      "positive": 160054,
+      "negative": 166574,
+      "total": 326628,
+      "desc": "Mixed",
+      "score": 5
+    },
+    "price_cn": {
+      "final": "¥ 198.00",
+      "initial": "",
+      "discount": 0
+    },
+    "price_us": {
+      "final": "$39.99",
+      "initial": "",
+      "discount": 0
+    },
+    "ccu": 12279,
+    "fetched_at": "2026-08-05 08:56 UTC"
+  },
+  "昭和米国物语": {
+    "appid": 1687540,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": null,
+    "price_us": null,
+    "ccu": null,
+    "fetched_at": "2026-08-05 08:56 UTC"
+  },
+  "夜行": {
+    "appid": 3513120,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": null,
+    "price_us": null,
+    "ccu": null,
+    "fetched_at": "2026-08-05 08:56 UTC"
+  },
+  "楼兰：诅咒之沙": {
+    "appid": 3833280,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": null,
+    "price_us": null,
+    "ccu": null,
+    "fetched_at": "2026-08-05 08:56 UTC"
+  },
+  "余烬之镇": {
+    "appid": 2295170,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": null,
+    "price_us": null,
+    "ccu": null,
+    "fetched_at": "2026-08-05 08:57 UTC"
+  },
+  "我的世界 地下城2": {
+    "appid": 1912410,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": {
+      "final": "¥ 148.00",
+      "initial": "",
+      "discount": 0
+    },
+    "price_us": {
+      "final": "$29.99",
+      "initial": "",
+      "discount": 0
+    },
+    "ccu": null,
+    "fetched_at": "2026-08-05 08:57 UTC"
+  },
+  "烬刃交辉": {
+    "appid": 3470500,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": null,
+    "price_us": null,
+    "ccu": null,
+    "fetched_at": "2026-08-05 08:57 UTC"
+  },
+  "The Dark West": {
+    "appid": 3574750,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": null,
+    "price_us": null,
+    "ccu": null,
+    "fetched_at": "2026-08-05 08:57 UTC"
+  },
+  "泰坦之旅2": {
+    "appid": 1154030,
+    "review": {
+      "positive": 14418,
+      "negative": 3154,
+      "total": 17572,
+      "desc": "Very Positive",
+      "score": 8
+    },
+    "price_cn": {
+      "final": "¥ 128.00",
+      "initial": "",
+      "discount": 0
+    },
+    "price_us": {
+      "final": "$34.99",
+      "initial": "",
+      "discount": 0
+    },
+    "ccu": 508,
+    "fetched_at": "2026-08-05 08:57 UTC"
+  },
+  "Darkhaven": {
+    "appid": 3571870,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": null,
+    "price_us": null,
+    "ccu": null,
+    "fetched_at": "2026-08-05 08:58 UTC"
+  },
+  "Gods, Death & Reapers": {
+    "appid": 3086590,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": null,
+    "price_us": null,
+    "ccu": null,
+    "fetched_at": "2026-08-05 08:58 UTC"
+  },
+  "地狱锻造": {
+    "appid": 4554250,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": null,
+    "price_us": null,
+    "ccu": null,
+    "fetched_at": "2026-08-05 08:58 UTC"
+  },
+  "Shattered Realms": {
+    "appid": 3717490,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": null,
+    "price_us": null,
+    "ccu": null,
+    "fetched_at": "2026-08-05 08:58 UTC"
+  },
+  "守护阿瓦隆": {
+    "appid": 2409660,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": null,
+    "price_us": null,
+    "ccu": null,
+    "fetched_at": "2026-08-05 08:58 UTC"
+  },
+  "MASAKRE": {
+    "appid": 4261650,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": null,
+    "price_us": null,
+    "ccu": null,
+    "fetched_at": "2026-08-05 08:59 UTC"
+  },
+  "怪物猎人 荒野 Ascendance": {
+    "appid": 4829700,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": null,
+    "price_us": null,
+    "ccu": null,
+    "fetched_at": "2026-08-05 08:59 UTC"
+  },
+  "地平线：猎人集结": {
+    "appid": 4244910,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": null,
+    "price_us": null,
+    "ccu": null,
+    "fetched_at": "2026-08-05 08:59 UTC"
+  },
+  "上古卷轴OL": {
+    "appid": 306130,
+    "review": {
+      "positive": 130383,
+      "negative": 30778,
+      "total": 161161,
+      "desc": "Very Positive",
+      "score": 8
+    },
+    "price_cn": {
+      "final": "¥ 20.75",
+      "initial": "¥ 83.00",
+      "discount": 75
+    },
+    "price_us": {
+      "final": "$4.99",
+      "initial": "$19.99",
+      "discount": 75
+    },
+    "ccu": 6013,
+    "fetched_at": "2026-08-05 08:59 UTC"
+  },
+  "盗贼之海": {
+    "appid": 1172620,
+    "review": {
+      "positive": 329642,
+      "negative": 42200,
+      "total": 371842,
+      "desc": "Very Positive",
+      "score": 8
+    },
+    "price_cn": {
+      "final": "¥ 198.00",
+      "initial": "",
+      "discount": 0
+    },
+    "price_us": {
+      "final": "$39.99",
+      "initial": "",
+      "discount": 0
+    },
+    "ccu": 2289,
+    "fetched_at": "2026-08-05 08:59 UTC"
+  },
+  "符文之地：龙之荒野": {
+    "appid": 1374490,
+    "review": {
+      "positive": 23216,
+      "negative": 5384,
+      "total": 28600,
+      "desc": "Very Positive",
+      "score": 8
+    },
+    "price_cn": {
+      "final": "¥ 118.00",
+      "initial": "",
+      "discount": 0
+    },
+    "price_us": {
+      "final": "$29.99",
+      "initial": "",
+      "discount": 0
+    },
+    "ccu": 2248,
+    "fetched_at": "2026-08-05 08:59 UTC"
+  },
+  "Aloft": {
+    "appid": 1660080,
+    "review": {
+      "positive": 3076,
+      "negative": 596,
+      "total": 3672,
+      "desc": "Very Positive",
+      "score": 8
+    },
+    "price_cn": {
+      "final": "¥ 93.89",
+      "initial": "",
+      "discount": 0
+    },
+    "price_us": {
+      "final": "$24.99",
+      "initial": "",
+      "discount": 0
+    },
+    "ccu": 48,
+    "fetched_at": "2026-08-05 08:59 UTC"
+  },
+  "Permafrost": {
+    "appid": 2254990,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": null,
+    "price_us": null,
+    "ccu": null,
+    "fetched_at": "2026-08-05 09:00 UTC"
+  },
+  "Chronicles: Medieval": {
+    "appid": 2231020,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": null,
+    "price_us": null,
+    "ccu": null,
+    "fetched_at": "2026-08-05 09:00 UTC"
+  },
+  "Loftia": {
+    "appid": 2320980,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": null,
+    "price_us": null,
+    "ccu": null,
+    "fetched_at": "2026-08-05 09:00 UTC"
+  },
+  "STARSEEKER: Astroneer Expeditions": {
+    "appid": 1454370,
+    "review": {
+      "positive": 494,
+      "negative": 347,
+      "total": 841,
+      "desc": "Mixed",
+      "score": 5
+    },
+    "price_cn": {
+      "final": "¥ 108.00",
+      "initial": "",
+      "discount": 0
+    },
+    "price_us": {
+      "final": "$29.99",
+      "initial": "",
+      "discount": 0
+    },
+    "ccu": 17,
+    "fetched_at": "2026-08-05 09:00 UTC"
+  },
+  "上古世纪编年史": {
+    "appid": 3218230,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": null,
+    "price_us": null,
+    "ccu": null,
+    "fetched_at": "2026-08-05 09:00 UTC"
+  },
+  "龙之剑:觉醒": {
+    "appid": 4570720,
+    "review": {
+      "positive": 7287,
+      "negative": 802,
+      "total": 8089,
+      "desc": "Very Positive",
+      "score": 8
+    },
+    "price_cn": {
+      "final": "¥ 98.00",
+      "initial": "",
+      "discount": 0
+    },
+    "price_us": {
+      "final": "$29.99",
+      "initial": "",
+      "discount": 0
+    },
+    "ccu": 6933,
+    "fetched_at": "2026-08-05 09:00 UTC"
+  },
+  "雾影猎人": {
+    "appid": 3282300,
+    "review": {
+      "positive": 4911,
+      "negative": 2704,
+      "total": 7615,
+      "desc": "Mixed",
+      "score": 5
+    },
+    "price_cn": {
+      "final": "¥ 79.20",
+      "initial": "¥ 88.00",
+      "discount": 10
+    },
+    "price_us": {
+      "final": "$22.49",
+      "initial": "$24.99",
+      "discount": 10
+    },
+    "ccu": 19146,
+    "fetched_at": "2026-08-05 09:01 UTC"
+  },
+  "燕云十六声": {
+    "appid": 3564740,
+    "review": {
+      "positive": 97922,
+      "negative": 15191,
+      "total": 113113,
+      "desc": "Very Positive",
+      "score": 8
+    },
+    "price_cn": null,
+    "price_us": null,
+    "ccu": 9790,
+    "fetched_at": "2026-08-05 09:01 UTC"
+  },
+  "异环": {
+    "appid": 4508340,
+    "review": {
+      "positive": 3596,
+      "negative": 667,
+      "total": 4263,
+      "desc": "Very Positive",
+      "score": 8
+    },
+    "price_cn": null,
+    "price_us": null,
+    "ccu": 2872,
+    "fetched_at": "2026-08-05 09:01 UTC"
+  },
+  "遗忘之海": {
+    "appid": 3633680,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": null,
+    "price_us": null,
+    "ccu": null,
+    "fetched_at": "2026-08-05 09:01 UTC"
+  },
+  "愚者不灭": {
+    "appid": 3486530,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": null,
+    "price_us": null,
+    "ccu": null,
+    "fetched_at": "2026-08-05 09:01 UTC"
+  },
+  "龙之信条2 DLC 黑暗觉者": {
+    "appid": 2593290,
+    "review": {
+      "positive": 0,
+      "negative": 0,
+      "total": 0,
+      "desc": "No user reviews",
+      "score": 0
+    },
+    "price_cn": {
+      "final": "¥ 148.00",
+      "initial": "",
+      "discount": 0
+    },
+    "price_us": {
+      "final": "$29.99",
+      "initial": "",
+      "discount": 0
+    },
+    "ccu": null,
+    "fetched_at": "2026-08-05 09:01 UTC"
+  },
+  "暗黑破坏神4 S14": {
+    "appid": 2344520,
+    "review": {
+      "positive": 48576,
+      "negative": 25960,
+      "total": 74536,
+      "desc": "Mixed",
+      "score": 5
+    },
+    "price_cn": {
+      "final": "¥ 348.00",
+      "initial": "",
+      "discount": 0
+    },
+    "price_us": {
+      "final": "$49.99",
+      "initial": "",
+      "discount": 0
+    },
+    "ccu": 5671,
+    "fetched_at": "2026-08-05 09:01 UTC"
+  },
+  "火炬之光 S13": {
+    "appid": 1974050,
+    "review": {
+      "positive": 14755,
+      "negative": 6595,
+      "total": 21350,
+      "desc": "Mixed",
+      "score": 5
+    },
+    "price_cn": null,
+    "price_us": null,
+    "ccu": 3708,
+    "fetched_at": "2026-08-05 09:02 UTC"
+  },
+  "最后纪元 S5": {
+    "appid": 899770,
+    "review": {
+      "positive": 90549,
+      "negative": 27765,
+      "total": 118314,
+      "desc": "Mostly Positive",
+      "score": 6
+    },
+    "price_cn": {
+      "final": "¥ 128.00",
+      "initial": "",
+      "discount": 0
+    },
+    "price_us": {
+      "final": "$34.99",
+      "initial": "",
+      "discount": 0
+    },
+    "ccu": 558,
+    "fetched_at": "2026-08-05 09:02 UTC"
+  },
+  "流放之路2 1.0版本": {
+    "appid": 2694490,
+    "review": {
+      "positive": 167155,
+      "negative": 56829,
+      "total": 223984,
+      "desc": "Mostly Positive",
+      "score": 6
+    },
+    "price_cn": null,
+    "price_us": {
+      "final": "$29.99",
+      "initial": "",
+      "discount": 0
+    },
+    "ccu": 16035,
+    "fetched_at": "2026-08-05 09:02 UTC"
+  },
+  "最后纪元 资料片 Orobyss": {
+    "appid": 899770,
+    "review": {
+      "positive": 90549,
+      "negative": 27765,
+      "total": 118314,
+      "desc": "Mostly Positive",
+      "score": 6
+    },
+    "price_cn": {
+      "final": "¥ 128.00",
+      "initial": "",
+      "discount": 0
+    },
+    "price_us": {
+      "final": "$34.99",
+      "initial": "",
+      "discount": 0
+    },
+    "ccu": 558,
+    "fetched_at": "2026-08-05 09:02 UTC"
+  }
+}

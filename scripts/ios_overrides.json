@@ -1,0 +1,14 @@
+{
+  "_说明": "手动录入手游的 DAU/累计流水/注册用户（Apple API 无此数据）。修改后运行 python scripts/fetch_ios_stats.py 会自动合并。字段都是可选的。",
+  "梦幻西游手游": {
+    "dau": "约 300 万",
+    "revenue_total": "超 100 亿",
+    "revenue_note": "网易财报累计（截至2025Q4）",
+    "registrations": "超 3 亿"
+  },
+  "地下城与勇士：起源": {
+    "dau": "约 500 万",
+    "revenue_total": "超 50 亿",
+    "revenue_note": "2025年5月公测，首月流水超10亿"
+  }
+}

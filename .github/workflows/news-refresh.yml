@@ -1,0 +1,28 @@
+name: News refresh (media sources)
+
+on:
+  schedule:
+    # 周一、周四 北京时间 09:00 = UTC 01:00
+    - cron: '0 1 * * 1,4'
+  workflow_dispatch: # 允许手动触发
+
+permissions:
+  contents: write
+
+jobs:
+  refresh-news:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Run news refresh (media RSS + Steam News + inline + commit + push)
+        run: python scripts/fetch_news_media.py --commit --push
