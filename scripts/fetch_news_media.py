@@ -63,6 +63,29 @@ BING_NEWS_RSS = "https://www.bing.com/news/search?q={q}&format=rss&setlang=en&cc
 BING_WINDOW_PAST_DAYS = 90
 BING_WINDOW_FUTURE_DAYS = 365
 
+# Google Translate 非官方接口（免费，无需 key）
+GTRANSLATE_API = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=zh-CN&dt=t&q={q}"
+TRANSLATE_SLEEP = 0.5
+
+
+def translate_title(title):
+    """调 Google Translate 非官方接口翻译标题，返回中文翻译或 None。"""
+    if not title or not title.strip():
+        return None
+    try:
+        url = GTRANSLATE_API.format(q=urllib.parse.quote(title))
+        raw = http_get(url, timeout=10, retries=1)
+        d = json.loads(raw)
+        return "".join(s[0] for s in d[0] if s and s[0])
+    except Exception as e:
+        print(f"    [WARN] translate: {str(e)[:50]}")
+        return None
+
+
+def is_chinese(s):
+    """判断字符串是否含中文字符。"""
+    return bool(re.search(r"[\u4e00-\u9fa5]", s or ""))
+
 
 # ============ RSS 解析 ============
 def parse_date(s):
@@ -393,6 +416,29 @@ def run(commit=False, push=False):
             report["unchanged"] += 1
 
     print(f"合并结果: 新增 {report['new']} 篇，更新 {report['updated']} 款，未变 {report['unchanged']} 款\n")
+
+    # 6b. 翻译非中文标题（Google Translate 免费接口）
+    translate_count = 0
+    skip_count = 0
+    print("翻译非中文标题...")
+    for cn, arts in merged.items():
+        for a in arts:
+            # 跳过已有翻译的、已是中文的
+            if a.get("title_cn"):
+                skip_count += 1
+                continue
+            title = a.get("title", "")
+            if not title or is_chinese(title):
+                continue
+            # 调 Google Translate
+            translated = translate_title(title)
+            if translated:
+                a["title_cn"] = translated
+                translate_count += 1
+                time.sleep(TRANSLATE_SLEEP)
+            else:
+                skip_count += 1
+    print(f"翻译完成: 新翻译 {translate_count} 条，跳过 {skip_count} 条\n")
 
     # 7. 写回 news.json
     save_json(NEWS_JSON, merged)
