@@ -1,0 +1,28 @@
+name: Weekly dashboard refresh
+
+on:
+  schedule:
+    # 每周一 09:00 北京时间（UTC+8）= 周一 01:00 UTC
+    - cron: '0 1 * * 1'
+  workflow_dispatch: # 允许手动触发
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Run refresh (Steam dates + news + inline + push)
+        run: python scripts/refresh_all.py --commit --push
