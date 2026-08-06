@@ -1,6 +1,9 @@
 name: News refresh (media sources)
 
 on:
+  push:
+    paths:
+      - '.github/workflows/news-refresh.yml'
   schedule:
     # 周一、周四 北京时间 09:00 = UTC 01:00
     - cron: '0 1 * * 1,4'
