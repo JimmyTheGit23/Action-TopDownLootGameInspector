@@ -969,15 +969,15 @@
       "platform": "端游"
     },
     {
-      "year": "2026",
-      "window": "年内 Within the Year",
-      "date_raw": "TBA",
+      "year": "2027",
+      "window": "Q1",
+      "date_raw": "February 2027",
       "cn": "Gods, Death & Reapers",
       "en": "Gods, Death & Reapers",
       "developer": "Wolcen Studio",
       "type": "Release",
-      "date": "2026 年内",
-      "_m_frac": 9.5,
+      "date": "2027-02",
+      "_m_frac": 12.5,
       "_precision": "window",
       "desc": "Wolcen Studio开发的暗黑Like动作RPG。以\"神、死亡与收割者\"为世界观核心，在独特的末日奇幻世界中战斗打宝，提供自由的Build自定义与动态战斗体验。",
       "platform": "端游"
