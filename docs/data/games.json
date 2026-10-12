@@ -1588,14 +1588,14 @@
     },
     {
       "year": "2026",
-      "window": "TBA",
-      "date_raw": "2026",
+      "window": "Q4",
+      "date_raw": "November 2026",
       "cn": "Spirit Crossing",
       "en": "Spirit Crossing",
       "developer": "Spry Fox",
       "type": "Release",
-      "date": "TBA",
-      "_m_frac": 5.5,
+      "date": "2026-11",
+      "_m_frac": 9.5,
       "_precision": "window",
       "desc": "Spry Fox（Netflix收购工作室）开发的治愈系社交MMORPG。以精灵与自然为主题的温馨世界为舞台，融合探索、装饰、协作玩法，延续《Coco Grove》等前作的治愈风格，是Netflix游戏布局的重要产品。",
       "platform": "跨平台"
