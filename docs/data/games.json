@@ -899,16 +899,16 @@
       "platform": "端游"
     },
     {
-      "year": "2026",
-      "window": "Q4",
-      "date_raw": "TBA",
+      "year": "2027",
+      "window": "Q1",
+      "date_raw": "2027-01-07",
       "cn": "烬刃交辉",
       "en": "Ember and Blade",
       "developer": "LINE Games Corporation",
       "type": "Release",
-      "date": "2026 Q4",
-      "_m_frac": 9.5,
-      "_precision": "window",
+      "date": "2027-01-07",
+      "_m_frac": 12.2,
+      "_precision": "day",
       "desc": "LINE Games发行的俯视角动作RPG。以\"烬刃\"为核心概念，玩家在黑暗奇幻世界中运用多种武器与技能组合进行爽快的打宝战斗，注重Build构筑与装备词缀深度。",
       "platform": "端游"
     },
