@@ -983,16 +983,16 @@
       "platform": "端游"
     },
     {
-      "year": "2026",
-      "window": "年内 Within the Year",
-      "date_raw": "TBA",
+      "year": "2027",
+      "window": "Q1",
+      "date_raw": "2027-01-18",
       "cn": "地狱锻造",
       "en": "Hellforged",
       "developer": "Moonpyre",
       "type": "Release",
-      "date": "2026 年内",
-      "_m_frac": 9.5,
-      "_precision": "window",
+      "date": "2027-01-18",
+      "_m_frac": 12.56666667,
+      "_precision": "day",
       "desc": "Moonpyre开发的俯视角动作RPG。在地狱般的世界中锻造武器与装备，挑战高难度Boss战，融合铸造系统与打宝成长，以黑暗粗粝的画风呈现硬核战斗。",
       "platform": "端游"
     },
