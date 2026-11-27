@@ -171,6 +171,20 @@
     {
       "year": "2026",
       "window": "Q4",
+      "date_raw": "2026-11-19",
+      "cn": "GTA6",
+      "en": "Grand Theft Auto VI",
+      "developer": "Rockstar Games",
+      "type": "",
+      "date": "2026-11-19",
+      "_m_frac": 10.6,
+      "_precision": "day",
+      "desc": "Rockstar Games 开放世界动作游戏。以雷奥奈达州（罪恶城）为舞台，杰森与露西娅双主角犯罪叙事，2026-11-19 登陆 PS5/Xbox Series X|S，首发无 PC 版、无 Steam 页面，日期由人工维护。",
+      "platform": "主机"
+    },
+    {
+      "year": "2026",
+      "window": "Q4",
       "date_raw": "TBA",
       "cn": "堕落之主2",
       "en": "Lords of the Fallen 2",
@@ -424,6 +438,20 @@
       "year": "2027",
       "window": "年内 Within the Year",
       "date_raw": "TBA",
+      "cn": "巫师3：狂猎 资料片 旧时曲",
+      "en": "The Witcher 3 Wild Hunt New Expansion",
+      "developer": "CD Projekt RED",
+      "type": "Major DLC",
+      "date": "2027 年内",
+      "_m_frac": 21.5,
+      "_precision": "window",
+      "desc": "CDPR 于 2026 年 Q3 财报确认的《巫师3：狂猎》全新资料片，预计 2027 年推出，具体内容与发售日未公布。",
+      "platform": "端游"
+    },
+    {
+      "year": "2027",
+      "window": "年内 Within the Year",
+      "date_raw": "TBA",
       "cn": "夜行",
       "en": "Yakoh Shinobi Ops",
       "developer": "Acquire",
@@ -530,6 +558,20 @@
       "_m_frac": 24.5,
       "_precision": "window",
       "desc": "上海烛龙开发的古风养成冒险游戏（Lucky）。以中国传统文化为基底，玩家经营一家神秘店铺，为各路神仙鬼怪提供服务，融合模拟经营、剧情冒险与卡牌策略元素，画风清新治愈。",
+      "platform": "端游"
+    },
+    {
+      "year": "2028",
+      "window": "年内 Within the Year",
+      "date_raw": "2028",
+      "cn": "巫师4",
+      "en": "The Witcher 4",
+      "developer": "CD Projekt RED",
+      "type": "",
+      "date": "2028 年内",
+      "_m_frac": 33.5,
+      "_precision": "window",
+      "desc": "CD Projekt RED 开放世界 ARPG，希里担任主角的新三部曲首作，UE5 开发。官方于 2026-08 确认计划 2028 年发售，具体日期未定。",
       "platform": "端游"
     },
     {
