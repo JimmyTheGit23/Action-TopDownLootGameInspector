@@ -1712,5 +1712,49 @@
       "platform": "手游",
       "desc": "灵犀互娱开发的神秘新作，目前处于招募测试阶段，具体玩法与上线时间尚未公布。"
     }
+  ],
+  "t": [
+    {
+      "year": "2026",
+      "window": "Q4",
+      "date_raw": "2026-12-08",
+      "cn": "勇者斗恶龙 RPG 魔界树与受命运指引之岛",
+      "en": "Dragon Quest RPG: Sekaiju to Michibikareshi Shima",
+      "developer": "Square Enix",
+      "type": "封闭测试 CBT（12.08-12.15）",
+      "date": "2026-12-08",
+      "_m_frac": 11.23333333,
+      "_precision": "day",
+      "desc": "Square Enix 勇者斗恶龙系列全新指令式 RPG 手游，2026-12-08 至 12-15 举行封闭测试，预计 2027 年全球上线。",
+      "platform": "手游"
+    },
+    {
+      "year": "2026",
+      "window": "Q4",
+      "date_raw": "2026-12-14",
+      "cn": "桃源深处有人家 暖冬测试",
+      "en": "",
+      "developer": "",
+      "type": "安卓付费限量删档测试",
+      "date": "2026-12-14",
+      "_m_frac": 11.43333333,
+      "_precision": "day",
+      "desc": "国风山水田园经营手游「暖冬」测试，2026-12-14 11:00 开启，安卓付费限量删档，测试时长不少于 8 周。",
+      "platform": "手游"
+    },
+    {
+      "year": "2026",
+      "window": "Q4",
+      "date_raw": "2026-12-17",
+      "cn": "追逐卡蕾多 心跳测试",
+      "en": "",
+      "developer": "Fizzglee Studio",
+      "type": "全球限量删档免费测试",
+      "date": "2026-12-17",
+      "_m_frac": 11.53333333,
+      "_precision": "day",
+      "desc": "机车×美少女 3D RPG，2026-12-17 全球「心跳测试」，开放 Android/iOS/PC 限时体验，限量删档免费。",
+      "platform": "跨平台"
+    }
   ]
 }
