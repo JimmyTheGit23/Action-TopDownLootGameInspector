@@ -675,7 +675,10 @@ function filterYTYear(y) {
 
 // ========== 渲染 ==========
 function setLastUpdate() {
-  document.getElementById('sidebar-last-update').textContent = '更新 2026-06-15';
+  // 取新闻数据中最新的日期作为数据更新时间（原先写死为 2026-06-15）
+  let latest = '';
+  Object.values(GAME_NEWS || {}).forEach(arr => (arr || []).forEach(n => { if (n && n.date && n.date > latest) latest = n.date; }));
+  document.getElementById('sidebar-last-update').textContent = '更新 ' + (latest || '--');
 }
 
 function renderKPI() {
