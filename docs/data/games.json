@@ -1726,7 +1726,9 @@
       "_m_frac": 10.8,
       "_precision": "day",
       "desc": "米哈游崩坏 IP 捉宠+自走棋新作第三次测试，PC/iOS/Android/云游戏，付费公测后返还。公测定档 2027 年春季。",
-      "platform": "跨平台"
+      "platform": "跨平台",
+      "url": "https://www.yystv.cn/p/14597",
+      "url_label": "测试公告"
     },
     {
       "year": "2026",
@@ -1740,7 +1742,9 @@
       "_m_frac": 10.86666667,
       "_precision": "day",
       "desc": "WeGame 游戏之夜公布，11-27 开启启明测试。",
-      "platform": "端游"
+      "platform": "端游",
+      "url": "https://news.17173.com/content/11232026/165307723.shtml",
+      "url_label": "测试公告"
     },
     {
       "year": "2026",
@@ -1754,7 +1758,9 @@
       "_m_frac": 11.0,
       "_precision": "day",
       "desc": "ARC Raiders 国服 PvEvP 撤离射击，PC 平台，12-01 10:00 开测。",
-      "platform": "端游"
+      "platform": "端游",
+      "url": "https://arc.qq.com/",
+      "url_label": "官网"
     },
     {
       "year": "2026",
@@ -1769,7 +1775,9 @@
       "_precision": "day",
       "desc": "像素风动作刷宝 RPG，词缀装备打造、六系天赋、百层深渊卡牌玩法。测试 12-01 至 12-14。",
       "platform": "手游",
-      "date_end": "2026-12-14"
+      "date_end": "2026-12-14",
+      "url": "https://m.3839.com/a/206514.htm",
+      "url_label": "测试公告"
     },
     {
       "year": "2026",
@@ -1783,7 +1791,9 @@
       "_m_frac": 11.1,
       "_precision": "day",
       "desc": "DNF IP 授权 1v1 格斗网游，国内首曝后首轮测试，PC 平台，QQ/微信登录。",
-      "platform": "端游"
+      "platform": "端游",
+      "url": "https://www.163.com/dy/article/LCE1FSS80511B8LM.html",
+      "url_label": "测试公告"
     },
     {
       "year": "2026",
@@ -1798,7 +1808,9 @@
       "_precision": "day",
       "desc": "《第五人格》团队海洋奇幻回合制 Roguelike 冒险，PC/PS5/Xbox/iOS/Android，事前抽选+开测后先到先得。",
       "platform": "跨平台",
-      "date_end": "2026-12-18"
+      "date_end": "2026-12-18",
+      "url": "https://www.quest-board.jp/zh-hans/quests/buzz-12-4-20261110",
+      "url_label": "测试公告"
     },
     {
       "year": "2026",
@@ -1812,7 +1824,9 @@
       "_m_frac": 11.15,
       "_precision": "window",
       "desc": "以 70 版本为基准的 DNF 官方怀旧服，12 月初启动重逢测试，具体日期官网另行公告；2027 年国服率先上线。",
-      "platform": "端游"
+      "platform": "端游",
+      "url": "https://news.18183.com/yxxw/202611/9201908.html",
+      "url_label": "测试公告"
     },
     {
       "year": "2026",
@@ -1826,7 +1840,9 @@
       "_m_frac": 11.15,
       "_precision": "window",
       "desc": "PC/安卓数据互通，12 月上旬开测，具体日期待公告。",
-      "platform": "跨平台"
+      "platform": "跨平台",
+      "url": "https://www.taptap.cn/moment/869989984143147393",
+      "url_label": "测试公告"
     },
     {
       "year": "2026",
@@ -1841,7 +1857,9 @@
       "_precision": "day",
       "desc": "勇者斗恶龙系列全新指令式 RPG 手游，预计 2027 年全球上线。",
       "platform": "手游",
-      "date_end": "2026-12-15"
+      "date_end": "2026-12-15",
+      "url": "https://wap.gamersky.com/news/Content-2244100.html",
+      "url_label": "测试公告"
     },
     {
       "year": "2026",
@@ -1856,7 +1874,9 @@
       "_precision": "day",
       "desc": "3D 无限流恋爱向手游首测，iOS/Android，资格 12-08 发放。",
       "platform": "手游",
-      "date_end": "2026-12-19"
+      "date_end": "2026-12-19",
+      "url": "https://www.taptap.cn/moment/870982871219700883",
+      "url_label": "测试公告"
     },
     {
       "year": "2026",
@@ -1870,7 +1890,9 @@
       "_m_frac": 11.53333333,
       "_precision": "day",
       "desc": "机车×美少女 3D RPG，Android/iOS/PC，全球预约超 200 万；WeGame 国服口径为 12-18。测试后不久全球上线。",
-      "platform": "跨平台"
+      "platform": "跨平台",
+      "url": "https://kaleidorider.com/",
+      "url_label": "官网"
     },
     {
       "year": "2026",
@@ -1884,7 +1906,9 @@
       "_m_frac": 11.56666667,
       "_precision": "day",
       "desc": "网易多人社交生活模拟，浮岛家园建造、云海探索、生物捕捉，安卓/iOS/PC 互通。",
-      "platform": "跨平台"
+      "platform": "跨平台",
+      "url": "https://www.sjzrr.com/yxzx/yxdt/2026-11-18/1176.html",
+      "url_label": "测试公告"
     },
     {
       "year": "2026",
@@ -1898,7 +1922,9 @@
       "_m_frac": 11.5,
       "_precision": "window",
       "desc": "网禅策略塔防新作，iOS/Android/PC，仅限日韩，抽选，具体日期待公布。",
-      "platform": "跨平台"
+      "platform": "跨平台",
+      "url": "https://loot.hk/p/gate-of-gates-closed-beta",
+      "url_label": "测试公告"
     },
     {
       "year": "2027",
@@ -1912,7 +1938,9 @@
       "_m_frac": 12.5,
       "_precision": "window",
       "desc": "腾讯魔方 3D 近战动作竞技，街头潮流美术+武器对抗+场景跑酷，PC/移动端互通，已获版号。",
-      "platform": "跨平台"
+      "platform": "跨平台",
+      "url": "https://m.nbd.com.cn/articles/2026-11-26/4660183.html",
+      "url_label": "测试公告"
     },
     {
       "year": "2027",
@@ -1926,7 +1954,9 @@
       "_m_frac": 12.5,
       "_precision": "window",
       "desc": "《嘟嘟脸恶作剧》同 IP 收集型 RPG，2027 Q1 开启首次 CBT 招募，发行商洽谈中。",
-      "platform": "手游"
+      "platform": "手游",
+      "url": "https://www.gamekee.com/727015.html",
+      "url_label": "测试公告"
     },
     {
       "year": "2027",
@@ -1940,7 +1970,9 @@
       "_m_frac": 12.5,
       "_precision": "window",
       "desc": "开放世界生存沙盒，PC 封闭测试，初期邀请制。",
-      "platform": "端游"
+      "platform": "端游",
+      "url": "https://m.dvg.cn/news/189688.html",
+      "url_label": "测试公告"
     },
     {
       "year": "2027",
@@ -1955,7 +1987,9 @@
       "_precision": "day",
       "desc": "为期一周的未发售游戏试玩活动（PT 时间）。下一届预计 2027 年 6 月。",
       "platform": "端游",
-      "date_end": "2027-03-01"
+      "date_end": "2027-03-01",
+      "url": "https://partner.steamgames.com/doc/marketing/upcoming_events/nextfest/feb_2027",
+      "url_label": "活动说明"
     },
     {
       "year": "2027",
@@ -1969,7 +2003,9 @@
       "_m_frac": 17.5,
       "_precision": "window",
       "desc": "Valve 官方合作伙伴文档口径：下一届预计 2027 年 6 月，具体日期待公布。",
-      "platform": "端游"
+      "platform": "端游",
+      "url": "https://partner.steamgames.com/doc/marketing/upcoming_events/nextfest/feb_2027",
+      "url_label": "活动说明"
     },
     {
       "year": "2027",
@@ -1983,7 +2019,9 @@
       "_m_frac": 18.5,
       "_precision": "window",
       "desc": "《碧蓝航线》团队开放世界动作 RPG，PS5/PC/iOS/Android，全球预注册超 2000 万。",
-      "platform": "跨平台"
+      "platform": "跨平台",
+      "url": "https://www.mgoddess.com/news/azur-promilia-surpasses-20-million-pre-registrations-english-open-beta-p?lang=zh-CN",
+      "url_label": "测试公告"
     },
     {
       "year": "2027",
@@ -1997,7 +2035,9 @@
       "_m_frac": 18.5,
       "_precision": "window",
       "desc": "EVE 宇宙撤离射击，2026-11-10 起付费 Alpha，2027 Q3 登陆 Steam EA 并进入 Beta 阶段。",
-      "platform": "端游"
+      "platform": "端游",
+      "url": "https://thebigmmorpglist.com/mmo-news/article/top-mmorpgs-coming-in-2027",
+      "url_label": "测试公告"
     },
     {
       "year": "2027",
@@ -2011,7 +2051,9 @@
       "_m_frac": 20.5,
       "_precision": "window",
       "desc": "激战系列前传，动作化战斗，PC/PS5。2027 年不上线，秋季首次 Beta，官网订阅报名。",
-      "platform": "跨平台"
+      "platform": "跨平台",
+      "url": "https://thebigmmorpglist.com/mmo-news/article/top-mmorpgs-coming-in-2027",
+      "url_label": "测试公告"
     }
   ]
 }
